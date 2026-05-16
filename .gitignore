@@ -1,0 +1,64 @@
+```
+# Dependencies
+node_modules/
+
+# Build artifacts
+dist/
+build/
+*.o
+*.obj
+*.pyc
+__pycache__/
+
+# Environment
+.env
+.env.local
+.env.*
+
+# Editors
+.vscode/
+.idea/
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Package lock files
+package-lock.json
+yarn.lock
+
+# Coverage reports
+coverage/
+htmlcov/
+*.coverage
+
+# Compression files
+*.zip
+*.gz
+*.tar
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
+
+```
