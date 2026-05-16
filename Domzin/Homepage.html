@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopFlow - Electronics Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            background: #1a1a2e;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 50px 12px 20px;
+            border: none;
+            border-radius: 25px;
+            background: #e8e8f0;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-bar button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #1a1a2e;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: #2a2a3e;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            background: #3a3a4e;
+            transform: translateY(-2px);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4757;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-account {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #2a2a3e;
+            padding: 8px 15px;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            font-size: 12px;
+        }
+
+        .user-info strong {
+            font-size: 14px;
+        }
+
+        .user-info a {
+            color: #a0a0b0;
+            text-decoration: underline;
+        }
+
+        /* Navigation */
+        .nav-menu {
+            background: #e8e8f0;
+            padding: 15px 0;
+            margin-top: 10px;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-item {
+            background: #1a1a2e;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-item:hover {
+            background: #2a2a3e;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 50px;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            flex: 1;
+            color: white;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #b8b8d0;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .btn-primary {
+            background: #e8e8f0;
+            color: #1a1a2e;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .hero-images {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        .phone-mockup {
+            width: 150px;
+            height: 300px;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            transition: transform 0.3s;
+        }
+
+        .phone-mockup:hover {
+            transform: translateY(-10px);
+        }
+
+        .phone-mockup.white {
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+        }
+
+        .phone-mockup.orange {
+            background: linear-gradient(135deg, #ff9a56, #ff6b35);
+        }
+
+        .phone-mockup.blue {
+            background: linear-gradient(135deg, #4a5568, #2d3748);
+        }
+
+        .phone-camera {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            background: #1a1a2e;
+            border-radius: 15px;
+            display: flex;
+            gap: 5px;
+            padding: 8px;
+        }
+
+        .camera-lens {
+            width: 15px;
+            height: 15px;
+            background: #2d3748;
+            border-radius: 50%;
+            border: 2px solid #4a5568;
+        }
+
+        /* Section Title */
+        .section-title {
+            background: #e8e8f0;
+            color: #1a1a2e;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+
+        /* Brands Section */
+        .brands-section {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .brands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .brand-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .brand-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .brand-item.dark {
+            background: #2a2a3e;
+            color: white;
+        }
+
+        /* Products Grid */
+        .products-section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .view-all {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: gap 0.3s;
+        }
+
+        .view-all:hover {
+            gap: 10px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: #e8e8f0;
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff4757;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+
+        .product-name {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #1a1a2e;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .current-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff4757;
+        }
+
+        .original-price {
+            font-size: 16px;
+            color: #a0a0b0;
+            text-decoration: line-through;
+        }
+
+        .monthly-payment {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .deal-timer {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .btn-add-cart {
+            width: 100%;
+            background: #1a1a2e;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-add-cart:hover {
+            background: #2a2a3e;
+            transform: scale(1.02);
+        }
+
+        /* Categories */
+        .categories-section {
+            margin-bottom: 40px;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .category-card {
+            background: #e8e8f0;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .category-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .category-name {
+            font-weight: bold;
+            font-size: 16px;
+            color: #1a1a2e;
+        }
+
+        .category-link {
+            color: #667eea;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a2e;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: #b8b8d0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+
+            .search-bar {
+                order: 3;
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .hero {
+                flex-direction: column;
+                padding: 30px;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .hero-images {
+                width: 100%;
+            }
+
+            .phone-mockup {
+                width: 100px;
+                height: 200px;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                ShopFlow
+            </a>
+
+            <div class="search-bar">
+                <input type="text" placeholder="Type something...">
+                <button>Search</button>
+            </div>
+
+            <div class="header-icons">
+                <div class="icon-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">3</span>
+                </div>
+                <div class="icon-btn">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="user-account">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-info">
+                        <strong>My Account</strong>
+                        <a href="#">Register or Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="nav-menu">
+            <div class="nav-container">
+                <div class="nav-item">
+                    Product <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="nav-item">
+                    Accessories <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="nav-item">
+                    SecondHand <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="nav-item">
+                    Special Offer <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="nav-item">Pre Order</div>
+                <div class="nav-item">News</div>
+                <div class="nav-item">Contact Us</div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>iPhone 17 Pro and 17 Pro Max</h1>
+                <p>The iPhone 17 Pro and Pro Max brings a sleek aluminum unibody design, blazing-fast A19 Pro chip (3nm), and a brilliant 17 Pro 6.3 inch and Pro Max 6.9 inch OLED ProMotion 120Hz display with 3,000 nits brightness. Its 48MP Fusion cameras support Dual Capture and ProRe...</p>
+                <button class="btn-primary">AVAILABLE NOW</button>
+            </div>
+            <div class="hero-images">
+                <div class="phone-mockup white">
+                    <div class="phone-camera">
+                        <div class="camera-lens"></div>
+                        <div class="camera-lens"></div>
+                        <div class="camera-lens"></div>
+                    </div>
+                </div>
+                <div class="phone-mockup orange">
+                    <div class="phone-camera">
+                        <div class="camera-lens"></div>
+                        <div class="camera-lens"></div>
+                        <div class="camera-lens"></div>
+                    </div>
+                </div>
+                <div class="phone-mockup blue">
+                    <div class="phone-camera">
+                        <div class="camera-lens"></div>
+                        <div class="camera-lens"></div>
+                        <div class="camera-lens"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Brands -->
+        <section class="brands-section">
+            <div class="section-title">POPULAR BRANDS</div>
+            <div class="brands-grid">
+                <div class="brand-item"><i class="fab fa-apple fa-2x"></i></div>
+                <div class="brand-item dark">SAMSUNG</div>
+                <div class="brand-item dark">SONY</div>
+                <div class="brand-item" style="background: #ff6900; color: white;">MI</div>
+                <div class="brand-item dark">HUAWEI</div>
+                <div class="brand-item" style="background: #16c784; color: white;">OPPO</div>
+                <div class="brand-item">Google</div>
+                <div class="brand-item dark">Infinix</div>
+                <div class="brand-item dark">HMD</div>
+                <div class="brand-item dark">HONOR</div>
+                <div class="brand-item" style="background: #4267B2; color: white;">vivo</div>
+                <div class="brand-item dark">TECNO</div>
+                <div class="brand-item dark">NOTHING</div>
+                <div class="brand-item">Microsoft</div>
+                <div class="brand-item" style="background: #f40612; color: white;">ONEPLUS</div>
+                <div class="brand-item dark">motorola</div>
+                <div class="brand-item" style="background: #e2231a; color: white;">Lenovo</div>
+                <div class="brand-item dark">GARMIN</div>
+                <div class="brand-item dark">COROS</div>
+                <div class="brand-item" style="background: #00a8e1; color: white;">JBL</div>
+                <div class="brand-item dark">chipolo</div>
+                <div class="brand-item dark">havic</div>
+                <div class="brand-item dark">BOSE</div>
+                <div class="brand-item dark">WIWU</div>
+                <div class="brand-item dark">FOOJE</div>
+                <div class="brand-item" style="background: #ff6b00; color: white;">JBL</div>
+                <div class="brand-item dark">Mcdodo</div>
+                <div class="brand-item" style="background: #00a8e1; color: white;">BIETRUN</div>
+                <div class="brand-item dark"><i class="fab fa-apple"></i> beats</div>
+                <div class="brand-item dark">PAOLUNC</div>
+                <div class="brand-item dark">REMAX</div>
+                <div class="brand-item" style="background: #ffd700; color: black;">RHOSHIELD</div>
+                <div class="brand-item dark">Transcend</div>
+                <div class="brand-item" style="background: #00d4aa; color: white;">COTEetCI</div>
+                <div class="brand-item dark">BLUEO</div>
+                <div class="brand-item">Other</div>
+            </div>
+        </section>
+
+        <!-- Special Offer -->
+        <section class="products-section">
+            <div class="section-header">
+                <div class="section-title">SPECIAL OFFER</div>
+                <a href="#" class="view-all">View all <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="discount-badge">$170 Off</div>
+                    <div class="product-image">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="product-name">Galaxy S26 Ultra</div>
+                    <div class="product-price">
+                        <span class="current-price">$1369.00</span>
+                        <span class="original-price">$1539.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $122.00/mo. for 12 mo.</div>
+                    <div class="deal-timer">
+                        <i class="fas fa-clock"></i>
+                        Deal ends in 37d
+                    </div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+                <div class="product-card">
+                    <div class="discount-badge">$170 Off</div>
+                    <div class="product-image">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="product-name">iPhone 15 Pro Max</div>
+                    <div class="product-price">
+                        <span class="current-price">$1369.00</span>
+                        <span class="original-price">$1539.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $122.00/mo. for 12 mo.</div>
+                    <div class="deal-timer">
+                        <i class="fas fa-clock"></i>
+                        Deal ends in 37d
+                    </div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+                <div class="product-card">
+                    <div class="discount-badge">$100 Off</div>
+                    <div class="product-image">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="product-name">Samsung S26</div>
+                    <div class="product-price">
+                        <span class="current-price">$1149.00</span>
+                        <span class="original-price">$1249.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $103.00/mo. for 12 mo.</div>
+                    <div class="deal-timer">
+                        <i class="fas fa-clock"></i>
+                        Deal ends in 7d
+                    </div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+                <div class="product-card">
+                    <div class="discount-badge">$170 Off</div>
+                    <div class="product-image">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="product-name">OPPO Find X9 Pro</div>
+                    <div class="product-price">
+                        <span class="current-price">$1369.00</span>
+                        <span class="original-price">$1539.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $122.00/mo. for 12 mo.</div>
+                    <div class="deal-timer">
+                        <i class="fas fa-clock"></i>
+                        Deal ends in 37d
+                    </div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Arrival -->
+        <section class="products-section">
+            <div class="section-header">
+                <div class="section-title">NEW ARRIVAL</div>
+                <a href="#" class="view-all">View all <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="product-name">iPhone 17e</div>
+                    <div class="product-price">
+                        <span class="current-price">$769.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $69.00/mo. for 12 mo.</div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="product-name">Nothing Phone (4a) Pro</div>
+                    <div class="product-price">
+                        <span class="current-price">$999</span>
+                    </div>
+                    <div class="monthly-payment">Or $89.00/mo. for 12 mo.</div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="product-name">Nothing Phone (4a)</div>
+                    <div class="product-price">
+                        <span class="current-price">$999.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $89.00/mo. for 12 mo.</div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="product-name">Samsung Galaxy S26 Ultra</div>
+                    <div class="product-price">
+                        <span class="current-price">$1539.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $129.00/mo. for 12 mo.</div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="product-name">OPPO A6</div>
+                    <div class="product-price">
+                        <span class="current-price">$229.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $19.00/mo. for 12 mo.</div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="product-name">Google Pixel 10a</div>
+                    <div class="product-price">
+                        <span class="current-price">$999.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $89.00/mo. for 12 mo.</div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="product-name">Realme 16 Pro+</div>
+                    <div class="product-price">
+                        <span class="current-price">$999.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $89.00/mo. for 12 mo.</div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="product-name">vivo V70 FE</div>
+                    <div class="product-price">
+                        <span class="current-price">$999.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $89.00/mo. for 12 mo.</div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Categories -->
+        <section class="categories-section">
+            <div class="section-title">POPULAR CATEGORIES</div>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="category-name">Mobile Phone</div>
+                    <div class="category-link">view more >></div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fab fa-google"></i>
+                    </div>
+                    <div class="category-name">Google Phone</div>
+                    <div class="category-link">view more >></div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="category-name">Used Phone</div>
+                    <div class="category-link">view more >></div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-flag"></i>
+                    </div>
+                    <div class="category-name">China Phone</div>
+                    <div class="category-link">view more >></div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-unlock-alt"></i>
+                    </div>
+                    <div class="category-name">Rooted Phone</div>
+                    <div class="category-link">view more >></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Smart Watch -->
+        <section class="products-section">
+            <div class="section-header">
+                <div class="section-title">SMART WATCH</div>
+                <a href="#" class="view-all">View all <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-watch"></i>
+                    </div>
+                    <div class="product-name">HMD Watch P1</div>
+                    <div class="product-price">
+                        <span class="current-price">$49.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $5.00/mo. for 12 mo.</div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-watch"></i>
+                    </div>
+                    <div class="product-name">Smart Band 10</div>
+                    <div class="product-price">
+                        <span class="current-price">$45.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $4.00/mo. for 12 mo.</div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-watch"></i>
+                    </div>
+                    <div class="product-name">Venu 4 45mm</div>
+                    <div class="product-price">
+                        <span class="current-price">$579.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $52.00/mo. for 12 mo.</div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-watch"></i>
+                    </div>
+                    <div class="product-name">Venu 4 41mm</div>
+                    <div class="product-price">
+                        <span class="current-price">$579.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $52.00/mo. for 12 mo.</div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accessories -->
+        <section class="products-section">
+            <div class="section-header">
+                <div class="section-title">ACCESSORIES</div>
+                <a href="#" class="view-all">View all <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-headphones"></i>
+                    </div>
+                    <div class="product-name">HUAWEI FreeClip 2</div>
+                    <div class="product-price">
+                        <span class="current-price">$169.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $15.00/mo. for 12 mo.</div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-headphones"></i>
+                    </div>
+                    <div class="product-name">Galaxy Buds 4</div>
+                    <div class="product-price">
+                        <span class="current-price">$179.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $16.00/mo. for 12 mo.</div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <div class="product-name">USB-C Charger</div>
+                    <div class="product-price">
+                        <span class="current-price">$89.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $8.00/mo. for 12 mo.</div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-charging-station"></i>
+                    </div>
+                    <div class="product-name">Fast Car Charger</div>
+                    <div class="product-price">
+                        <span class="current-price">$15.00</span>
+                    </div>
+                    <div class="monthly-payment">Or $2.00/mo. for 12 mo.</div>
+                    <button class="btn-add-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+        </div>
+        <p>&copy; 2026 ShopFlow. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Add to cart functionality
+        document.querySelectorAll('.btn-add-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check"></i> Added!';
+                this.style.background = '#28a745';
+                
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.style.background = '';
+                }, 2000);
+
+                // Update cart count
+                const cartCount = document.querySelector('.cart-count');
+                let count = parseInt(cartCount.textContent);
+                cartCount.textContent = count + 1;
+            });
+        });
+
+        // Search functionality
+        document.querySelector('.search-bar button').addEventListener('click', function() {
+            const searchTerm = document.querySelector('.search-bar input').value;
+            if (searchTerm) {
+                alert('Searching for: ' + searchTerm);
+            }
+        });
+
+        // Navigation dropdown simulation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                if (this.innerHTML.includes('chevron-down')) {
+                    alert('Dropdown menu would open here');
+                }
+            });
+        });
+
+        // User account click
+        document.querySelector('.user-account').addEventListener('click', function() {
+            alert('Login/Register modal would open here');
+        });
+
+        // Cart icon click
+        document.querySelector('.icon-btn').addEventListener('click', function() {
+            alert('Shopping cart would open here');
+        });
+    </script>
+</body>
+</html>
