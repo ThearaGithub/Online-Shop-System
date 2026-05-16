@@ -221,107 +221,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 350px;
+            height: 400px;
             position: relative;
         }
 
         .main-image img {
-            max-width: 80%;
+            max-width: 100%;
             max-height: 100%;
             object-fit: contain;
         }
-
-        .phone-mockup {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .phone-back {
-            width: 100px;
-            height: 200px;
-            background: linear-gradient(145deg, #fce4ec, #f8bbd0);
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        .phone-back .camera {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            width: 30px;
-            height: 30px;
-            background: #333;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .phone-back .camera::after {
-            content: '';
-            width: 15px;
-            height: 15px;
-            background: #555;
-            border-radius: 50%;
-        }
-
-        .phone-back .apple-logo {
-            font-size: 30px;
-            color: rgba(255,255,255,0.3);
-        }
-
-        .phone-front {
-            width: 100px;
-            height: 200px;
-            background: linear-gradient(145deg, #fce4ec, #f8bbd0);
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        .phone-front .screen {
-            width: 85px;
-            height: 175px;
-            background: linear-gradient(180deg, #fce4ec, #f48fb1, #ec407a, #e91e63, #c2185b);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .phone-front .screen .flower {
-            width: 60px;
-            height: 60px;
-            position: relative;
-        }
-
-        .petal {
-            position: absolute;
-            width: 20px;
-            height: 35px;
-            background: rgba(255,255,255,0.4);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-        }
-
-        .petal:nth-child(1) { transform: translate(-50%, -50%) rotate(0deg) translateY(-15px); }
-        .petal:nth-child(2) { transform: translate(-50%, -50%) rotate(60deg) translateY(-15px); }
-        .petal:nth-child(3) { transform: translate(-50%, -50%) rotate(120deg) translateY(-15px); }
-        .petal:nth-child(4) { transform: translate(-50%, -50%) rotate(180deg) translateY(-15px); }
-        .petal:nth-child(5) { transform: translate(-50%, -50%) rotate(240deg) translateY(-15px); }
-        .petal:nth-child(6) { transform: translate(-50%, -50%) rotate(300deg) translateY(-15px); }
 
         .thumb-gallery {
             display: flex;
@@ -358,8 +266,8 @@
         }
 
         .thumb-item {
-            width: 70px;
-            height: 55px;
+            width: 80px;
+            height: 60px;
             background: #2d2941;
             border-radius: 10px;
             display: flex;
@@ -369,6 +277,7 @@
             border: 2px solid transparent;
             transition: all 0.3s;
             flex-shrink: 0;
+            overflow: hidden;
         }
 
         .thumb-item:hover, .thumb-item.active {
@@ -376,8 +285,8 @@
         }
 
         .thumb-item img {
-            max-width: 80%;
-            max-height: 80%;
+            max-width: 100%;
+            max-height: 100%;
             object-fit: contain;
         }
 
@@ -492,83 +401,23 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
             background: white;
             border-radius: 10px;
             padding: 15px;
         }
 
-        .promo-item {
-            text-align: center;
-        }
-
-        .promo-item img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
-        }
-
-        .promo-item-img {
-            width: 50px;
-            height: 70px;
-            background: #f0f0f5;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .promo-item .label {
-            font-size: 11px;
-            color: #666;
-            margin-top: 4px;
-        }
-
-        .promo-plus {
-            font-size: 20px;
-            color: #333;
-            font-weight: 700;
-        }
-
-        .promo-badge {
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .promo-badge img {
+        .promo-composite-image {
             width: 100%;
-            height: 100%;
-        }
-
-        .falcon-trust {
-            background: linear-gradient(135deg, #8b0000, #dc143c);
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
+            max-width: 500px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 8px;
-            font-weight: 700;
-            text-align: center;
-            line-height: 1.2;
-            border: 2px solid #ffd700;
         }
 
-        .promo-bottom-text {
-            font-size: 11px;
-            color: #666;
-            text-align: center;
-        }
-
-        .promo-bottom-text span {
-            color: #333;
-            font-weight: 600;
+        .promo-composite-image img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
         }
 
         /* No Promotion */
@@ -1068,39 +917,22 @@
             <!-- Image Gallery -->
             <div class="image-gallery">
                 <div class="main-image">
-                    <div class="phone-mockup">
-                        <div class="phone-back">
-                            <div class="camera"></div>
-                            <div class="apple-logo">🍎</div>
-                        </div>
-                        <div class="phone-front">
-                            <div class="screen">
-                                <div class="flower">
-                                    <div class="petal"></div>
-                                    <div class="petal"></div>
-                                    <div class="petal"></div>
-                                    <div class="petal"></div>
-                                    <div class="petal"></div>
-                                    <div class="petal"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <img src="Assets/iPhone 17e.png" alt="iPhone 17e" id="mainProductImage">
                 </div>
                 <div class="thumb-gallery">
                     <button class="thumb-arrow left"><i class="fas fa-chevron-left"></i></button>
                     <div class="thumb-list">
-                        <div class="thumb-item active" onclick="selectThumb(this)">
-                            <div style="font-size:24px;"></div>
+                        <div class="thumb-item" onclick="selectThumb(this, 'Assets/Small preview 1.png')">
+                            <img src="Assets/Small preview 1.png" alt="Preview 1">
                         </div>
-                        <div class="thumb-item" onclick="selectThumb(this)">
-                            <div style="font-size:24px;">📦</div>
+                        <div class="thumb-item" onclick="selectThumb(this, 'Assets/Small preview 2.png')">
+                            <img src="Assets/Small preview 2.png" alt="Preview 2">
                         </div>
-                        <div class="thumb-item" onclick="selectThumb(this)">
-                            <div style="font-size:24px;"></div>
+                        <div class="thumb-item" onclick="selectThumb(this, 'Assets/Small preview 3.png')">
+                            <img src="Assets/Small preview 3.png" alt="Preview 3">
                         </div>
-                        <div class="thumb-item" onclick="selectThumb(this)">
-                            <div style="font-size:24px;">✨</div>
+                        <div class="thumb-item active" onclick="selectThumb(this, 'Assets/Small preview 4 - selected preview.png')">
+                            <img src="Assets/Small preview 4 - selected preview.png" alt="Preview 4">
                         </div>
                     </div>
                     <button class="thumb-arrow right"><i class="fas fa-chevron-right"></i></button>
@@ -1164,25 +996,8 @@
                         <span class="promo-price">$769.00</span>
                     </div>
                     <div class="promo-content">
-                        <div class="promo-item">
-                            <div class="promo-item-img">📱</div>
-                            <div class="label">Case</div>
-                        </div>
-                        <span class="promo-plus">+</span>
-                        <div class="promo-item">
-                            <div class="promo-item-img">🛡️</div>
-                            <div class="label">Screen</div>
-                        </div>
-                        <span class="promo-plus">+</span>
-                        <div class="promo-item">
-                            <div class="promo-badge">
-                                <div class="falcon-trust">
-                                    Falcon<br>Trust
-                                </div>
-                            </div>
-                            <div class="label" style="font-size:10px;">
-                                ការពារអេក្រង់ ១ឆ្ាំ (១ ដង)<br>និង ធានា  ឆ្នាំ
-                            </div>
+                        <div class="promo-composite-image">
+                            <img src="Assets/Falcon Trust.png" alt="Free Bundle - Case, Screen, Falcon Trust">
                         </div>
                     </div>
                 </div>
@@ -1230,10 +1045,10 @@
                     <div class="warranty-text">
                         <strong>1 Year Screen Crack Protection + 2 Year Warranty</strong><br>
                         *FlaconTrust + ( បមជន Free )<br>
-                        <span class="khmer">- 1 Year screen crack warranty : ការធានាអេក្ង់ បែក១ដង ក្នុងរយៈពេល ១្នាំ។</span><br>
-                        <span class="khmer">- 2 Year warranty : ការធានា ១ឆ្ាំបនថែមទៀត បន្ទាប់ពីការធានា ១ឆ្នាំរបស់ Apple។</span><br>
-                        ** ការធានា នឹងផលិតផល គឺត្វគោរពតាមគោលការណ៍ និងលកខខណ្ឌរបស់ Apple Authorized Service Provider (AASP)។<br>
-                        ** ចំណាយត្រឹមតែ <strong>50$</strong> ប៉ុណ្ណោះសម្រាប់សេវាកម្ម។ លក្ខខណ្ឌផ្េងៗត្ូវបានអនុវតត។
+                        <span class="khmer">- 1 Year screen crack warranty : ការធានាអេក្រង់ បែក១ដង ក្នុងរយៈពេល ១ឆ្នាំ។</span><br>
+                        <span class="khmer">- 2 Year warranty : ការធានា ១ឆ្នាំបន្ថែមទៀត បន្ទាប់ពីការធានា ១ឆ្នាំរបស់ Apple។</span><br>
+                        ** ការធានា នឹងផលិតផល គឺត្រូវគោរពតាមគោលការណ៍ និងលក្ខខណ្ឌរបស់ Apple Authorized Service Provider (AASP)។<br>
+                        ** ចំណាយត្រឹមតែ <strong>50$</strong> ប៉ុណ្ណោះសម្រាប់សេវាកម្ម។ លក្ខខណ្ឌផ្សេងៗត្រូវបានអនុវត្ត។
                     </div>
                 </div>
 
@@ -1505,32 +1320,16 @@
         function selectColor(btn) {
             document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-
-            // Update phone mockup color
-            const color = btn.classList.contains('soft-pink') ? '#f8bbd0' :
-                         btn.classList.contains('black') ? '#1a1a2e' : '#f5f5f5';
-            const phoneBack = document.querySelector('.phone-back');
-            const phoneFront = document.querySelector('.phone-front');
-            if (phoneBack) {
-                phoneBack.style.background = btn.classList.contains('black') ? 
-                    'linear-gradient(145deg, #2d2941, #1a1a2e)' : 
-                    btn.classList.contains('white') ? 
-                    'linear-gradient(145deg, #f5f5f5, #e0e0e0)' :
-                    'linear-gradient(145deg, #fce4ec, #f8bbd0)';
-            }
-            if (phoneFront) {
-                phoneFront.style.background = btn.classList.contains('black') ? 
-                    'linear-gradient(145deg, #2d2941, #1a1a2e)' : 
-                    btn.classList.contains('white') ? 
-                    'linear-gradient(145deg, #f5f5f5, #e0e0e0)' :
-                    'linear-gradient(145deg, #fce4ec, #f8bbd0)';
-            }
         }
 
         // Thumbnail Selection
-        function selectThumb(thumb) {
+        function selectThumb(thumb, imagePath) {
             document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
             thumb.classList.add('active');
+            
+            // Update main image
+            const mainImage = document.getElementById('mainProductImage');
+            mainImage.src = imagePath;
         }
 
         // Add to Cart
@@ -1562,6 +1361,17 @@
             card.style.transform = 'translateY(20px)';
             card.style.transition = 'opacity 0.5s, transform 0.5s';
             observer.observe(card);
+        });
+
+        // Thumbnail navigation arrows
+        document.querySelector('.thumb-arrow.left').addEventListener('click', function() {
+            const thumbList = document.querySelector('.thumb-list');
+            thumbList.scrollBy({ left: -90, behavior: 'smooth' });
+        });
+
+        document.querySelector('.thumb-arrow.right').addEventListener('click', function() {
+            const thumbList = document.querySelector('.thumb-list');
+            thumbList.scrollBy({ left: 90, behavior: 'smooth' });
         });
     </script>
 </body>
