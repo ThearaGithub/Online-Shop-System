@@ -1,0 +1,132 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #1a1a2e;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+}
+
+.login-card, .signup-card {
+    background: #16213e;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+.image-section {
+    flex: 1;
+    background: #0f3460;
+}
+
+.image-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.form-section {
+    flex: 1;
+    padding: 50px;
+    color: #fff;
+}
+
+.form-section h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.form-section p {
+    margin-bottom: 30px;
+    color: #a0a0a0;
+}
+
+.form-section a {
+    color: #e94560;
+    text-decoration: none;
+}
+
+form input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 8px;
+    background: #1a1a2e;
+    color: #fff;
+    font-size: 14px;
+}
+
+.name-fields {
+    display: flex;
+    gap: 15px;
+}
+
+.name-fields input {
+    flex: 1;
+}
+
+form label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 25px;
+    font-size: 13px;
+    color: #a0a0a0;
+}
+
+form button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background: #9d4edd;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+form button:hover {
+    background: #7b2cbf;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px;
+    background: #0f3460;
+    border-radius: 10px;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .login-card, .signup-card {
+        flex-direction: column;
+    }
+    
+    .name-fields {
+        flex-direction: column;
+        gap: 0;
+    }
+}
