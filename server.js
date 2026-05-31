@@ -1,0 +1,317 @@
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const multer = require('multer');
+const pool = require('./database');
+
+// Multer config for payment screenshots
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, 'uploads/'),
+  filename: (req, file, cb) => cb(null, `payment_${Date.now()}_${file.originalname}`)
+});
+const upload = multer({ storage });
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Serve static frontend files & uploads
+app.use(express.static(__dirname));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// ==========================================
+// API ROUTES
+// ==========================================
+
+// ─── ADMIN ANALYTICS API ────────────────────────
+app.get('/api/admin/analytics/revenue', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT DATE("createdAt") as date, SUM(total) as revenue
+      FROM orders
+      GROUP BY date
+      ORDER BY date ASC
+    `);
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/admin/analytics/categories', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT p.category, COUNT(oi.id) as count
+      FROM order_items oi
+      JOIN products p ON oi."productId" = p.id
+      GROUP BY p.category
+    `);
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ─── USERS API ────────────────────────────
+app.post('/api/auth/signup', async (req, res) => {
+  const { firstName, lastName, email, password } = req.body;
+  const id = 'user-' + Date.now();
+  const createdAt = new Date().toISOString();
+
+  try {
+    await pool.query(
+      `INSERT INTO users (id, "firstName", "lastName", email, password, "createdAt") VALUES ($1, $2, $3, $4, $5, $6)`,
+      [id, firstName, lastName, email.toLowerCase(), password, createdAt]
+    );
+    res.json({ success: true, user: { id, firstName, lastName, email: email.toLowerCase(), role: 'customer' } });
+  } catch (err) {
+    if (err.message.includes('unique constraint')) {
+      return res.status(400).json({ success: false, message: 'Email already registered.' });
+    }
+    return res.status(500).json({ success: false, message: 'Database error.' });
+  }
+});
+
+app.post('/api/auth/login', async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const result = await pool.query(
+      `SELECT id, "firstName", "lastName", email, role FROM users WHERE email = $1 AND password = $2`,
+      [email.toLowerCase(), password]
+    );
+    if (result.rows.length === 0) {
+      return res.status(401).json({ success: false, message: 'Invalid email or password.' });
+    }
+    res.json({ success: true, user: result.rows[0] });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Database error.' });
+  }
+});
+
+app.get('/api/admin/users', async (req, res) => {
+  try {
+    const result = await pool.query(`SELECT id, "firstName", "lastName", email, password, role, "createdAt" FROM users`);
+    res.json(result.rows);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/admin/users/:id', async (req, res) => {
+  const { firstName, lastName, email, password, role } = req.body;
+  try {
+    await pool.query(
+      `UPDATE users SET "firstName" = $1, "lastName" = $2, email = $3, password = $4, role = $5 WHERE id = $6`,
+      [firstName, lastName, email.toLowerCase(), password, role, req.params.id]
+    );
+    res.json({ success: true });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+app.delete('/api/admin/users/:id', async (req, res) => {
+  try {
+    await pool.query(`DELETE FROM users WHERE id = $1`, [req.params.id]);
+    res.json({ success: true });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// ─── PRODUCTS API ─────────────────────────
+app.get('/api/products', async (req, res) => {
+  try {
+    const result = await pool.query(`SELECT * FROM products`);
+
+    // Parse JSON strings back to objects/arrays
+    const products = result.rows.map(p => ({
+      ...p,
+      specs: p.specs ? (typeof p.specs === 'string' ? JSON.parse(p.specs) : p.specs) : {},
+      colors: p.colors ? (typeof p.colors === 'string' ? JSON.parse(p.colors) : p.colors) : [],
+      inStock: p.inStock === true || p.inStock === 1,
+      featured: p.featured === true || p.featured === 1,
+      originalPrice: p.originalPrice || null
+    }));
+    res.json(products);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/products/:id', async (req, res) => {
+  try {
+    const result = await pool.query(`SELECT * FROM products WHERE id = $1`, [req.params.id]);
+    if (result.rows.length === 0) return res.status(404).json({ error: 'Product not found' });
+
+    const row = result.rows[0];
+    row.specs = row.specs ? (typeof row.specs === 'string' ? JSON.parse(row.specs) : row.specs) : {};
+    row.colors = row.colors ? (typeof row.colors === 'string' ? JSON.parse(row.colors) : row.colors) : [];
+    row.inStock = row.inStock === true || row.inStock === 1;
+    row.featured = row.featured === true || row.featured === 1;
+    row.originalPrice = row.originalPrice || null;
+    res.json(row);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+// Product Management (Admin)
+app.post('/api/products', async (req, res) => {
+  try {
+    const { name, brand, category, price, originalPrice, discount, description, specs, colors, rating, reviews, inStock, featured, section, image } = req.body;
+
+    // Get max ID to increment
+    const idRes = await pool.query(`SELECT MAX(id) as max_id FROM products`);
+    const newId = (idRes.rows[0].max_id || 0) + 1;
+
+    await pool.query(`
+      INSERT INTO products (id, name, brand, category, price, "originalPrice", discount, description, specs, colors, rating, reviews, "inStock", featured, section, image)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
+      [newId, name, brand, category, price, originalPrice || null, discount || 0, description, JSON.stringify(specs || {}), JSON.stringify(colors || []), rating || 0, reviews || 0, inStock || true, featured || false, section || null, image || 'assets/placeholder.png']
+    );
+    res.json({ success: true, id: newId });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+app.put('/api/products/:id', async (req, res) => {
+  try {
+    const { name, brand, category, price, originalPrice, discount, description, specs, colors, rating, reviews, inStock, featured, section, image } = req.body;
+    await pool.query(`
+      UPDATE products SET
+        name = $1, brand = $2, category = $3, price = $4, "originalPrice" = $5, discount = $6,
+        description = $7, specs = $8, colors = $9, rating = $10, reviews = $11, "inStock" = $12,
+        featured = $13, section = $14, image = $15
+      WHERE id = $16`,
+      [name, brand, category, price, originalPrice, discount, description, JSON.stringify(specs || {}), JSON.stringify(colors || []), rating, reviews, inStock, featured, section, image, req.params.id]
+    );
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+app.delete('/api/products/:id', async (req, res) => {
+  try {
+    await pool.query(`DELETE FROM products WHERE id = $1`, [req.params.id]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// ─── ORDERS API ───────────────────────────
+app.post('/api/orders', upload.single('paymentScreenshot'), async (req, res) => {
+  const { userId, customerName, customerEmail, subtotal, tax, shipping, total, shippingInfo, items } = req.body;
+  const paymentScreenshot = req.file ? `/uploads/${req.file.filename}` : null;
+  const orderId = 'ORD-' + Date.now().toString(36).toUpperCase();
+  const createdAt = new Date().toISOString();
+  const status = 'Processing';
+
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    
+    // Insert order
+    await client.query(`
+      INSERT INTO orders (id, "userId", "customerName", "customerEmail", subtotal, tax, shipping, total, "shippingInfo", "paymentScreenshot", status, "createdAt")
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
+      [orderId, userId, customerName, customerEmail, subtotal, tax, shipping, total, shippingInfo, paymentScreenshot, status, createdAt]
+    );
+
+    // Insert order items
+    const parsedItems = typeof items === 'string' ? JSON.parse(items) : items;
+    for (const item of parsedItems) {
+      await client.query(`
+        INSERT INTO order_items ("orderId", "productId", name, price, quantity, "selectedColor", "selectedStorage")
+        VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [orderId, item.productId, item.name, item.price, item.quantity, item.selectedColor, item.selectedStorage]
+      );
+    }
+
+    await client.query('COMMIT');
+    res.json({ success: true, order: { id: orderId } });
+  } catch (err) {
+    await client.query('ROLLBACK');
+    return res.status(500).json({ success: false, message: 'Failed to place order' });
+  } finally {
+    client.release();
+  }
+});
+
+app.get('/api/orders', async (req, res) => {
+  const userId = req.query.userId;
+  let query = `SELECT * FROM orders`;
+  let params = [];
+  
+  if (userId) {
+    query += ` WHERE "userId" = $1`;
+    params.push(userId);
+  }
+  query += ` ORDER BY "createdAt" DESC`;
+
+  try {
+    const ordersRes = await pool.query(query, params);
+    const orders = ordersRes.rows;
+
+    if (orders.length === 0) return res.json([]);
+
+    // Fetch items for each order
+    for (const order of orders) {
+      order.shippingInfo = order.shippingInfo ? (typeof order.shippingInfo === 'string' ? JSON.parse(order.shippingInfo) : order.shippingInfo) : {};
+      const itemsRes = await pool.query(`SELECT * FROM order_items WHERE "orderId" = $1`, [order.id]);
+      order.items = itemsRes.rows || [];
+    }
+    
+    res.json(orders);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/orders/:id', async (req, res) => {
+  try {
+    const orderRes = await pool.query(`SELECT * FROM orders WHERE id = $1`, [req.params.id]);
+    if (orderRes.rows.length === 0) return res.status(404).json({ error: 'Order not found' });
+    
+    const order = orderRes.rows[0];
+    order.shippingInfo = order.shippingInfo ? (typeof order.shippingInfo === 'string' ? JSON.parse(order.shippingInfo) : order.shippingInfo) : {};
+    
+    const itemsRes = await pool.query(`SELECT * FROM order_items WHERE "orderId" = $1`, [order.id]);
+    order.items = itemsRes.rows || [];
+    
+    res.json(order);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/orders/:id/status', async (req, res) => {
+  const { status } = req.body;
+  try {
+    await pool.query(`UPDATE orders SET status = $1 WHERE id = $2`, [status, req.params.id]);
+    res.json({ success: true });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Fallback to index.html for frontend routing (if needed)
+app.get('*', (req, res) => {
+  if (!req.path.startsWith('/api')) {
+    res.sendFile(path.join(__dirname, 'index.html'));
+  } else {
+    res.status(404).json({ error: 'API route not found' });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — ShopFlow</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%238b5cf6'/><text x='16' y='23' font-size='20' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>S</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header rendered by app.js -->
+
+  <main class="main-content">
+    <div class="page-title-bar">
+      <h1>Contact Us</h1>
+      <div class="breadcrumb">
+        <a href="index.html">Home</a> <span>/</span> <span style="color: white;">Contact Us</span>
+      </div>
+    </div>
+
+    <div class="contact-page">
+      <!-- Left: Contact Info -->
+      <div class="contact-info">
+        <h2>Get in Touch</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 30px; font-size: 14px; line-height: 1.6;">
+          Have questions about our products, your order, or need technical support? We're here to help. Reach out to us through any of the channels below.
+        </p>
+        
+        <div class="contact-card">
+          <div class="contact-card-icon"><i class="fab fa-telegram-plane"></i></div>
+          <div class="contact-card-text">
+            <h4>Telegram Support</h4>
+            <p>@Domzin168</p>
+            <a href="https://t.me/Domzin168" target="_blank" style="color: var(--accent-primary); font-size: 12px; font-weight: 600; display: inline-block; margin-top: 5px;">Message Us <i class="fas fa-arrow-right" style="font-size: 10px;"></i></a>
+          </div>
+        </div>
+        
+        <div class="contact-card">
+          <div class="contact-card-icon"><i class="fas fa-phone-alt"></i></div>
+          <div class="contact-card-text">
+            <h4>Phone</h4>
+            <p>+855 12 345 678 (Mon-Sat, 8am-5pm)</p>
+          </div>
+        </div>
+        
+        <div class="contact-card">
+          <div class="contact-card-icon"><i class="fas fa-envelope"></i></div>
+          <div class="contact-card-text">
+            <h4>Email</h4>
+            <p>support@genzshop.com</p>
+          </div>
+        </div>
+        
+        <div class="contact-card">
+          <div class="contact-card-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="contact-card-text">
+            <h4>Store Location</h4>
+            <p>Phnom Penh, Cambodia</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right: Contact Form -->
+      <div class="contact-form-section">
+        <h2>Send us a Message</h2>
+        <form id="contact-form">
+          <div class="form-group">
+            <label for="contact-name">Your Name</label>
+            <input type="text" id="contact-name" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="contact-email">Email Address</label>
+            <input type="email" id="contact-email" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="contact-subject">Subject</label>
+            <input type="text" id="contact-subject" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" class="form-input" rows="5" required></textarea>
+          </div>
+          
+          <button type="submit" class="btn-submit" id="contact-btn">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer rendered by app.js -->
+
+  <script src="js/products-data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/contact.js"></script>
+</body>
+</html>
