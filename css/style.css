@@ -649,7 +649,8 @@ input, select, textarea {
 
 .slide-image:hover {
   transform: scale(1.05) rotate(-2deg);
-  animation: none;
+  animation: floatSlow 6s ease-in-out infinite;
+  animation-play-state: paused;
 }
 
 .carousel-nav {
