@@ -405,6 +405,11 @@ function renderHeader() {
           <button id="search-btn"><i class="fas fa-search"></i> Search</button>
         </div>
         <div class="header-icons">
+          <div class="theme-toggle" id="theme-toggle" title="Toggle theme" onclick="toggleTheme()">
+            <i class="fas fa-sun"></i>
+            <i class="fas fa-moon"></i>
+            <div class="theme-toggle-knob"></div>
+          </div>
           <a href="cart.html" class="icon-btn" id="cart-icon" title="Shopping Cart">
             <i class="fas fa-shopping-cart"></i>
             <span class="cart-count-badge" style="display:${cartCount > 0 ? 'flex' : 'none'}">${cartCount}</span>
@@ -734,3 +739,21 @@ animStyles.textContent = `
   }
 `;
 document.head.appendChild(animStyles);
+
+// ─── THEME TOGGLE ───────────────────────────────────────────────
+(function initTheme() {
+  const saved = localStorage.getItem('shopflow-theme');
+  if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+})();
+
+window.toggleTheme = function() {
+  const html = document.documentElement;
+  const isLight = html.getAttribute('data-theme') === 'light';
+  if (isLight) {
+    html.removeAttribute('data-theme');
+    localStorage.setItem('shopflow-theme', 'dark');
+  } else {
+    html.setAttribute('data-theme', 'light');
+    localStorage.setItem('shopflow-theme', 'light');
+  }
+};
