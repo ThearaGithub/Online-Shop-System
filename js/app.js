@@ -406,8 +406,8 @@ function renderHeader() {
         </div>
         <div class="header-icons">
           <div class="theme-toggle" id="theme-toggle" title="Toggle theme" onclick="toggleTheme()">
-            <i class="fas fa-moon"></i>
             <i class="fas fa-sun"></i>
+            <i class="fas fa-moon"></i>
             <div class="theme-toggle-knob"></div>
           </div>
           <a href="cart.html" class="icon-btn" id="cart-icon" title="Shopping Cart">
