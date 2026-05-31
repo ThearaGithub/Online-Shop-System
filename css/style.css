@@ -846,7 +846,8 @@ input, select, textarea {
 }
 
 .product-card:hover {
-  box-shadow: 0 25px 60px rgba(139,92,246,0.3);
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 25px 60px rgba(139,92,246,0.35);
 }
 
 .product-card:hover::after {
@@ -3048,11 +3049,11 @@ body {
 
   .hero-carousel { height: 420px; }
 
-  .product-card { padding: 14px; }
+  .product-card { padding: 12px; }
 
-  .product-image { height: 200px; }
+  .product-image { height: 180px; }
 
-  .current-price { font-size: 18px; }
+  .current-price { font-size: 17px; }
 
   .product-detail-section { grid-template-columns: 1fr; }
 
@@ -3090,11 +3091,15 @@ body {
 
 @media (max-width: 480px) {
   .products-grid,
-  .skeleton-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .skeleton-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
 
-  .product-card { padding: 10px; }
+  .product-card { padding: 8px; }
 
-  .product-image { height: 150px; }
+  .product-image { height: 130px; margin-bottom: 8px; }
+
+  .product-card .btn-add-cart { padding: 8px; font-size: 12px; }
+
+  .discount-badge { top: 6px; right: 6px; font-size: 10px; padding: 2px 6px; }
 
   .product-emoji { font-size: 40px; }
 
