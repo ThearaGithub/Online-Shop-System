@@ -54,16 +54,16 @@
 
 /* ─── LIGHT THEME ────────────────────────────────────────── */
 [data-theme="light"] {
-  --bg-primary: #f4f4f9;
-  --bg-secondary: #ffffff;
-  --bg-tertiary: #e8e8f0;
+  --bg-primary: #eff1f5;
+  --bg-secondary: #e6e9ef;
+  --bg-tertiary: #ccd0da;
   --bg-card: #ffffff;
-  --bg-elevated: #e8e8f0;
-  --bg-input: rgba(0,0,0,0.06);
-  --text-white: #1a1a2e;
-  --text-primary: #1a1a2e;
-  --text-secondary: #5a5a7a;
-  --text-muted: #8a8aaa;
+  --bg-elevated: #dce0e8;
+  --bg-input: rgba(0,0,0,0.04);
+  --text-white: #1e1e2e;
+  --text-primary: #1e1e2e;
+  --text-secondary: #585b70;
+  --text-muted: #7f849c;
   --text-dark: #ffffff;
 }
 
