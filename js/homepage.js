@@ -199,9 +199,8 @@ function renderBrands() {
     return `
       <div class="brand-item ${isDark ? 'dark' : ''}" onclick="window.location.href='products.html?brand=${encodeURIComponent(brand.name)}'">
         ${brand.image
-          ? `<img src="${brand.image}" alt="${brand.name}" style="max-height: 48px; max-width: 140px; object-fit: contain;">`
-          : `${brand.icon ? `<i class="${brand.icon}" style="margin-bottom: 5px; font-size: 16px; display: block;"></i>` : ''}${brand.name}`
-        }
+          ? `<img src="${brand.image}" alt="${brand.name}">`
+          : `${brand.icon ? `<i class="${brand.icon}" style="margin-bottom: 5px; font-size: 16px; display: block;"></i>` : ''}${brand.name}`}
       </div>
     `;
   }).join('');
