@@ -4,3 +4,4 @@ shopflow.db
 .DS_Store
 uploads/
 *.pdf
+.antigravitycli/
