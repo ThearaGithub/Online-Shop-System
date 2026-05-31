@@ -256,7 +256,7 @@ input, select, textarea {
 .theme-toggle {
   width: 48px;
   height: 26px;
-  background: rgba(58, 54, 87, 0.4);
+  background: rgba(0,0,0,0.1);
   border-radius: 13px;
   cursor: pointer;
   position: relative;
@@ -264,7 +264,7 @@ input, select, textarea {
   align-items: center;
   justify-content: space-between;
   padding: 0 6px;
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(0,0,0,0.06);
   transition: background 0.3s;
   flex-shrink: 0;
 }
@@ -276,8 +276,8 @@ input, select, textarea {
   transition: color 0.3s;
 }
 
-.theme-toggle .fa-sun { color: #f5a623; }
-.theme-toggle .fa-moon { color: #a0a0b0; }
+.theme-toggle .fa-sun { color: #ffffff; }
+.theme-toggle .fa-moon { color: rgba(255,255,255,0.35); }
 
 .theme-toggle-knob {
   position: absolute;
@@ -296,8 +296,12 @@ input, select, textarea {
   left: 2px;
 }
 
-[data-theme="dark"] .theme-toggle .fa-sun { color: #a0a0b0; }
-[data-theme="dark"] .theme-toggle .fa-moon { color: #667eea; }
+[data-theme="dark"] .theme-toggle .fa-sun { color: rgba(255,255,255,0.35); }
+[data-theme="dark"] .theme-toggle .fa-moon { color: #ffffff; }
+
+[data-theme="dark"] .theme-toggle {
+  background: rgba(58, 54, 87, 0.6);
+}
   border: none;
   font-size: 16px;
 }
