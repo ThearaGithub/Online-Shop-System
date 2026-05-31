@@ -743,17 +743,17 @@ document.head.appendChild(animStyles);
 // ─── THEME TOGGLE ───────────────────────────────────────────────
 (function initTheme() {
   const saved = localStorage.getItem('shopflow-theme');
-  if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+  if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
   else document.documentElement.removeAttribute('data-theme');
 })();
 
 window.toggleTheme = function() {
   const html = document.documentElement;
-  if (html.getAttribute('data-theme') === 'light') {
+  if (html.getAttribute('data-theme') === 'dark') {
     html.removeAttribute('data-theme');
-    localStorage.setItem('shopflow-theme', 'default');
-  } else {
-    html.setAttribute('data-theme', 'light');
     localStorage.setItem('shopflow-theme', 'light');
+  } else {
+    html.setAttribute('data-theme', 'dark');
+    localStorage.setItem('shopflow-theme', 'dark');
   }
 };

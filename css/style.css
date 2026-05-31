@@ -53,7 +53,7 @@
 }
 
 /* ─── LIGHT THEME ────────────────────────────────────────── */
-[data-theme="light"] {
+[data-theme="dark"] {
   --bg-primary: #0f0e17;
 }
 
@@ -291,13 +291,13 @@ input, select, textarea {
   box-shadow: 0 1px 4px rgba(0,0,0,0.2);
 }
 
-[data-theme="light"] .theme-toggle-knob {
+[data-theme="dark"] .theme-toggle-knob {
   right: auto;
   left: 2px;
 }
 
-[data-theme="light"] .theme-toggle .fa-sun { color: #a0a0b0; }
-[data-theme="light"] .theme-toggle .fa-moon { color: #667eea; }
+[data-theme="dark"] .theme-toggle .fa-sun { color: #a0a0b0; }
+[data-theme="dark"] .theme-toggle .fa-moon { color: #667eea; }
   border: none;
   font-size: 16px;
 }
