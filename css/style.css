@@ -3027,7 +3027,7 @@ body {
 
   .carousel-slide {
     flex-direction: column;
-    padding: 20px 30px;
+    padding: 20px 40px;
     text-align: center;
   }
 
@@ -3045,7 +3045,7 @@ body {
     padding: 0;
   }
 
-  .carousel-nav { display: none; }
+  .nav-btn { width: 32px; height: 32px; font-size: 12px; }
 
   .carousel-dots { bottom: 10px; }
 
