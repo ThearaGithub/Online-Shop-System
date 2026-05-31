@@ -286,8 +286,8 @@ input, select, textarea {
   transition: color 0.3s;
 }
 
-.theme-toggle .fa-sun { color: #f5a623; }
-.theme-toggle .fa-moon { color: #a0a0b0; }
+.theme-toggle .fa-sun { color: #a0a0b0; }
+.theme-toggle .fa-moon { color: #667eea; }
 
 .theme-toggle-knob {
   position: absolute;
@@ -310,8 +310,8 @@ input, select, textarea {
   transform: translateX(22px);
 }
 
-[data-theme="light"] .theme-toggle .fa-sun { color: #c0c0d0; }
-[data-theme="light"] .theme-toggle .fa-moon { color: #667eea; }
+[data-theme="light"] .theme-toggle .fa-sun { color: #f5a623; }
+[data-theme="light"] .theme-toggle .fa-moon { color: #a0a0b0; }
   border: none;
   font-size: 16px;
 }
