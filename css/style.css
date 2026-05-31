@@ -276,8 +276,8 @@ input, select, textarea {
   transition: color 0.3s;
 }
 
-.theme-toggle .fa-sun { color: #ffffff; }
-.theme-toggle .fa-moon { color: rgba(255,255,255,0.35); }
+.theme-toggle .fa-sun { color: #f5a623; }
+.theme-toggle .fa-moon { color: rgba(0,0,0,0.2); }
 
 .theme-toggle-knob {
   position: absolute;

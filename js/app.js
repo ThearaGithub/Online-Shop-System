@@ -742,9 +742,8 @@ document.head.appendChild(animStyles);
 
 // ─── THEME TOGGLE ───────────────────────────────────────────────
 (function initTheme() {
-  const saved = localStorage.getItem('shopflow-theme');
-  if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-  else document.documentElement.removeAttribute('data-theme');
+  document.documentElement.removeAttribute('data-theme');
+  localStorage.setItem('shopflow-theme', 'light');
 })();
 
 window.toggleTheme = function() {
