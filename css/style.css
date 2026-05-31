@@ -276,13 +276,13 @@ input, select, textarea {
   transition: color 0.3s;
 }
 
-.theme-toggle .fa-sun { color: #f5a623; }
-.theme-toggle .fa-moon { color: rgba(0,0,0,0.2); }
+.theme-toggle .fa-sun { color: rgba(0,0,0,0.2); }
+.theme-toggle .fa-moon { color: #f5a623; }
 
 .theme-toggle-knob {
   position: absolute;
   top: 2px;
-  left: 2px;
+  right: 2px;
   width: 20px;
   height: 20px;
   background: white;
@@ -292,12 +292,12 @@ input, select, textarea {
 }
 
 [data-theme="dark"] .theme-toggle-knob {
-  left: auto;
-  right: 2px;
+  right: auto;
+  left: 2px;
 }
 
-[data-theme="dark"] .theme-toggle .fa-sun { color: rgba(255,255,255,0.35); }
-[data-theme="dark"] .theme-toggle .fa-moon { color: #ffffff; }
+[data-theme="dark"] .theme-toggle .fa-sun { color: #ffffff; }
+[data-theme="dark"] .theme-toggle .fa-moon { color: rgba(255,255,255,0.35); }
 
 [data-theme="dark"] .theme-toggle {
   background: rgba(58, 54, 87, 0.6);
