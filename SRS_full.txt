@@ -1,0 +1,426 @@
+﻿
+Software Requirements 
+Specifications for
+Online Shop System
+
+
+15-Jan-2026
+Version 1.1
+Prepared By "Group 3"
+
+Change History
+
+
+Document Approvals
+
+
+Table of Contents
+1. Introduction
+1.1 Purpose of the document
+This document outlines what our Online Shop System will do, not as a commercial product, but as a practical, semester-long web development project. Its goal is to clearly describe the features weΓÇÖll build so that anyone reading it (especially instructors or teammates) understands the scope, purpose, and limits of the system. Think of it as a shared roadmap: this is what weΓÇÖre building, why weΓÇÖre building it, and what weΓÇÖre not building.
+1.2 Scope of the project
+WeΓÇÖre creating a simple, functional online store where users can:
+Browse products (like books, electronics, or clothing, whatever we choose).
+Search for items by name.
+Add things to a shopping cart.
+Go through a checkout process by entering their name, address, and email.
+ΓÇ£PlaceΓÇ¥ an order with KHQR payment.
+The system will include:
+A public storefront (what customers see).
+A basic shopping cart that remembers items during a session.
+Optional user accounts so people can log in and see their past orders.
+A minimal admin view so we (or the instructor) can see what orders have been placed.
+WhatΓÇÖs NOT included:
+Inventory tracking or stock updates,
+Shipping integrations or live delivery tracking,
+Mobile apps or complex features like reviews, Wishlist, or coupons.
+This is a learning project, so weΓÇÖre focusing on core functionality that can be built, tested, and demonstrated within one semester.
+1.3 Stakeholders involved
+The following stakeholders will be involved in the development and implementation of the Online Shop System:
+1.3.1 Management / Product Owner
+In a real company, this would be someone like a product manager or business owner. But in our case? ThatΓÇÖs probably your instructor or the person grading the project. TheyΓÇÖre not managing a budget or roadmap; they just need to see that youΓÇÖve built something that matches the assignment requirements. Their main interest is whether your system works as described, is well-documented, and shows solid understanding of web development concepts. TheyΓÇÖll give feedback, approve your scope, and ultimately decide if you pass!
+1.3.2 Employees / Administrators
+In a full e-commerce site, employees manage products, process orders, and handle customer service. For us? There are no real employees, but we might build a simple admin view so the instructor (or you, as the developer) can see what orders have been placed. Think of it like a ΓÇ£backstageΓÇ¥ page where you can peek at order history. No complex dashboards needed, just enough to prove the system is recording data correctly.
+1.3.3 Customers / End Users
+These are the people whoΓÇÖll actually use your site, likely your classmates, friends, or your instructor during the demo. They donΓÇÖt need fancy features; they just want to:
+Find a product quickly
+Add it to a cart without confusion
+Fill out a short form and ΓÇ£buyΓÇ¥ it
+TheyΓÇÖre not tech experts, so the interface should feel intuitive. If someone can place an order in under 2 minutes without instructions, youΓÇÖve nailed it.
+1.3.4 Third-Party Services (Payment/Shipping/etc.)
+Normally, youΓÇÖd connect to Stripe, PayPal, or FedEx, but not here. Since this is a school project, weΓÇÖre faking it. ThereΓÇÖs no real payment processing, no shipping APIs, and no external services. That means no third-party dependencies to worry about. Everything stays inside your app. (This also means fewer headaches, and fewer points lost if something breaks!)
+1.3.5 Developers / QA / Operations
+ThatΓÇÖs us!
+Developer: Writing code, building pages, connecting the database
+QA Tester: Clicking through your own site to make sure the cart doesnΓÇÖt break when you add 100 items
+Operations: Deploying the site to a free hosting platform (like Render or GitHub Pages) so others can access it
+We donΓÇÖt need a DevOps pipeline or automated tests, just clean, working code that runs reliably during the demo. Our goal isnΓÇÖt perfection; itΓÇÖs ΓÇ£good enough to show it works.ΓÇ¥
+1.4 Overview of the Online Shop System  
+Imagine a small online store, like a digital version of a campus shop or a local boutique. Visitors land on the homepage, click into categories (ΓÇ£T-shirts,ΓÇ¥ ΓÇ£Notebooks,ΓÇ¥ ΓÇ£HeadphonesΓÇ¥), pick something they like, add it to their cart, and check out by filling in a simple form. After clicking ΓÇ£Place Order,ΓÇ¥ they see number of bank accounts and QR code of seller and have upload proof of payment like ΓÇ£Screenshot payment ΓÇ£ and button submit.
+Behind the scenes, the system saves that order in a database. If the user created an account, they can log back in later to see their order history. And if youΓÇÖre the admin (likely just the developer), you can log in to a hidden page to see all recent orders.
+ItΓÇÖs not Amazon, but itΓÇÖs a clean, working example of how e-commerce sites function at a basic level. And most importantly: itΓÇÖs something we can actually finish in time.
+2. Overall Description
+2.1 Product perspective
+The Online Shop System is a standalone web application that allows customers to browse products, add them to a cart, and complete a simulated checkout process. It does not require integration with real external systems (e.g., live payment gateways or shipping APIs) due to time and resource constraints of a semester-long project.
+The system will consist of 2 main interfaces:
+Customer Interface: A public-facing website where users can browse products, manage a shopping cart, and place orders.
+Admin Interface (optional/minimal): A simple backend page (password-protected) where the instructor or developer can view submitted orders; no full product management needed unless required for grading.
+The system will self-contained, using a local database (e.g., SQLite or MySQL) to store products, user accounts, and order records. All data will be managed within the application itself.
+2.2 Product functions
+For customers:
+Browse products by category (e.g., Electronics, Books, Clothing)
+Search products by name or keyword
+View product details (name, image, price, description)
+Add/remove items from a shopping cart
+Proceed through a simplified checkout flow (enter name, address, email)
+Place an order with KHQR payment
+Optionally create an account to view order history
+For Admin / Instructor (basic):
+View list of all placed orders (order ID, customer info. Items, status)
+Mark orders as ΓÇ£ProcessedΓÇ¥ (optional, for demo purpose)
+2.3 User characteristics
+Customer: General internet users with basic computer skills. May include classmates, instructors, or test users during demo. No assumption of technical expertise.
+Admin: Likely the developer or course instructor, technically familiar with web systems.
+Language: English only
+Accessibility: Basic responsiveness on mobile and desktop
+Security expectations: Low to moderate, no real financial data collected, but passwords must be hashed if accounts are implemented
+2.4 Constraints
+Time: Must be completed within one academic semester (~12-16 weeks)
+Team size: Typically, 4-5 students
+Technology: Use of free/accessible tools only (e.g., HTML/CSS/JS, PHP, Python Flask, Node.js, SQLite)
+Hosting: Deployed on free platforms (e.g., GitHub Pages, Render, Vercel, or university server)
+Payments: Clicking ΓÇ£Place Order,ΓÇ¥ they see number of bank accounts and QR code of seller and have upload proof of payment like ΓÇ£Screenshot payment ΓÇ£ and button submit.
+No third-party APIs: Avoid complex integrations (Stripe, PayPal, FedEx) unless explicitly allowed
+2.5 Assumptions and dependencies
+Assumptions:
+Users have access to a modern web browser
+The development team has basic knowledge of web programming
+The instructor will accept KHQR and link payment and order fulfillment
+Product data can be pre-loaded into the database (no need for dynamic admin product creation)
+Dependencies:
+A working local or cloud-based database (e.g., SQLite, MySQL, PostgreSQL)
+A web browser environment (e.g., XAMPP, or cloud deployment platform)
+Internet access for hosting and demonstration
+2.6 Apportioning of requirements
+Since this is a single-phase academic project, all core features will be delivered together in one release:
+Core MVP Feature (Required): Register, search and add to cart.
+Product catalog display (with categories)
+Product search by name
+Shopping cart (add, remove, update quantity)
+Pay with KHQR or Payment link
+Order history for logged-in users 
+Basic admin view of orders
+Nice-to-Have (If Time Permits):
+User registration and login
+Simple admin panel to view orders
+Responsive mobile layout
+There will be no Phase 2 or mobile app; focus remains on a functional, demo-able web prototype.
+3. Specific Requirements
+3.1 Functional Requirements
+3.1.1 Product browsing and searching
+The system shall provide a user-friendly interface for customers to browse and search for products. The following requirements must be met:
+The system shall allow searching by keyword, category, brand, and price range.
+The system shall support filtering by size, color, rating, and availability.
+The user shall be able to show detailed product pages with descriptions, specs, and related items.
+The system shall display results with the image, name, price, and ΓÇ£Add to CartΓÇ¥ button.
+Example: A user searches ΓÇ£wireless headphones,ΓÇ¥ filters by ΓÇ£under $100ΓÇ¥ and ΓÇ£noise-cancelling,ΓÇ¥ and views top rated options with one-click and add-to-cart.
+3.1.2 Product ordering and checkout
+The System shows users to order places and checkout and proceed to checkout.
+The system shall allow the user to add the item to a shopping cart.
+The system shall compute the total cost to include taxes, discounts, and shipping fees.
+The system shall provide multiple payment options for the user.
+The system shall display an order summary before checkout.
+The system shall allow the user to track their order after checkout.
+Example:
+A can add multiple items to a shopping cart, show an order summary for the user to confirm. 
+3.1.3 User account management
+The system shall:
+The system shall allow registration via email.
+The system shall let users edit personal info, addresses.
+The user shall be able to support Wishlist creation and email alert for price drops.
+The system shall display full order history with status and tracking.
+Example: A returning user logs in, views past orders, updates their shipping address, and adds a new item to their Wishlist.
+3.1.4 Payment processing
+The system shall:
+The system shall not store credit card data.
+The system shall use KHQR system for payment or via link.
+The user shall be able to have a ΓÇ£Pay NowΓÇ¥ button.
+The system shall display clear success/failure messages.
+Example: During checkout, the user clicks ΓÇ£Pay NowΓÇ¥ and immediately sees the approval message.
+3.1.5 Order tracking and status
+The system shall provide basic order status visibility:
+The system shall allow the user to its current status: Processing, after placing an order.
+The system shall show all orders remain in ΓÇ£ProcessingΓÇ¥ status.
+The system able to allow user to view this status in their order history or on the confirmation page.
+Example: 2 days after purchase, the user logs in and sees their package is ΓÇ£Out for DeliveryΓÇ¥ with a live map link from the carrier.
+3.2 Non-functional Requirements
+Non-functional requirement describes how the system should behave, rather than what it should do. Such as performance, reliability, scalability, and security.
+3.2.1 Performance requirements
+Response time: Page load time shall be under 3 seconds on a standard internet connection.
+Throughput: The system shall support at least 50 concurrent users (sufficient for demo/testing).
+Scalability: None
+Load testing: None
+Caching & DB optimization: None
+3.2.2 Usability requirements
+Navigation: The system shall provide a clear and consistent menu structure across all pages.
+Search: The system shall return accurately for typical queries.
+Mobile responsiveness: [supported devices/resolutions].
+Error handling: The system shall display clear error massage and provide recovery step (e.g. "Please check your internet and try again")
+3.2.3 Security requirements
+Authentication: Passwords shall be stored in plain text.
+Authorization: All pages shall use HTTPS via GitHub Pages.
+Encryption: No sensitive data shall be collected.
+Audit trails: Name, email, password.
+Vulnerability management: Depends on admin
+Disaster recovery: Depends on admin
+3.2.4 Compatibility requirements
+Operating systems: Windows, Linux and MacOS
+Browsers: Chrome or any Chromium-based browser
+Mobile: IOS, Android
+Database: MySQL/PostgreSQL/MongoDB versions.
+3.2.5 Availability requirements
+Availability: 24/7
+Uptime: 99.99% all the time
+Peak load: System should handle it easily
+Recovery: Depends on developer
+Redundancy/failover: None
+4. Use Cases
+4.1 Product browsing and searching use case
+Description:
+ This use case describes how customers discover products through keyword search, category navigation, and filtering capabilities to find items matching their preferences.
+Actors:
+Primary: Customer (Guest or Registered User)
+Secondary: Product Catalog System
+Pre-conditions:
+The system is operational and accessible
+Product catalog is populated with items
+Post-conditions:
+Customer views product listings matching search criteria
+Customer may proceed to view product details or add items to cart
+Basic Flow:
+Customer navigates to the homepage or product catalog page
+System displays featured categories and search bar
+Customer enters search keyword (e.g., "wireless headphones") or selects a category
+System returns relevant product listings with image, name, price, and "Add to Cart" button
+Customer applies filters (e.g., price range <$100, brand, rating ΓëÑ4 stars)
+System refreshes results matching all applied filters
+Customer clicks on a product to view detailed information
+System displays product detail page with description, specifications, images, and related items
+Alternative Flows:
+A1: No results found
+4a. System displays "No products match your search" message with suggestions to modify search terms or filters
+A2: Browse by category without search
+3a. Customer clicks a category tile instead of using search bar
+4a. System displays all products within selected category
+Exceptions:
+E1: System timeout during search ΓåÆ Display error message "Search failed. Please try again." with retry option
+E2: Invalid filter parameters ΓåÆ System ignores invalid filters and displays results with valid filters only
+
+4.2 Product ordering and checkout use case
+Description:
+This use case covers the complete process of adding items to cart, reviewing order details, applying payment, and confirming purchase.
+
+Actors:
+Primary: Registered Customer
+Secondary: Payment Gateway (KHQR), Inventory System
+
+Pre-conditions:
+Customer is logged into their account
+Shopping cart contains at least one item
+Items in cart are in stock
+
+Post-conditions:
+Order is created and assigned a unique order ID
+Payment is processed successfully
+Inventory quantities are updated
+Order confirmation is displayed to customer
+
+Basic Flow:
+Customer views product detail page
+Customer clicks "Add to Cart" button
+System adds item to cart and displays updated cart icon with item count
+Customer navigates to Cart page to review items
+System displays all cart items with quantities, prices, subtotal, estimated taxes, shipping fees, and total
+Customer clicks "Proceed to Checkout"
+System displays order summary with shipping address selection and payment method options
+Customer selects shipping address and payment method (KHQR)
+Customer clicks "Pay Now" button
+System redirects to KHQR payment interface
+Customer completes payment via KHQR
+System receives payment confirmation from gateway
+System creates order record, updates inventory, and displays order confirmation page with order ID and tracking information
+
+Alternative Flows:
+A1: Guest checkout
+1a. System allows guest users to checkout by entering email address (account creation optional after purchase)
+A2: Apply discount/promo code
+5a. Customer enters valid promo code before checkout
+5b. System recalculates total with discount applied
+A3: Modify cart before checkout
+5a. Customer updates quantities or removes items
+5b. System refreshes cart totals accordingly
+Exceptions:
+E1: Payment failure, System displays "Payment unsuccessful" message and returns customer to checkout with order preserved
+E2: Item out of stock during checkout, System alerts customer, removes unavailable item, and requires cart review before proceeding
+E3: Session timeout during payment, System saves cart contents and prompts customer to log in again to resume checkout
+4.3 User account management use case
+Description:
+This use case enables customers to create accounts, manage personal information, maintain Wishlist, and view order history.
+Actors:
+Primary: Customer
+Secondary: Authentication System
+Pre-conditions:
+Customer accesses the website
+For account modifications: Customer is authenticated
+Post-conditions:
+New account created (registration flow) OR
+Account information updated successfully OR
+Wishlist items saved/retrieved OR
+Order history displayed
+Basic Flow (Registration):
+Customer clicks "Register" link on login page
+System displays registration form requesting email, password, and basic profile information
+Customer completes form and submits
+System validates inputs and checks email uniqueness
+System creates account and sends verification email
+System logs customer in automatically and redirects to homepage
+Basic Flow (Profile Management):
+Authenticated customer navigates to "My Account"
+System displays account dashboard with sections: Profile, Addresses, Payment Methods, Order History, Wishlist
+Customer selects section to modify (e.g., "Addresses")
+Customer adds/edits/deletes address entries
+Customer clicks "Save Changes"
+System validates inputs and updates profile data
+Alternative Flows:
+A1: Password reset
+1a. Customer clicks "Forgot Password" on login page
+2a. System sends password reset link to registered email
+3a. Customer follows link, sets new password, and logs in
+A2: Wishlist management
+3a. Customer views product page and clicks "Add to Wishlist"
+4a. System saves item to customer's Wishlist
+5a. Customer receives email alert when Wishlist item price drops (if enabled)
+
+Exceptions:
+E1: Duplicate email during registration, System displays "Email already registered" with option to log in or reset password
+E2: Weak password, System rejects submission and displays password strength requirements
+E3: Unauthorized access attempt, System redirects to login page with "Please log in to access this page" message
+4.4 Payment processing use case
+Description:
+ This use case handles secure payment processing via KHQR system without storing sensitive payment data on the application server.
+Actors:
+Primary: Customer
+Secondary: KHQR Payment Gateway, Order Management System
+Pre-conditions:
+Customer has completed checkout steps
+Order summary is displayed with final amount
+Customer has selected KHQR as payment method
+Post-conditions:
+Payment transaction completed successfully OR
+Payment failure recorded with reason
+Order status updated accordingly (Confirmed vs. Payment Failed)
+Basic Flow:
+Customer reviews order summary on checkout page
+Customer selects KHQR payment method
+Customer clicks "Pay Now" button
+System generates payment request with order ID and amount
+System redirects customer to KHQR payment page (hosted by payment provider)
+Customer scans QR code or completes payment via KHQR mobile app
+KHQR system processes payment and redirects customer back to merchant site with transaction status
+System receives payment confirmation webhook from KHQR
+System updates order status to "Payment Confirmed"
+System displays order confirmation page with order ID and next steps
+Alternative Flows:
+A1: Payment cancellation
+6a. Customer cancels payment on KHQR page
+7a. KHQR redirects to merchant site with cancellation status
+8a. System displays message: "Payment cancelled. Your cart has been preserved." and returns customer to cart page
+Exceptions:
+E1: Payment gateway timeout/unavailable ΓåÆ System displays "Payment service temporarily unavailable" with option to try again later; preserves cart contents
+E2: Mismatched payment amount ΓåÆ System rejects transaction and logs security alert; notifies customer of payment error
+E3: Webhook failure (system doesn't receive confirmation) ΓåÆ System shows "Payment processing" status and allows customer to check order status manually after 5 minutes
+4.5 Order tracking and status use case
+Description:
+ This use case enables customers to monitor the status of their placed orders from processing through delivery.
+Actors:
+Primary: Customer
+Secondary: Order Management System, Shipping Carrier API (future integration)
+Pre-conditions:
+Customer is authenticated
+Customer has at least one placed order in the system
+Post-conditions:
+Customer views current order status and history
+System displays appropriate status information based on order lifecycle stage
+Basic Flow:
+Authenticated customer navigates to "My Orders" section in account dashboard
+System displays list of all customer orders sorted by date (newest first) with columns: Order ID, Date, Total Amount, Status
+Customer clicks on specific order to view details
+System displays order detail page showing:
+Order ID and date
+List of items with quantities and prices
+Shipping address
+Payment method (masked)
+Current status (Processing / Shipped / Out for Delivery / Delivered)
+Timeline of status changes
+For "Shipped" or later statuses, system displays carrier name and tracking number (if available)
+Alternative Flows:
+A1: Track order via email link
+1a. Customer clicks "Track Order" link in order confirmation email
+2a. System authenticates via unique token in URL and displays order details without requiring login
+A2: Filter orders by status
+2a. Customer selects status filter (e.g., "Processing Only")
+3a. System refreshes order list showing only matching orders
+Exceptions:
+E1: Order not found ΓåÆ System displays "Order not found" message with suggestion to verify order ID or contact support
+E2: Unauthorized order access attempt ΓåÆ System blocks access and logs security event; displays generic error message
+E3: Carrier tracking API failure (future) ΓåÆ System displays last known status with message "Live tracking temporarily unavailable".
+5. System Models
+
+
+
+
+
+
+
+
+
+
+
+
+5.1 Class diagrams
+This diagram shows the main entities in the Online Shop System and their relationships. The key classes are User, Product, Cart, Order, and Payment.
+
+
+
+
+
+
+
+
+5.2 Sequence diagrams
+This diagram shows the step-by-step interaction when a customer places an order, from adding items to cart through KHQR payment and confirmation.
+
+5.3 State diagrams
+This diagram shows the lifecycle of an order, from creation to completion. Since this is a student project, orders remain in "Processing" status (no real shipping integration).
+
+6. Appendices
+6.1 Glossary of terms
+SRS: Software Requirements Specification, a document that describes the requirements for a software system.
+Use case: A description of a specific scenario or interaction between the user and the system.
+State diagram: A visual representation of the states and transitions of an object or a group of objects in a software system.
+Stakeholder: A person or organization that has an interest or concern in a software system.
+Class diagram: A visual representation of the classes and relationships in a software system.
+Sequence diagram: A visual representation of the interactions between objects in a specific scenario or use case.
+6.2 List of acronyms and abbreviations
+API: Application Programming Interface
+CSS: Cascading Style Sheets
+HTML: Hypertext Markup Language
+HTTPS: Hypertext Transfer Protocol Secure
+JSON: JavaScript Object Notation
+SQL: Structured Query Language
+6.3 References and resources
+IEEE Recommended Practice for Software Requirements Specifications: https://ieeexplore.ieee.org/document/830737
+Unified Modeling Language (UML) specification: https://www.uml-diagrams.org/
+OWASP Top Ten Project: https://owasp.org/Top10/
+Payment Card Industry Data Security Standard (PCI DSS): https://www.pcisecuritystandards.org/
+

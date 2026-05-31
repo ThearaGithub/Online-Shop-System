@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopFlow — Premium Electronics</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%238b5cf6'/><text x='16' y='23' font-size='20' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>S</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header rendered by app.js -->
+
+  <main class="main-content">
+    
+    <!-- Hero Carousel Section -->
+    <section class="hero-carousel">
+      <div class="carousel-track" id="carousel-track">
+        <!-- 11 Banners will be injected here via JS -->
+      </div>
+      <div class="carousel-nav">
+        <button class="nav-btn prev" onclick="moveCarousel(-1)"><i class="fas fa-chevron-left"></i></button>
+        <button class="nav-btn next" onclick="moveCarousel(1)"><i class="fas fa-chevron-right"></i></button>
+      </div>
+      <div class="carousel-dots" id="carousel-dots">
+        <!-- Dots injected via JS -->
+      </div>
+    </section>
+
+
+    <!-- Popular Brands -->
+    <section class="brands-section">
+      <div class="section-header">
+        <div class="section-title">Popular Brands</div>
+      </div>
+      <div class="brands-grid" id="brands-grid">
+        <!-- Rendered by homepage.js -->
+      </div>
+    </section>
+
+    <!-- Special Offers -->
+    <section class="products-section">
+      <div class="section-header">
+        <div class="section-title">Special Offers 🔥</div>
+        <a href="products.html?filter=deals" class="view-all">View All Deals <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="products-grid" id="special-offers-grid">
+        <!-- Rendered by homepage.js -->
+      </div>
+    </section>
+
+    <!-- New Arrivals -->
+    <section class="products-section">
+      <div class="section-header">
+        <div class="section-title">New Arrivals ✨</div>
+        <a href="products.html?section=new-arrival" class="view-all">Explore More <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="products-grid" id="new-arrivals-grid">
+        <!-- Rendered by homepage.js -->
+      </div>
+    </section>
+
+    <!-- Popular Categories -->
+    <section class="categories-section">
+      <div class="section-header">
+        <div class="section-title">Shop by Category</div>
+      </div>
+      <div class="categories-grid" id="categories-grid">
+        <!-- Rendered by homepage.js -->
+      </div>
+    </section>
+
+    <!-- Smart Watches -->
+    <section class="products-section">
+      <div class="section-header">
+        <div class="section-title">Smart Watches ⌚</div>
+        <a href="products.html?category=Smart+Watch" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="products-grid" id="smart-watches-grid">
+        <!-- Rendered by homepage.js -->
+      </div>
+    </section>
+
+    <!-- Accessories -->
+    <section class="products-section">
+      <div class="section-header">
+        <div class="section-title">Must-Have Accessories 🎧</div>
+        <a href="products.html?category=Accessories" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="products-grid" id="accessories-grid">
+        <!-- Rendered by homepage.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer rendered by app.js -->
+
+  <script src="js/products-data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/homepage.js"></script>
+</body>
+</html>

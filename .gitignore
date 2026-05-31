@@ -1,0 +1,7 @@
+node_modules/
+shopflow.db
+.env
+.DS_Store
+uploads/
+*.pdf
+.antigravitycli/

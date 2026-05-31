@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Products — ShopFlow</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%238b5cf6'/><text x='16' y='23' font-size='20' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>S</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header rendered by app.js -->
+
+  <main class="main-content">
+    <div class="page-title-bar">
+      <h1 id="page-title">All Products</h1>
+      <div class="breadcrumb">
+        <a href="index.html">Home</a> <span>/</span> <a href="products.html">Products</a> <span id="breadcrumb-current"></span>
+      </div>
+    </div>
+
+    <div class="catalog-layout">
+      <!-- Sidebar Filters -->
+      <aside class="filter-sidebar">
+        <h3>Filters</h3>
+        
+        <div class="filter-group">
+          <h4>Categories</h4>
+          <div id="filter-categories">
+            <!-- Rendered by products.js -->
+          </div>
+        </div>
+        
+        <div class="filter-group">
+          <h4>Brands</h4>
+          <div id="filter-brands">
+            <!-- Rendered by products.js -->
+          </div>
+        </div>
+        
+        <div class="filter-group">
+          <h4>Price Range</h4>
+          <div class="price-range">
+            <input type="number" id="price-min" placeholder="Min $">
+            <span>-</span>
+            <input type="number" id="price-max" placeholder="Max $">
+          </div>
+          <button class="btn-filter" id="btn-apply-price">Apply</button>
+        </div>
+        
+        <div class="filter-group">
+          <h4>Availability</h4>
+          <label class="filter-option">
+            <input type="checkbox" id="filter-instock" checked>
+            In Stock Only
+          </label>
+          <label class="filter-option">
+            <input type="checkbox" id="filter-deals">
+            Special Offers Only
+          </label>
+        </div>
+        
+        <button class="btn-filter" id="btn-reset-filters" style="background: var(--bg-elevated); margin-top: 20px;">Reset All Filters</button>
+      </aside>
+
+      <!-- Main Catalog -->
+      <div class="catalog-main">
+        <div class="catalog-header">
+          <div class="results-count" id="results-count">Showing 0 results</div>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <label for="sort-by" style="color: var(--text-secondary); font-size: 13px;">Sort by:</label>
+            <select id="sort-by" class="sort-select">
+              <option value="featured">Featured</option>
+              <option value="newest">Newest Arrivals</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Highest Rated</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="products-grid" id="products-grid">
+          <!-- Rendered by products.js -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer rendered by app.js -->
+
+  <script src="js/products-data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/products.js"></script>
+</body>
+</html>

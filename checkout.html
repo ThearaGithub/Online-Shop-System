@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — ShopFlow</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%238b5cf6'/><text x='16' y='23' font-size='20' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>S</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header rendered by app.js -->
+
+  <main class="main-content">
+    <div class="page-title-bar">
+      <h1>Checkout</h1>
+    </div>
+
+    <div class="checkout-layout">
+      <!-- Left: Form -->
+      <div class="checkout-form-section">
+        <h2>Shipping & Payment Details</h2>
+        <p class="subtitle">Please complete your information below to place your order.</p>
+        
+        <form id="checkout-form">
+          <div class="checkout-section-title">1. Shipping Information</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input type="text" id="firstName" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input type="text" id="lastName" class="form-input" required>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" class="form-input" placeholder="012 345 678" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" class="form-input" readonly style="opacity: 0.7; cursor: not-allowed;">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="address">Delivery Address</label>
+            <textarea id="address" class="form-input" rows="3" placeholder="House/Street, Sangkat, Khan, Phnom Penh" required></textarea>
+          </div>
+          
+          <div class="checkout-section-title">2. Payment (KHQR Simulation)</div>
+          <div class="payment-section">
+            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 15px;">
+              Please scan the QR code to make payment, or transfer to the account numbers below.
+            </p>
+            
+            <div class="qr-code-container">
+              <div class="qr-placeholder" style="background: transparent; padding: 0;">
+                <img src="assets/QR Code.png" alt="Payment QR Code" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;">
+              </div>
+              <div class="qr-label">ShopFlow - KHQR</div>
+            </div>
+            
+            <div class="bank-info">
+              <strong>ABA Bank:</strong> 001 234 567 (ShopFlow)<br>
+              <strong>Acleda:</strong> 098 765 432 (ShopFlow)
+            </div>
+            
+            <div class="upload-section">
+              <label style="font-size: 13px; color: white; display: block; margin-bottom: 8px;">Upload Payment Screenshot <span style="color: var(--color-error);">*</span></label>
+              <input type="file" id="payment-proof" accept="image/*" style="display: none;" required>
+              <button type="button" class="upload-btn" id="upload-btn" onclick="document.getElementById('payment-proof').click()">
+                <i class="fas fa-cloud-upload-alt"></i> Click to Upload Screenshot
+              </button>
+            </div>
+          </div>
+          
+          <div class="form-error" id="checkout-error" style="margin-top: 20px; font-weight: 600; text-align: center;"></div>
+          
+          <button type="submit" class="btn-submit" id="btn-place-order" style="margin-top: 25px;">
+            Place Order
+          </button>
+        </form>
+      </div>
+      
+      <!-- Right: Summary Sidebar -->
+      <aside class="order-summary">
+        <h3>Order Summary</h3>
+        <div id="checkout-items" style="margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 10px; max-height: 250px; overflow-y: auto;">
+          <!-- Rendered via JS -->
+        </div>
+        
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="summary-subtotal">$0.00</span>
+        </div>
+        <div class="summary-row">
+          <span>Tax (10%)</span>
+          <span id="summary-tax">$0.00</span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping</span>
+          <span id="summary-shipping">Calculated</span>
+        </div>
+        
+        <div class="summary-row total">
+          <span>Total</span>
+          <span id="summary-total" style="color: var(--color-error); font-size: 24px;">$0.00</span>
+        </div>
+        
+        <div style="margin-top: 20px; font-size: 11px; color: var(--text-muted); text-align: center;">
+          By placing your order, you agree to our Terms of Service and Privacy Policy.
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script src="js/products-data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "shopflow",
+  "version": "1.0.0",
+  "description": "ShopFlow Full-Stack App",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^4.19.2",
+    "multer": "^2.1.1",
+    "pg": "^8.21.0"
+  }
+}
