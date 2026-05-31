@@ -744,14 +744,14 @@ document.head.appendChild(animStyles);
 (function initTheme() {
   const saved = localStorage.getItem('shopflow-theme');
   if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+  else document.documentElement.removeAttribute('data-theme');
 })();
 
 window.toggleTheme = function() {
   const html = document.documentElement;
-  const isLight = html.getAttribute('data-theme') === 'light';
-  if (isLight) {
+  if (html.getAttribute('data-theme') === 'light') {
     html.removeAttribute('data-theme');
-    localStorage.setItem('shopflow-theme', 'dark');
+    localStorage.setItem('shopflow-theme', 'default');
   } else {
     html.setAttribute('data-theme', 'light');
     localStorage.setItem('shopflow-theme', 'light');
