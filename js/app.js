@@ -595,11 +595,17 @@ function observeReveal(elements) {
 function addRevealToGrid(gridSelector) {
   const grid = document.querySelector(gridSelector);
   if (!grid) return;
-  const cards = grid.querySelectorAll('.product-card, .category-card, .brand-item');
+  const cards = grid.querySelectorAll('.category-card, .brand-item');
   cards.forEach((card, i) => {
     card.style.setProperty('--reveal-delay', `${i * 0.06}s`);
   });
   observeReveal(cards);
+  // Product cards just fade in without stagger to keep hover snappy
+  const productCards = grid.querySelectorAll('.product-card');
+  productCards.forEach((card, i) => {
+    card.style.animation = `fadeIn 0.5s ease both`;
+    card.style.animationDelay = `${i * 0.05}s`;
+  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
