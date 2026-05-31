@@ -635,6 +635,7 @@ input, select, textarea {
   z-index: 2;
   height: 340px;
   padding: 10px;
+  animation: floatSlow 6s ease-in-out infinite;
 }
 
 .slide-image {
@@ -644,13 +645,10 @@ input, select, textarea {
   filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4));
   transition: transform 0.5s var(--transition-bounce);
   cursor: pointer;
-  animation: floatSlow 6s ease-in-out infinite;
 }
 
 .slide-image:hover {
-  transform: scale(1.05) rotate(-2deg);
-  animation: floatSlow 6s ease-in-out infinite;
-  animation-play-state: paused;
+  transform: scale(1.08) rotate(-3deg);
 }
 
 .carousel-nav {
