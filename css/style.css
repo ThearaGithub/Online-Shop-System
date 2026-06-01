@@ -2044,10 +2044,10 @@ body {
 /* ─── CART PAGE ───────────────────────────────────────────── */
 .cart-page-layout {
   display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 30px;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
   align-items: start;
-  max-width: 1000px;
+  max-width: 820px;
   margin: 0 auto;
 }
 
