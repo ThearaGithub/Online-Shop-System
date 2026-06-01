@@ -2047,6 +2047,7 @@ body {
   grid-template-columns: 1fr 380px;
   gap: 30px;
   align-items: start;
+  max-width: 1100px;
 }
 
 .cart-items-list {
@@ -2087,6 +2088,8 @@ body {
 
 .cart-item-details {
   flex: 1;
+  min-width: 0;
+  max-width: 350px;
 }
 
 .cart-item-name {
