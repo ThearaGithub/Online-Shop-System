@@ -65,7 +65,7 @@ async function renderAdminDashboard() {
   const tbody = document.getElementById('admin-orders-list');
 
   if (allOrders.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 30px;">No orders have been placed yet.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; padding: 30px;">No orders have been placed yet.</td></tr>`;
   } else {
     tbody.innerHTML = allOrders.map(order => {
       const ship = order.shippingInfo || {};
@@ -76,6 +76,16 @@ async function renderAdminDashboard() {
         <td>
           <div style="color: white; font-size: 13px;">${order.customerName}</div>
           <div style="font-size: 10px; color: var(--text-muted);">${order.customerEmail}</div>
+        </td>
+        <td style="font-size: 12px; color: var(--text-secondary);">
+          ${(order.items || []).map(item => `
+            <div style="white-space: nowrap; margin-bottom: 2px;">
+              <span style="color: white;">${item.name}</span>
+              <span style="color: var(--text-muted);"> ×${item.quantity}</span>
+              ${item.selectedColor ? `<span style="color: var(--accent-purple); font-size: 10px;"> (${item.selectedColor})</span>` : ''}
+              ${item.selectedStorage ? `<span style="color: var(--accent-purple); font-size: 10px;"> ${item.selectedStorage}</span>` : ''}
+            </div>
+          `).join('') || '<span style="color: var(--text-muted);">N/A</span>'}
         </td>
         <td style="font-size: 12px; color: var(--text-secondary); max-width: 200px;">
           <div>${ship.firstName || ''} ${ship.lastName || ''}</div>
