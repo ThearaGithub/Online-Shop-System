@@ -2055,7 +2055,7 @@ body {
   background: var(--bg-secondary);
   border-radius: var(--radius-xl);
   padding: 24px;
-  max-width: 300px;
+  overflow: hidden;
 }
 
 .cart-items-list h2 {
@@ -3127,6 +3127,25 @@ body {
   .admin-charts-grid { grid-template-columns: 1fr; }
 
   .chart-container { padding: 14px; }
+
+  .cart-item {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .cart-item-details {
+    flex: 1 1 100%;
+    order: -1;
+  }
+
+  .cart-item-image {
+    width: 60px;
+    height: 60px;
+  }
+
+  .cart-item-price {
+    min-width: auto;
+  }
 }
 
 @media (max-width: 480px) {
