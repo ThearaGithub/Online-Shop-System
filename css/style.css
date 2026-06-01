@@ -2055,7 +2055,7 @@ body {
   background: var(--bg-secondary);
   border-radius: var(--radius-xl);
   padding: 24px;
-  max-width: 360px;
+  max-width: 200px;
 }
 
 .cart-items-list h2 {
