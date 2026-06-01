@@ -2044,10 +2044,11 @@ body {
 /* ─── CART PAGE ───────────────────────────────────────────── */
 .cart-page-layout {
   display: grid;
-  grid-template-columns: minmax(0, 700px) 380px;
+  grid-template-columns: 1fr 340px;
   gap: 30px;
   align-items: start;
-  justify-content: center;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .cart-items-list {
