@@ -2044,10 +2044,10 @@ body {
 /* ─── CART PAGE ───────────────────────────────────────────── */
 .cart-page-layout {
   display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 30px;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
   align-items: start;
-  max-width: 1000px;
+  max-width: 780px;
   margin: 0 auto;
 }
 
@@ -2055,7 +2055,7 @@ body {
   background: var(--bg-secondary);
   border-radius: var(--radius-xl);
   padding: 24px;
-  max-width: 480px;
+  max-width: 360px;
 }
 
 .cart-items-list h2 {
