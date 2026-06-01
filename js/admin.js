@@ -181,7 +181,6 @@ async function initAnalytics() {
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false,
         plugins: {
           legend: { labels: { color: 'white' } }
         },
@@ -213,7 +212,6 @@ async function initAnalytics() {
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false,
         plugins: {
           legend: {
             position: 'bottom',

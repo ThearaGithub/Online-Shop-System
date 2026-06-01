@@ -2461,9 +2461,7 @@ body {
 }
 
 .chart-container canvas {
-  max-width: 100% !important;
-  width: 100% !important;
-  height: auto !important;
+  max-width: 100%;
 }
 
 .chart-title {
@@ -3126,8 +3124,6 @@ body {
   .admin-charts-grid { grid-template-columns: 1fr; }
 
   .chart-container { padding: 14px; }
-
-  .chart-container canvas { max-height: 220px; }
 }
 
 @media (max-width: 480px) {
@@ -3197,8 +3193,6 @@ body {
   }
 
   .chart-container { padding: 10px; }
-
-  .chart-container canvas { max-height: 180px; }
 
   .admin-table th,
   .admin-table td { padding: 6px 4px; font-size: 10px; }
