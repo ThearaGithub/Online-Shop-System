@@ -2,18 +2,25 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const fs = require('fs');
 const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const pool = require('./database');
 
-// Ensure uploads directory exists
-const uploadsDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+// Cloudinary config
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET
+});
 
-// Multer config for payment screenshots
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadsDir),
-  filename: (req, file, cb) => cb(null, `payment_${Date.now()}_${file.originalname}`)
+// Multer config for payment screenshots (cloud storage)
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'shopflow/payments',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp']
+  }
 });
 const upload = multer({ storage });
 
@@ -25,9 +32,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static frontend files & uploads
+// Serve static frontend files
 app.use(express.static(__dirname));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // ==========================================
 // API ROUTES
@@ -215,7 +221,7 @@ app.delete('/api/products/:id', async (req, res) => {
 // ─── ORDERS API ───────────────────────────
 app.post('/api/orders', upload.single('paymentScreenshot'), async (req, res) => {
   const { userId, customerName, customerEmail, subtotal, tax, shipping, total, shippingInfo, items } = req.body;
-  const paymentScreenshot = req.file ? `/uploads/${req.file.filename}` : null;
+  const paymentScreenshot = req.file ? req.file.path : null;
   const orderId = 'ORD-' + Date.now().toString(36).toUpperCase();
   const createdAt = new Date().toISOString();
   const status = 'Processing';
