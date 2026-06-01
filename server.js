@@ -314,6 +314,16 @@ app.put('/api/orders/:id/status', async (req, res) => {
   }
 });
 
+app.delete('/api/orders/:id', async (req, res) => {
+  try {
+    await pool.query(`DELETE FROM order_items WHERE "orderId" = $1`, [req.params.id]);
+    await pool.query(`DELETE FROM orders WHERE id = $1`, [req.params.id]);
+    res.json({ success: true });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // Fallback to index.html for frontend routing (if needed)
 app.get('*', (req, res) => {
   if (!req.path.startsWith('/api')) {

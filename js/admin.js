@@ -95,6 +95,7 @@ async function renderAdminDashboard() {
           <span class="order-status ${order.status.toLowerCase()}">${order.status}</span>
         </td>
         <td>
+          <div style="display:flex;gap:4px;flex-wrap:nowrap;">
           ${order.status === 'Processing' ? `
             <button class="btn-status process" onclick="updateOrderStatus('${order.id}', 'Completed')">
               <i class="fas fa-check"></i> Complete
@@ -104,6 +105,10 @@ async function renderAdminDashboard() {
               <i class="fas fa-undo"></i> Undo
             </button>
           `}
+            <button class="btn-status" style="background:#e74c3c;" onclick="deleteOrder('${order.id}')">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
         </td>
       </tr>
     `}).join('');
@@ -226,7 +231,17 @@ async function initAnalytics() {
 window.updateOrderStatus = async function(orderId, newStatus) {
   if (await Orders.updateStatus(orderId, newStatus)) {
     Toast.show(`Order ${orderId} marked as ${newStatus}`, 'success');
-    renderAdminDashboard(); // Refresh table and stats
+    renderAdminDashboard();
+  }
+};
+
+window.deleteOrder = async function(orderId) {
+  if (!confirm(`Delete order ${orderId}? This cannot be undone.`)) return;
+  if (await Orders.deleteOrder(orderId)) {
+    Toast.show(`Order ${orderId} deleted`, 'success');
+    renderAdminDashboard();
+  } else {
+    Toast.show('Failed to delete order', 'error');
   }
 };
 

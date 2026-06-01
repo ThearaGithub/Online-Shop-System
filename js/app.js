@@ -288,6 +288,17 @@ const Orders = {
       console.error(err);
       return false;
     }
+  },
+
+  async deleteOrder(orderId) {
+    try {
+      const res = await fetch(`/api/orders/${orderId}`, { method: 'DELETE' });
+      const data = await res.json();
+      return data.success;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
   }
 };
 
