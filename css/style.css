@@ -2447,7 +2447,7 @@ body {
 /* ─── ADMIN PAGE ──────────────────────────────────────────── */
 .admin-charts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 20px;
   margin-top: 30px;
 }
@@ -2475,7 +2475,6 @@ body {
   background: var(--bg-secondary);
   border-radius: var(--radius-xl);
   padding: 30px;
-  overflow: hidden;
 }
 
 .admin-page h2 {
