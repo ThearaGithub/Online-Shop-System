@@ -95,10 +95,10 @@ function renderProductDetail() {
     <div class="image-gallery">
       <div class="main-image">
         ${hasDiscount ? `<div class="discount-badge">$${p.discount} Off</div>` : ''}
-        <img src="${p.image}" alt="${p.name}" class="detail-product-img" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<span class=\\'product-emoji\\'>📦</span>')">
+        <img src="${selectedColor && selectedColor.image ? selectedColor.image : p.image}" alt="${p.name}" class="detail-product-img" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<span class=\\'product-emoji\\'>📦</span>')">
       </div>
       <div class="thumb-gallery">
-        <div class="thumb-item active"><img src="${p.image}" alt="${p.name}" class="thumb-img"></div>
+        <div class="thumb-item active"><img src="${selectedColor && selectedColor.image ? selectedColor.image : p.image}" alt="${p.name}" class="thumb-img"></div>
         <div class="thumb-item"><img src="${p.image}" alt="${p.name}" class="thumb-img"></div>
         <div class="thumb-item"><img src="${p.image}" alt="${p.name}" class="thumb-img"></div>
         <div class="thumb-item"><img src="${p.image}" alt="${p.name}" class="thumb-img"></div>

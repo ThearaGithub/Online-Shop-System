@@ -92,6 +92,12 @@ const PRODUCTS = [
       { name: "White Titanium", hex: "#f5f0e8" },
       { name: "Black Titanium", hex: "#2c2c2e" }
     ],
+    colors: [
+      { name: "Natural Titanium", hex: "#9a8e7f", image: "assets/iPhone 15 Pro Max - Natural Titanium.png" },
+      { name: "Blue Titanium", hex: "#3d4f5f", image: "assets/iPhone 15 Pro Max - Blue Titanium.png" },
+      { name: "White Titanium", hex: "#f5f0e8", image: "assets/iPhone 15 Pro Max - White Titanium.png" },
+      { name: "Black Titanium", hex: "#2c2c2e", image: "assets/iPhone 15 Pro Max - Black Titanium.png" }
+    ],
     rating: 4.8,
     reviews: 3200,
     inStock: true,
