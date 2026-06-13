@@ -207,7 +207,7 @@ async function loadApprovals() {
         </td>
         <td style="font-weight:600;color:white;">${formatPrice(a.total)}</td>
         <td><span class="order-status ${a.status.toLowerCase()}">${a.status}</span></td>
-        <td style="color:${a.approvedBy ? 'var(--accent-purple)' : 'var(--text-muted)'};">${a.approvedBy || '—'}</td>
+        <td style="color:${a.approvedBy ? 'var(--accent-purple)' : 'var(--text-muted)'};font-size:12px;">${a.approvedBy || '—'}</td>
         <td style="font-size:12px;">${formatDate(a.createdAt)}</td>
         ${a.status === 'Completed' ? `
         <td>

@@ -395,6 +395,7 @@ app.get('/api/orders/:id', async (req, res) => {
 
 app.put('/api/orders/:id/status', async (req, res) => {
   const { status, adminId } = req.body;
+  console.log(`[STATUS] order=${req.params.id} status=${status} adminId=${adminId}`);
   try {
     if (status === 'Completed') {
       // Track which admin approved, decrement stock
