@@ -27,6 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
       el.classList.remove('input-error');
       const err = el.parentNode.querySelector('.field-error');
       if (err) err.remove();
+      // Hide red asterisk when field has value
+      const asterisk = el.parentNode.querySelector('.required-star');
+      if (asterisk) asterisk.style.display = el.value.trim() ? 'none' : '';
     });
   });
 });
