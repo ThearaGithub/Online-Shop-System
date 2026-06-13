@@ -708,37 +708,6 @@ const PRODUCTS = [
     image: "assets/AirPods Pro 3.png"
   },
   {
-    id: 24,
-    name: "JBL Tune Beam 3",
-    brand: "JBL",
-    category: "Accessories",
-    price: 99.00,
-    originalPrice: 129.00,
-    discount: 30,
-    description: "JBL Tune Beam 3 with Pure Bass Sound, ANC, 48h total battery, 4-mic calls, and IP54 splash proof.",
-    specs: {
-      display: "—",
-      processor: "—",
-      ram: "—",
-      storage: ["—"],
-      camera: "—",
-      battery: "10h + 38h case",
-      os: "Bluetooth 5.3",
-      weight: "5g per bud"
-    },
-    colors: [
-      { name: "Black", hex: "#1a1a2e" },
-      { name: "Blue", hex: "#2a5f9f" },
-      { name: "White", hex: "#f5f5f5" }
-    ],
-    rating: 4.3,
-    reviews: 310,
-    inStock: true,
-    featured: false,
-    section: "accessories",
-    image: "assets/placeholder.svg"
-  },
-  {
     id: 25,
     name: "BOSE QuietComfort Ultra",
     brand: "BOSE",
