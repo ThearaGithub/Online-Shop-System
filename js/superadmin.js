@@ -117,14 +117,15 @@ function updateCharts(data) {
   if (productChart) productChart.destroy();
   const prod = data.salesByProduct || [];
   const prodLabels = prod.map(d => d.name.length > 20 ? d.name.slice(0, 20) + '…' : d.name);
-  const prodValues = prod.map(d => parseInt(d.count));
+  const prodValues = prod.map(d => parseFloat(d.revenue));
+  const prodCounts = prod.map(d => parseInt(d.count));
   const prodColors = ['#8b5cf6','#4a90e2','#e74c3c','#f1c40f','#2ecc71','#e67e22','#9b59b6','#1abc9c','#3498db','#e84393'];
   productChart = new Chart(prodCtx, {
     type: 'bar',
     data: {
       labels: prodLabels,
       datasets: [{
-        label: 'Units Sold',
+        label: 'Revenue',
         data: prodValues,
         backgroundColor: prodLabels.map((_, i) => prodColors[i % prodColors.length]),
         borderRadius: 4
@@ -133,9 +134,19 @@ function updateCharts(data) {
     options: {
       responsive: true,
       indexAxis: 'y',
-      plugins: { legend: { display: false } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            afterLabel: function(context) {
+              const idx = context.dataIndex;
+              return `Units sold: ${prodCounts[idx]}`;
+            }
+          }
+        }
+      },
       scales: {
-        x: { ticks: { color: '#a0a0b0', stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.1)' } },
+        x: { ticks: { color: '#a0a0b0', callback: v => '$' + v.toFixed(0) }, grid: { color: 'rgba(255,255,255,0.1)' } },
         y: { ticks: { color: '#a0a0b0', font: { size: 10 } }, grid: { display: false } }
       }
     }
