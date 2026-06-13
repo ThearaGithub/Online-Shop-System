@@ -20,6 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Init page data
   initCheckout();
+
+  // Clear input-error red border when user types
+  document.querySelectorAll('#checkout-form .form-input:not([readonly])').forEach(el => {
+    el.addEventListener('input', () => {
+      el.classList.remove('input-error');
+      const err = el.parentNode.querySelector('.field-error');
+      if (err) err.remove();
+    });
+  });
 });
 
 function initCheckout() {
