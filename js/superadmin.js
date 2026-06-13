@@ -133,9 +133,13 @@ async function loadStock() {
           </span>
         </td>
         <td>
-          <button class="btn-status" style="background:#27ae60;padding:4px 10px;font-size:11px;" onclick="addStock(${p.id}, 100)">
-            <i class="fas fa-plus"></i> +100
-          </button>
+          <div style="display:flex;gap:4px;flex-wrap:nowrap;">
+            <button class="btn-status" style="background:#e74c3c;padding:4px 8px;font-size:11px;min-width:32px;" onclick="addStock(${p.id}, -1)"><i class="fas fa-minus"></i></button>
+            <button class="btn-status" style="background:#27ae60;padding:4px 8px;font-size:11px;min-width:32px;" onclick="addStock(${p.id}, 1)"><i class="fas fa-plus"></i></button>
+            <button class="btn-status" style="background:#2d7d46;padding:4px 10px;font-size:11px;" onclick="addStock(${p.id}, 100)">
+              <i class="fas fa-plus"></i> +100
+            </button>
+          </div>
         </td>
       </tr>
     `).join('');
