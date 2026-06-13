@@ -191,13 +191,13 @@ async function loadApprovals() {
     const approvals = await res.json();
     const tbody = document.getElementById('sa-approvals-list');
     if (approvals.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px;">No orders yet.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:30px;">No orders yet.</td></tr>';
       return;
     }
     tbody.innerHTML = approvals.map(a => `
       <tr>
         <td style="font-weight:700;color:white;font-size:12px;">${a.id}</td>
-        <td style="color:white;">${a.customerName || 'N/A'}</td>
+        <td style="color:white;">${a.customerName || a.userName || 'N/A'}</td>
         <td style="font-size:12px;">
           ${(a.items || []).map(item => `
             <div style="white-space:nowrap;color:var(--text-secondary);">
@@ -207,7 +207,14 @@ async function loadApprovals() {
         </td>
         <td style="font-weight:600;color:white;">${formatPrice(a.total)}</td>
         <td><span class="order-status ${a.status.toLowerCase()}">${a.status}</span></td>
-        <td style="color:${a.approvedBy ? 'var(--accent-purple)' : 'var(--text-muted)'};font-size:12px;">${a.approvedBy || '—'}</td>
+        <td>
+          ${a.paymentScreenshot ? `
+            <a href="${a.paymentScreenshot}" target="_blank">
+              <img src="${a.paymentScreenshot}" alt="Payment" style="width:40px;height:40px;object-fit:cover;border-radius:6px;border:1px solid rgba(255,255,255,0.1);cursor:pointer;" onmouseover="this.style.transform='scale(2.5)';this.style.zIndex='10';this.style.position='relative'" onmouseout="this.style.transform='';this.style.zIndex='';this.style.position=''" onerror="this.style.display='none'">
+            </a>
+          ` : '<span style="color:var(--text-muted);font-size:11px;">—</span>'}
+        </td>
+        <td style="color:${a.approvedBy ? 'var(--accent-purple)' : 'var(--text-muted)'};font-size:12px;">${a.approverName || a.approvedBy || '—'}</td>
         <td style="font-size:12px;">${formatDate(a.createdAt)}</td>
         ${a.status === 'Completed' ? `
         <td>

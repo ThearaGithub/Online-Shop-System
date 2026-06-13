@@ -519,9 +519,12 @@ app.get('/api/superadmin/approvals', async (req, res) => {
   try {
     const result = await pool.query(`
       SELECT o.id, o."approvedBy", o."approvedAt", o."createdAt", o.total, o.status,
-             u."firstName" || ' ' || u."lastName" as "customerName"
+             o."paymentScreenshot", o."customerName",
+             u."firstName" || ' ' || u."lastName" as "userName",
+             adm."firstName" || ' ' || adm."lastName" as "approverName"
       FROM orders o
       LEFT JOIN users u ON u.id = o."userId"
+      LEFT JOIN users adm ON adm.email = o."approvedBy"
       ORDER BY o."createdAt" DESC
     `);
     const orders = result.rows;
