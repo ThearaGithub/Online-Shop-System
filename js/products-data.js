@@ -705,7 +705,7 @@ const PRODUCTS = [
     inStock: true,
     featured: true,
     section: "accessories",
-    image: "assets/placeholder.svg"
+    image: "assets/AirPods Pro 3.png"
   },
   {
     id: 24,
@@ -767,7 +767,7 @@ const PRODUCTS = [
     inStock: true,
     featured: false,
     section: "accessories",
-    image: "assets/placeholder.svg"
+    image: "assets/BOSE QuietComfort Ultra.png"
   },
   {
     id: 26,
@@ -827,7 +827,7 @@ const PRODUCTS = [
     inStock: true,
     featured: false,
     section: "secondhand",
-    image: "assets/placeholder.svg"
+    image: "assets/iPhone 13 Pro (Used).jpg"
   },
   {
     id: 28,
@@ -856,7 +856,7 @@ const PRODUCTS = [
     inStock: true,
     featured: false,
     section: "secondhand",
-    image: "assets/placeholder.svg"
+    image: "assets/Samsung Galaxy S23 (Used).jpg"
   },
   {
     id: 29,
@@ -885,7 +885,7 @@ const PRODUCTS = [
     inStock: true,
     featured: false,
     section: "secondhand",
-    image: "assets/placeholder.svg"
+    image: "assets/Google Pixel 8 (Used).jpg"
   },
   {
     id: 30,
@@ -914,7 +914,7 @@ const PRODUCTS = [
     inStock: true,
     featured: false,
     section: "secondhand",
-    image: "assets/placeholder.svg"
+    image: "assets/iPhone 14 (Used).jpg"
   },
 
   // ─── EXTRA PHONES ─────────────────────────────────────────
@@ -946,7 +946,7 @@ const PRODUCTS = [
     inStock: true,
     featured: false,
     section: "new-arrival",
-    image: "assets/placeholder.svg"
+    image: "assets/Xiaomi 15 Ultra.jpg"
   },
   {
     id: 32,
@@ -976,7 +976,7 @@ const PRODUCTS = [
     inStock: true,
     featured: false,
     section: "new-arrival",
-    image: "assets/placeholder.svg"
+    image: "assets/HUAWEI Pura 80 Pro.jpg"
   }
 ];
 
