@@ -1782,8 +1782,8 @@ body {
 }
 
 .main-image .detail-product-img {
-  width: 70%;
-  height: 70%;
+  width: 85%;
+  height: 85%;
   object-fit: contain;
 }
 
