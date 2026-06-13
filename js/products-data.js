@@ -23,7 +23,6 @@ const PRODUCTS = [
       weight: "227g"
     },
     colors: [
-      { name: "Natural Titanium", hex: "#9a8e7f", image: "assets/iPhone 17 Pro Max for homepage.png" },
       { name: "Cosmic Orange", hex: "#c96b3a", image: "assets/iPhone 17 Pro Max Cosmic Orange - removed bg.png" },
       { name: "Silver", hex: "#e8e8e8", image: "assets/iPhone 17 Pro Max Silver - removed bg.png" },
       { name: "Deep Blue", hex: "#1a3a5c", image: "assets/iPhone 17 Pro Max Deep Blue - removed bg.png" }
