@@ -1217,8 +1217,8 @@ body {
 }
 
 .product-image img {
-  max-width: 85%;
-  max-height: 85%;
+  max-width: 92%;
+  max-height: 92%;
   object-fit: contain;
 }
 
@@ -1233,7 +1233,7 @@ body {
   max-height: none;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .product-name {
