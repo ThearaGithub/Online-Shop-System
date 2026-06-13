@@ -489,11 +489,20 @@ app.get('/api/admin/analytics/summary', async (req, res) => {
       GROUP BY p.brand ORDER BY revenue DESC
     `);
 
+    const productRes = await pool.query(`
+      SELECT oi.name, COALESCE(SUM(oi.quantity), 0) as count, COALESCE(SUM(oi.quantity * oi.price), 0) as revenue
+      FROM orders o
+      JOIN order_items oi ON oi."orderId" = o.id
+      WHERE o.status = 'Completed'${dateFilter}${adminFilter}
+      GROUP BY oi.name ORDER BY count DESC
+    `);
+
     res.json({
       productsSold: parseInt(salesRes.rows[0].productsSold),
       revenue: parseFloat(salesRes.rows[0].revenue),
       orderCount: parseInt(countRes.rows[0].count),
-      salesByBrand: brandRes.rows
+      salesByBrand: brandRes.rows,
+      salesByProduct: productRes.rows
     });
   } catch (err) {
     return res.status(500).json({ error: err.message });

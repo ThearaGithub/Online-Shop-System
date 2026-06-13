@@ -1,6 +1,7 @@
 let currentPeriod = 'all';
 let brandChart = null;
 let salesChart = null;
+let productChart = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   renderHeader();
@@ -107,6 +108,35 @@ function updateCharts(data) {
       responsive: true,
       plugins: {
         legend: { position: 'bottom', labels: { color: 'white', padding: 15 } }
+      }
+    }
+  });
+
+  // Products sold bar chart
+  const prodCtx = document.getElementById('saProductChart');
+  if (productChart) productChart.destroy();
+  const prod = data.salesByProduct || [];
+  const prodLabels = prod.map(d => d.name.length > 20 ? d.name.slice(0, 20) + '…' : d.name);
+  const prodValues = prod.map(d => parseInt(d.count));
+  const prodColors = ['#8b5cf6','#4a90e2','#e74c3c','#f1c40f','#2ecc71','#e67e22','#9b59b6','#1abc9c','#3498db','#e84393'];
+  productChart = new Chart(prodCtx, {
+    type: 'bar',
+    data: {
+      labels: prodLabels,
+      datasets: [{
+        label: 'Units Sold',
+        data: prodValues,
+        backgroundColor: prodLabels.map((_, i) => prodColors[i % prodColors.length]),
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#a0a0b0', stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.1)' } },
+        y: { ticks: { color: '#a0a0b0', font: { size: 10 } }, grid: { display: false } }
       }
     }
   });
