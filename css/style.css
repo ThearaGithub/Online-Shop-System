@@ -1787,12 +1787,12 @@ body {
 
 .thumb-gallery {
   display: flex;
-  gap: 10px;
+  gap: 12px;
 }
 
 .thumb-item {
-  width: 120px;
-  height: 90px;
+  width: 130px;
+  height: 95px;
   background: var(--bg-tertiary);
   border-radius: var(--radius-sm);
   display: flex;
