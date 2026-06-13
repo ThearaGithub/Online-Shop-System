@@ -118,7 +118,7 @@ async function loadStock() {
     const products = await res.json();
     const tbody = document.getElementById('sa-stock-list');
     if (products.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:30px;">No products found.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:30px;">No products found.</td></tr>';
       return;
     }
     tbody.innerHTML = products.map(p => `
@@ -131,6 +131,11 @@ async function loadStock() {
           <span style="color:${p.stock < 10 ? '#ff6b6b' : p.stock < 30 ? '#f1c40f' : '#2ecc71'};font-weight:700;">
             ${p.stock}
           </span>
+        </td>
+        <td>
+          <button class="btn-status" style="background:#27ae60;padding:4px 10px;font-size:11px;" onclick="addStock(${p.id}, 100)">
+            <i class="fas fa-plus"></i> +100
+          </button>
         </td>
       </tr>
     `).join('');
@@ -265,6 +270,23 @@ window.deleteSaOrder = async function(orderId) {
       loadSuperAdminDashboard();
     } else {
       Toast.show(data.message || 'Failed to delete order', 'error');
+    }
+  } catch (err) {
+    Toast.show('Network error', 'error');
+  }
+};
+
+window.addStock = async function(productId, amount) {
+  try {
+    const res = await fetch(`/api/admin/stock/${productId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount })
+    });
+    const data = await res.json();
+    if (data.success) {
+      Toast.show(`+${amount} stock added`, 'success');
+      loadStock();
     }
   } catch (err) {
     Toast.show('Network error', 'error');

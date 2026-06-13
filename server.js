@@ -432,6 +432,17 @@ app.delete('/api/orders/:id', async (req, res) => {
   }
 });
 
+// ─── STOCK MANAGEMENT ───────────────────────────
+app.put('/api/admin/stock/:id', async (req, res) => {
+  const { amount } = req.body;
+  try {
+    await pool.query(`UPDATE products SET stock = stock + $1 WHERE id = $2`, [amount, req.params.id]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // ─── ADVANCED ANALYTICS ────────────────────────
 app.get('/api/admin/analytics/summary', async (req, res) => {
   const { period, adminId } = req.query; // period: day, week, month, year
