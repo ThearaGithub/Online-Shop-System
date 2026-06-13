@@ -94,8 +94,23 @@ window.updateCartItemQty = function(productId, change, color, storage) {
   if (item) {
     const newQty = item.quantity + change;
     if (newQty > 0) {
-      Cart.updateQuantity(productId, newQty, c, s);
-      renderCart(); // Re-render to update UI
+      // Check stock limit when increasing
+      if (change > 0) {
+        fetch(`/api/products/${productId}`).then(r => r.json()).then(product => {
+          if (product.stock !== undefined && newQty > product.stock) {
+            Toast.show(`Only ${product.stock} available!`, 'error');
+            return;
+          }
+          Cart.updateQuantity(productId, newQty, c, s);
+          renderCart();
+        }).catch(() => {
+          Cart.updateQuantity(productId, newQty, c, s);
+          renderCart();
+        });
+      } else {
+        Cart.updateQuantity(productId, newQty, c, s);
+        renderCart();
+      }
     } else {
       // Prompt before removing if quantity drops to 0
       if (confirm('Remove this item from your cart?')) {

@@ -291,6 +291,14 @@ window.addCurrentToCart = function() {
     Toast.show('This product is sold out!', 'error');
     return;
   }
+  const cartItems = Cart.getItems();
+  const inCart = cartItems.find(i => i.productId === currentProduct.id);
+  const cartQty = inCart ? inCart.quantity : 0;
+  const totalWanted = cartQty + currentQuantity;
+  if (totalWanted > currentProduct.stock) {
+    Toast.show(`Only ${currentProduct.stock} available, you have ${cartQty} in cart!`, 'error');
+    return;
+  }
   Cart.addItem(
     currentProduct, 
     currentQuantity, 

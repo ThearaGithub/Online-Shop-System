@@ -136,8 +136,13 @@ const Cart = {
       item.selectedColor === selectedColor &&
       item.selectedStorage === selectedStorage
     );
+    const currentQty = existing ? existing.quantity : 0;
+    const maxStock = product.stock || Infinity;
+    const totalWanted = currentQty + quantity;
+    const actualQty = Math.min(totalWanted, maxStock);
+    if (actualQty <= 0) return items;
     if (existing) {
-      existing.quantity += quantity;
+      existing.quantity = actualQty;
     } else {
       items.push({
         productId: product.id,
@@ -145,7 +150,7 @@ const Cart = {
         brand: product.brand,
         price: product.price,
         image: product.image,
-        quantity,
+        quantity: actualQty,
         selectedColor,
         selectedStorage
       });
@@ -745,6 +750,15 @@ document.addEventListener('click', async function (e) {
 
   if (!product.inStock) {
     Toast.show(`${product.name} is sold out!`, 'error');
+    btn.innerHTML = originalHTML;
+    return;
+  }
+
+  const cartItems = Cart.getItems();
+  const inCart = cartItems.find(i => i.productId === product.id);
+  const cartQty = inCart ? inCart.quantity : 0;
+  if (cartQty >= product.stock) {
+    Toast.show(`Only ${product.stock} available, already in cart!`, 'error');
     btn.innerHTML = originalHTML;
     return;
   }
