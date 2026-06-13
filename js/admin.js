@@ -265,19 +265,20 @@ async function initAnalytics(period) {
 }
 
 window.updateOrderStatus = async function(orderId, newStatus) {
-  // Get admin email directly from localStorage as fallback
+  // Get admin email directly from localStorage
   let adminId;
   try {
     const userData = localStorage.getItem('genzshop_current_user');
     if (userData) {
       const parsed = JSON.parse(userData);
-      adminId = parsed.email;
+      if (parsed && parsed.email) adminId = parsed.email;
     }
   } catch(e) {}
   if (!adminId) {
     const user = Auth.getCurrentUser();
     adminId = user ? user.email : undefined;
   }
+  console.log('[ADMIN] Completing order with adminId:', adminId);
   if (await Orders.updateStatus(orderId, newStatus, adminId)) {
     Toast.show(`Order ${orderId} marked as ${newStatus}`, 'success');
     renderAdminDashboard();
