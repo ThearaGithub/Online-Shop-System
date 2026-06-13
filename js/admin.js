@@ -343,6 +343,8 @@ window.editUser = async function(userId) {
       } else {
         Toast.show(data.message || 'Failed to update user', 'error');
       }
+    } catch(e) {
+      Toast.show('Network error', 'error');
     }
   }
 };
