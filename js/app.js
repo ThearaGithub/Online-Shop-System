@@ -634,6 +634,14 @@ document.addEventListener('DOMContentLoaded', () => {
   observeReveal(document.querySelectorAll(
     '.hero-carousel, .section-header, .categories-grid, .admin-page, .auth-container, .contact-page, .page-title-bar'
   ));
+
+  // Scroll-to-top button visibility
+  const scrollBtn = document.getElementById('scroll-top-btn');
+  if (scrollBtn) {
+    window.addEventListener('scroll', () => {
+      scrollBtn.classList.toggle('visible', window.scrollY > 400);
+    });
+  }
 });
 
 // ─── UTILITY FUNCTIONS ───────────────────────────────────────
