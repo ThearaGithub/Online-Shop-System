@@ -33,7 +33,7 @@ const PRODUCTS = [
     inStock: true,
     featured: true,
     section: "special-offer",
-    image: "assets/iPhone 17 Pro Max.png"
+    image: "assets/iPhone 17 Pro Max for homepage.png"
   },
   {
     id: 2,
