@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   renderHeader();
 
-  if (!Auth.isLoggedIn() || Auth.getCurrentUser().role !== 'super_admin') {
+  if (!Auth.isLoggedIn() || Auth.getCurrentUser().role !== 'superadmin') {
     Toast.show('Access Denied. Super Admins only.', 'error');
     window.location.href = 'index.html';
     return;
@@ -73,23 +73,23 @@ async function renderSuperAdminDashboard() {
 
     // Fetch all users
     const allUsers = await Auth.getUsers();
-    const admins = allUsers.filter(u => u.role === 'admin' || u.role === 'super_admin');
+    const admins = allUsers.filter(u => u.role === 'admin' || u.role === 'superadmin');
     document.getElementById('stat-total-admins').textContent = admins.length;
 
     // Render Admins Table
     const adminTbody = document.getElementById('admin-list');
     adminTbody.innerHTML = admins.map(user => `
       <tr>
-        <td style="color: white;">${user.firstName} ${user.lastName} ${user.role === 'super_admin' ? '<span style="background: #f5a623; color: #000; font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600;">SUPER</span>' : ''}</td>
+        <td style="color: white;">${user.firstName} ${user.lastName} ${user.role === 'superadmin' ? '<span style="background: #f5a623; color: #000; font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600;">SUPER</span>' : ''}</td>
         <td style="color: white;">${user.email}</td>
         <td>
-          <span style="background: ${user.role === 'super_admin' ? 'rgba(245,166,35,0.15)' : 'rgba(102,126,234,0.15)'}; color: ${user.role === 'super_admin' ? '#f5a623' : '#667eea'}; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">
-            ${user.role === 'super_admin' ? 'Super Admin' : 'Admin'}
+          <span style="background: ${user.role === 'superadmin' ? 'rgba(245,166,35,0.15)' : 'rgba(102,126,234,0.15)'}; color: ${user.role === 'superadmin' ? '#f5a623' : '#667eea'}; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+            ${user.role === 'superadmin' ? 'Super Admin' : 'Admin'}
           </span>
         </td>
         <td style="color: var(--text-secondary); font-size: 12px;">${user.createdAt ? formatDate(user.createdAt) : 'N/A'}</td>
         <td>
-          ${user.role !== 'super_admin' ? `
+          ${user.role !== 'superadmin' ? `
             <button class="btn-status" style="background: #e74c3c;" onclick="deleteAdmin('${user.id}')">
               <i class="fas fa-trash"></i> Remove
             </button>
@@ -108,7 +108,7 @@ async function renderSuperAdminDashboard() {
           <select onchange="changeUserRole('${user.id}', this.value)" style="background: var(--bg-primary); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 4px 8px; border-radius: var(--radius-sm); font-size: 12px;">
             <option value="customer" ${user.role === 'customer' ? 'selected' : ''}>Customer</option>
             <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>Admin</option>
-            <option value="super_admin" ${user.role === 'super_admin' ? 'selected' : ''}>Super Admin</option>
+            <option value="superadmin" ${user.role === 'superadmin' ? 'selected' : ''}>Super Admin</option>
           </select>
         </td>
         <td style="color: var(--text-secondary); font-size: 12px;">${user.createdAt ? formatDate(user.createdAt) : 'N/A'}</td>

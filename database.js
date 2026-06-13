@@ -101,7 +101,7 @@ const initDb = async () => {
     if (superAdminRes.rows.length === 0) {
       await pool.query(`INSERT INTO users (id, "firstName", "lastName", email, password, role, "createdAt")
               VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-        ['super-001', 'Super', 'Admin', 'super@shopflow.com', 'super123', 'super_admin', new Date().toISOString()]);
+        ['super-001', 'Super', 'Admin', 'super@shopflow.com', 'super123', 'superadmin', new Date().toISOString()]);
       console.log('Seeded Super Admin User');
     }
   } catch (err) {

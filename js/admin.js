@@ -14,12 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // Show Super Admin link if user is super_admin
+  // Show Super Admin link if user is superadmin
   if (Auth.isSuperAdmin()) {
     const titleBar = document.querySelector('.page-title-bar');
     if (titleBar) {
       const link = document.createElement('a');
-      link.href = 'super-admin.html';
+      link.href = 'superadmin.html';
       link.style.cssText = 'display: inline-block; margin-left: 15px; background: #f5a623; color: #000; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; text-decoration: none;';
       link.innerHTML = '<i class="fas fa-crown"></i> Super Admin';
       titleBar.querySelector('h1').after(link);

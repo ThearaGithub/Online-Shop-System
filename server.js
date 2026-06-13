@@ -114,7 +114,7 @@ app.get('/api/admin/analytics/today', async (req, res) => {
 app.get('/api/admin/users/admins', async (req, res) => {
   try {
     const result = await pool.query(
-      `SELECT id, "firstName", "lastName", email, role, "createdAt" FROM users WHERE role IN ('admin', 'super_admin')`
+      `SELECT id, "firstName", "lastName", email, role, "createdAt" FROM users WHERE role IN ('admin', 'superadmin')`
     );
     res.json(result.rows);
   } catch (err) {
@@ -124,7 +124,7 @@ app.get('/api/admin/users/admins', async (req, res) => {
 
 app.put('/api/admin/users/:id/role', async (req, res) => {
   const { role } = req.body;
-  if (!['customer', 'admin', 'super_admin'].includes(role)) {
+  if (!['customer', 'admin', 'superadmin'].includes(role)) {
     return res.status(400).json({ success: false, message: 'Invalid role' });
   }
   try {

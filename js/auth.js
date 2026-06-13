@@ -31,10 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (result.success) {
           Toast.show(`Welcome back, ${result.user.firstName}!`, 'success');
           
-          // If admin/super_admin, go to respective dashboard, else home
+          // If admin/superadmin, go to respective dashboard, else home
           setTimeout(() => {
-            if (result.user.role === 'super_admin') {
-              window.location.href = 'super-admin.html';
+            if (result.user.role === 'superadmin') {
+              window.location.href = 'superadmin.html';
             } else if (result.user.role === 'admin') {
               window.location.href = 'admin.html';
             } else {
