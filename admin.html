@@ -47,14 +47,27 @@
         <button class="period-btn" data-period="year" onclick="setPeriod('year')">This Year</button>
       </div>
 
-      <div id="admin-summary-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px;">
-        <div class="stat-card" style="padding:14px;">
-          <div class="stat-value" id="admin-period-sold" style="font-size:22px;">0</div>
-          <div class="stat-label">Products Sold</div>
+      <div class="period-stats-grid">
+        <div class="period-stat-card" style="--stat-accent:#8b5cf6;">
+          <div class="period-stat-icon"><i class="fas fa-shopping-bag"></i></div>
+          <div class="period-stat-info">
+            <div class="period-stat-value" id="admin-period-sold">0</div>
+            <div class="period-stat-label">Products Sold <span class="period-label" id="admin-period-sold-label">(all time)</span></div>
+          </div>
         </div>
-        <div class="stat-card" style="padding:14px;">
-          <div class="stat-value" id="admin-period-revenue" style="font-size:22px;">$0</div>
-          <div class="stat-label">Revenue</div>
+        <div class="period-stat-card" style="--stat-accent:#2ecc71;">
+          <div class="period-stat-icon"><i class="fas fa-dollar-sign"></i></div>
+          <div class="period-stat-info">
+            <div class="period-stat-value" id="admin-period-revenue">$0</div>
+            <div class="period-stat-label">Revenue <span class="period-label" id="admin-period-rev-label">(all time)</span></div>
+          </div>
+        </div>
+        <div class="period-stat-card" style="--stat-accent:#4a90e2;">
+          <div class="period-stat-icon"><i class="fas fa-chart-line"></i></div>
+          <div class="period-stat-info">
+            <div class="period-stat-value" id="admin-avg-order">$0</div>
+            <div class="period-stat-label">Avg. Order Value <span class="period-label">(all time)</span></div>
+          </div>
         </div>
       </div>
 

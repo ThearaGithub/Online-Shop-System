@@ -44,6 +44,15 @@ async function loadAnalytics(period) {
   try {
     const res = await fetch(`/api/admin/analytics/summary?period=${period}`);
     const data = await res.json();
+    document.getElementById('sa-period-sold').textContent = data.productsSold || 0;
+    document.getElementById('sa-period-revenue').textContent = formatPrice(data.revenue || 0);
+    const avgOrder = data.orderCount > 0 ? data.revenue / data.orderCount : 0;
+    document.getElementById('sa-avg-order').textContent = formatPrice(avgOrder);
+
+    const periodName = period === 'all' ? '(all time)' : `(${period})`;
+    document.getElementById('sa-period-sold-label').textContent = periodName;
+    document.getElementById('sa-period-rev-label').textContent = periodName;
+
     updateCharts(data);
   } catch (err) {
     console.error('Analytics error:', err);

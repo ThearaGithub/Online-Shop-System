@@ -372,6 +372,13 @@ app.get('/api/admin/analytics/summary', async (req, res) => {
   const adminFilter = adminId ? ` AND o."approvedBy" = '${adminId}'` : '';
 
   try {
+    const countRes = await pool.query(`
+      SELECT COUNT(DISTINCT o.id) as count
+      FROM orders o
+      JOIN order_items oi ON oi."orderId" = o.id
+      WHERE o.status = 'Completed'${dateFilter}${adminFilter}
+    `);
+
     const salesRes = await pool.query(`
       SELECT COALESCE(SUM(oi.quantity), 0) as "productsSold",
              COALESCE(SUM(oi.quantity * oi.price), 0) as revenue
@@ -392,6 +399,7 @@ app.get('/api/admin/analytics/summary', async (req, res) => {
     res.json({
       productsSold: parseInt(salesRes.rows[0].productsSold),
       revenue: parseFloat(salesRes.rows[0].revenue),
+      orderCount: parseInt(countRes.rows[0].count),
       salesByBrand: brandRes.rows
     });
   } catch (err) {

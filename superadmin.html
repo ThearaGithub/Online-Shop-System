@@ -45,6 +45,30 @@
         <button class="period-btn" data-period="year" onclick="setPeriod('year')">This Year</button>
       </div>
 
+      <div class="period-stats-grid">
+        <div class="period-stat-card" style="--stat-accent:#8b5cf6;">
+          <div class="period-stat-icon"><i class="fas fa-shopping-bag"></i></div>
+          <div class="period-stat-info">
+            <div class="period-stat-value" id="sa-period-sold">0</div>
+            <div class="period-stat-label">Products Sold <span class="period-label" id="sa-period-sold-label">(all time)</span></div>
+          </div>
+        </div>
+        <div class="period-stat-card" style="--stat-accent:#2ecc71;">
+          <div class="period-stat-icon"><i class="fas fa-dollar-sign"></i></div>
+          <div class="period-stat-info">
+            <div class="period-stat-value" id="sa-period-revenue">$0</div>
+            <div class="period-stat-label">Revenue <span class="period-label" id="sa-period-rev-label">(all time)</span></div>
+          </div>
+        </div>
+        <div class="period-stat-card" style="--stat-accent:#4a90e2;">
+          <div class="period-stat-icon"><i class="fas fa-chart-line"></i></div>
+          <div class="period-stat-info">
+            <div class="period-stat-value" id="sa-avg-order">$0</div>
+            <div class="period-stat-label">Avg. Order Value <span class="period-label">(all time)</span></div>
+          </div>
+        </div>
+      </div>
+
       <div class="admin-charts-grid">
         <div class="chart-container">
           <h3 class="chart-title">Revenue by Brand</h3>

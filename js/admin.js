@@ -176,6 +176,12 @@ async function initAnalytics(period) {
     const summary = await summaryRes.json();
     document.getElementById('admin-period-sold').textContent = summary.productsSold || 0;
     document.getElementById('admin-period-revenue').textContent = formatPrice(summary.revenue || 0);
+    const avgOrder = summary.orderCount > 0 ? summary.revenue / summary.orderCount : 0;
+    document.getElementById('admin-avg-order').textContent = formatPrice(avgOrder);
+
+    const periodName = period === 'all' ? '(all time)' : `(${period})`;
+    document.getElementById('admin-period-sold-label').textContent = periodName;
+    document.getElementById('admin-period-rev-label').textContent = periodName;
 
     // 1. Revenue Trend Chart
     const revRes = await fetch('/api/admin/analytics/revenue');
