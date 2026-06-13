@@ -68,6 +68,93 @@ app.get('/api/admin/analytics/categories', async (req, res) => {
   }
 });
 
+// ─── TODAY'S SALES ANALYTICS ────────────────────
+app.get('/api/admin/analytics/today', async (req, res) => {
+  try {
+    const today = new Date().toISOString().split('T')[0];
+    const result = await pool.query(`
+      SELECT 
+        COUNT(*)::int as order_count,
+        COALESCE(SUM(total), 0) as total_revenue,
+        COALESCE(AVG(total), 0) as avg_order_value
+      FROM orders
+      WHERE DATE("createdAt") = $1
+    `, [today]);
+
+    const pendingRes = await pool.query(`
+      SELECT COUNT(*)::int as count FROM orders WHERE status = 'Processing'
+    `);
+
+    const totalRes = await pool.query(`
+      SELECT 
+        COUNT(*)::int as total_orders,
+        COALESCE(SUM(total), 0) as lifetime_revenue
+      FROM orders
+    `);
+
+    res.json({
+      today: {
+        orderCount: parseInt(result.rows[0].order_count),
+        totalRevenue: parseFloat(result.rows[0].total_revenue),
+        avgOrderValue: parseFloat(result.rows[0].avg_order_value),
+        estimatedProfit: parseFloat((result.rows[0].total_revenue * 0.3).toFixed(2))
+      },
+      pending: parseInt(pendingRes.rows[0].count),
+      lifetime: {
+        totalOrders: parseInt(totalRes.rows[0].total_orders),
+        totalRevenue: parseFloat(totalRes.rows[0].lifetime_revenue)
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ─── SUPER ADMIN: MANAGE ADMINS ──────────────
+app.get('/api/admin/users/admins', async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT id, "firstName", "lastName", email, role, "createdAt" FROM users WHERE role IN ('admin', 'super_admin')`
+    );
+    res.json(result.rows);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/admin/users/:id/role', async (req, res) => {
+  const { role } = req.body;
+  if (!['customer', 'admin', 'super_admin'].includes(role)) {
+    return res.status(400).json({ success: false, message: 'Invalid role' });
+  }
+  try {
+    await pool.query(`UPDATE users SET role = $1 WHERE id = $2`, [role, req.params.id]);
+    res.json({ success: true });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+app.post('/api/admin/admins', async (req, res) => {
+  const { firstName, lastName, email, password, role } = req.body;
+  const id = 'admin-' + Date.now();
+  const createdAt = new Date().toISOString();
+  const userRole = role || 'admin';
+
+  try {
+    await pool.query(
+      `INSERT INTO users (id, "firstName", "lastName", email, password, role, "createdAt") VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+      [id, firstName, lastName, email.toLowerCase(), password, userRole, createdAt]
+    );
+    res.json({ success: true, user: { id, firstName, lastName, email: email.toLowerCase(), role: userRole } });
+  } catch (err) {
+    if (err.message.includes('unique constraint')) {
+      return res.status(400).json({ success: false, message: 'Email already registered.' });
+    }
+    return res.status(500).json({ success: false, message: 'Database error.' });
+  }
+});
+
 // ─── USERS API ────────────────────────────
 app.post('/api/auth/signup', async (req, res) => {
   const { firstName, lastName, email, password } = req.body;

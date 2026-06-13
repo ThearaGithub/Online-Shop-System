@@ -95,6 +95,15 @@ const initDb = async () => {
         console.log('Seeded', u.email);
       }
     }
+
+    // Seed Super Admin User
+    const superAdminRes = await pool.query("SELECT * FROM users WHERE email = 'super@shopflow.com'");
+    if (superAdminRes.rows.length === 0) {
+      await pool.query(`INSERT INTO users (id, "firstName", "lastName", email, password, role, "createdAt")
+              VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        ['super-001', 'Super', 'Admin', 'super@shopflow.com', 'super123', 'super_admin', new Date().toISOString()]);
+      console.log('Seeded Super Admin User');
+    }
   } catch (err) {
     console.error("Database initialization error:", err);
   }

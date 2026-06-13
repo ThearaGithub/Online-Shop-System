@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Admin Panel — ShopFlow</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23dc3545'/><text x='16' y='23' font-size='20' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>S</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <main class="main-content">
+    <div class="page-title-bar">
+      <h1><i class="fas fa-crown" style="color: #f5a623;"></i> Super Admin Dashboard</h1>
+    </div>
+
+    <div class="admin-page">
+      <!-- Today's Sales Board -->
+      <h2 class="section-title"><i class="fas fa-chart-line"></i> Today's Sales Board</h2>
+
+      <div class="admin-stats" id="today-stats">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-today-orders">0</div>
+          <div class="stat-label">Today's Orders</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-today-revenue">$0</div>
+          <div class="stat-label">Today's Revenue</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-today-profit">$0</div>
+          <div class="stat-label">Estimated Profit</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-today-avg">$0</div>
+          <div class="stat-label">Avg Order Value</div>
+        </div>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="admin-stats" id="quick-stats">
+        <div class="stat-card" style="border-left: 4px solid #667eea;">
+          <div class="stat-value" id="stat-total-orders">0</div>
+          <div class="stat-label">Total Orders (All Time)</div>
+        </div>
+        <div class="stat-card" style="border-left: 4px solid #2ecc71;">
+          <div class="stat-value" id="stat-lifetime-revenue">$0</div>
+          <div class="stat-label">Lifetime Revenue</div>
+        </div>
+        <div class="stat-card" style="border-left: 4px solid #e74c3c;">
+          <div class="stat-value" id="stat-pending-orders">0</div>
+          <div class="stat-label">Pending Orders</div>
+        </div>
+        <div class="stat-card" style="border-left: 4px solid #f5a623;">
+          <div class="stat-value" id="stat-total-admins">0</div>
+          <div class="stat-label">Total Admins</div>
+        </div>
+      </div>
+
+      <!-- Manage Admins Section -->
+      <h2 style="margin-top: 40px;"><i class="fas fa-user-shield"></i> Manage Administrators</h2>
+      <div style="margin-bottom: 15px;">
+        <button class="btn-primary" onclick="showAddAdminForm()" style="padding: 10px 20px;">
+          <i class="fas fa-plus"></i> Add New Admin
+        </button>
+      </div>
+      <div id="add-admin-form" style="display:none; background: var(--bg-elevated); padding: 20px; border-radius: var(--radius-md); margin-bottom: 20px;">
+        <h3 style="color: white; margin-bottom: 15px;">Create Admin Account</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+          <input type="text" id="new-admin-firstname" placeholder="First Name" class="form-input" style="background: var(--bg-primary); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 10px 14px; border-radius: var(--radius-sm);">
+          <input type="text" id="new-admin-lastname" placeholder="Last Name" class="form-input" style="background: var(--bg-primary); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 10px 14px; border-radius: var(--radius-sm);">
+          <input type="email" id="new-admin-email" placeholder="Email" class="form-input" style="background: var(--bg-primary); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 10px 14px; border-radius: var(--radius-sm);">
+          <input type="password" id="new-admin-password" placeholder="Password" class="form-input" style="background: var(--bg-primary); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 10px 14px; border-radius: var(--radius-sm);">
+          <select id="new-admin-role" class="form-input" style="background: var(--bg-primary); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 10px 14px; border-radius: var(--radius-sm);">
+            <option value="admin">Admin</option>
+            <option value="super_admin">Super Admin</option>
+          </select>
+        </div>
+        <div style="margin-top: 12px; display: flex; gap: 10px;">
+          <button class="btn-primary" onclick="createAdmin()" style="padding: 10px 24px;"><i class="fas fa-save"></i> Create</button>
+          <button onclick="hideAddAdminForm()" style="padding: 10px 24px; background: rgba(255,255,255,0.1); color: white; border: none; border-radius: var(--radius-sm); cursor: pointer;"><i class="fas fa-times"></i> Cancel</button>
+        </div>
+        <div id="add-admin-msg" style="margin-top: 10px;"></div>
+      </div>
+      <div style="overflow-x: auto;">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Created</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="admin-list">
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Manage Users Section -->
+      <h2 style="margin-top: 40px;"><i class="fas fa-users"></i> Registered Users</h2>
+      <div style="overflow-x: auto;">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Created</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="super-users-list">
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Products Overview Section -->
+      <h2 style="margin-top: 40px;"><i class="fas fa-box"></i> Products Overview</h2>
+      <div style="overflow-x: auto;">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Brand</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Featured</th>
+            </tr>
+          </thead>
+          <tbody id="super-products-list">
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Admin Panel Link -->
+      <div style="margin-top: 40px; text-align: center;">
+        <a href="admin.html" style="color: var(--accent-purple); font-size: 14px;">
+          <i class="fas fa-arrow-left"></i> Go to Admin Panel
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/products-data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/super-admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl *)",
+      "Bash(mv \"assets/Venu® 4 41mm.png\" \"assets/Venu 4 41mm.png\")",
+      "Bash(mv \"assets/Venu® 4 45mm.png\" \"assets/Venu 4 45mm.png\")",
+      "Bash(node *)",
+      "Bash(netstat -ano)",
+      "Bash(findstr :3000)",
+      "Bash(npm start *)"
+    ]
+  }
+}

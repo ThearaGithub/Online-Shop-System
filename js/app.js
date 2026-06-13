@@ -58,7 +58,12 @@ const Auth = {
 
   isAdmin() {
     const user = this.getCurrentUser();
-    return user && (user.role === 'admin' || user.role === 'superadmin');
+    return user && (user.role === 'admin' || user.role === 'super_admin');
+  },
+
+  isSuperAdmin() {
+    const user = this.getCurrentUser();
+    return user && user.role === 'super_admin';
   },
 
   async signup(firstName, lastName, email, password) {
@@ -430,14 +435,14 @@ function renderHeader() {
               <div class="user-avatar"><i class="fas fa-user"></i></div>
               <div class="user-info">
                 <strong>${user.firstName}</strong>
-                <span class="user-role">${user.role === 'admin' ? 'Admin' : user.role === 'superadmin' ? 'Super Admin' : 'My Account'}</span>
+                <span class="user-role">${user.role === 'super_admin' ? 'Super Admin' : user.role === 'admin' ? 'Admin' : 'My Account'}</span>
               </div>
               <i class="fas fa-chevron-down" style="font-size:10px;color:#a0a0b0"></i>
             </div>
             <div class="user-dropdown" id="user-dropdown">
               <a href="orders.html"><i class="fas fa-box"></i> My Orders</a>
-              ${user.role === 'admin' || user.role === 'superadmin' ? '<a href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a>' : ''}
-              ${user.role === 'superadmin' ? '<a href="superadmin.html"><i class="fas fa-shield-alt"></i> Super Admin</a>' : ''}
+              ${user.role === 'super_admin' ? '<a href="super-admin.html"><i class="fas fa-crown"></i> Super Admin Panel</a>' : ''}
+              ${user.role === 'admin' || user.role === 'super_admin' ? '<a href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a>' : ''}
               <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
             </div>
           ` : `
