@@ -429,9 +429,33 @@ app.get('/api/superadmin/approvals', async (req, res) => {
       WHERE o.status = 'Completed' AND o."approvedBy" IS NOT NULL
       ORDER BY o."approvedAt" DESC
     `);
-    res.json(result.rows);
+    const orders = result.rows;
+    for (const order of orders) {
+      const itemsRes = await pool.query(`SELECT name, quantity, price FROM order_items WHERE "orderId" = $1`, [order.id]);
+      order.items = itemsRes.rows;
+    }
+    res.json(orders);
   } catch (err) {
     return res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/superadmin/approvals/:id/disapprove', async (req, res) => {
+  try {
+    const orderRes = await pool.query(`SELECT * FROM orders WHERE id = $1`, [req.params.id]);
+    if (orderRes.rows.length === 0) return res.status(404).json({ success: false, message: 'Order not found' });
+    const order = orderRes.rows[0];
+    if (order.status !== 'Completed') return res.status(400).json({ success: false, message: 'Order is not completed' });
+
+    // Increment stock back
+    const itemsRes = await pool.query(`SELECT * FROM order_items WHERE "orderId" = $1`, [req.params.id]);
+    for (const item of itemsRes.rows) {
+      await pool.query(`UPDATE products SET stock = stock + $1 WHERE id = $2`, [item.quantity, item.productId]);
+    }
+    await pool.query(`UPDATE orders SET status = 'Processing', "approvedBy" = NULL, "approvedAt" = NULL WHERE id = $1`, [req.params.id]);
+    res.json({ success: true });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err.message });
   }
 });
 

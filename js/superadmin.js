@@ -182,22 +182,50 @@ async function loadApprovals() {
     const approvals = await res.json();
     const tbody = document.getElementById('sa-approvals-list');
     if (approvals.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:30px;">No completed orders yet.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:30px;">No completed orders yet.</td></tr>';
       return;
     }
     tbody.innerHTML = approvals.map(a => `
       <tr>
         <td style="font-weight:700;color:white;font-size:12px;">${a.id}</td>
         <td style="color:white;">${a.customerName || 'N/A'}</td>
+        <td style="font-size:12px;">
+          ${(a.items || []).map(item => `
+            <div style="white-space:nowrap;color:var(--text-secondary);">
+              <span style="color:white;">${item.name}</span> <span style="color:var(--text-muted);">×${item.quantity}</span>
+            </div>
+          `).join('')}
+        </td>
         <td style="font-weight:600;color:white;">${formatPrice(a.total)}</td>
         <td style="color:var(--accent-purple);">${a.approvedBy}</td>
         <td style="font-size:12px;">${formatDate(a.approvedAt)}</td>
+        <td>
+          <button class="btn-status" style="background:#e74c3c;" onclick="disapproveOrder('${a.id}')">
+            <i class="fas fa-times"></i> Disapprove
+          </button>
+        </td>
       </tr>
     `).join('');
   } catch (err) {
     console.error('Approvals error:', err);
   }
 }
+
+window.disapproveOrder = async function(orderId) {
+  if (!confirm(`Disapprove order ${orderId}? This will revert it back to "Processing" and restore stock.`)) return;
+  try {
+    const res = await fetch(`/api/superadmin/approvals/${orderId}/disapprove`, { method: 'PUT' });
+    const data = await res.json();
+    if (data.success) {
+      Toast.show(`Order ${orderId} disapproved — reverted to Processing`, 'success');
+      loadSuperAdminDashboard();
+    } else {
+      Toast.show(data.message || 'Failed to disapprove', 'error');
+    }
+  } catch (err) {
+    Toast.show('Network error', 'error');
+  }
+};
 
 window.setPeriod = function(period) {
   currentPeriod = period;
