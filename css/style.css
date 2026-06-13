@@ -895,6 +895,39 @@ input, select, textarea {
   justify-content: center;
   overflow: hidden;
   transition: background var(--transition-normal);
+  position: relative;
+}
+
+.sold-out-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+}
+
+.sold-out-overlay span {
+  background: #ff6b6b;
+  color: white;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 6px 18px;
+  border-radius: 6px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.product-card.sold-out .btn-add-cart {
+  background: #555;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.product-card.sold-out .btn-add-cart:hover {
+  transform: none;
+  box-shadow: none;
 }
 
 .product-image:hover {

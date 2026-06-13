@@ -182,14 +182,19 @@ function renderProductDetail() {
       
       <!-- Add to Cart -->
       <div class="cart-row">
-        <div class="qty-control">
-          <button class="qty-btn" onclick="updateQty(-1)">-</button>
-          <input type="number" class="qty-value" id="qty-input" value="1" min="1" readonly>
-          <button class="qty-btn" onclick="updateQty(1)">+</button>
-        </div>
-        <button class="btn-add-to-cart-detail" onclick="addCurrentToCart()">
-          <i class="fas fa-shopping-cart"></i> Add to Cart
-        </button>
+        ${p.inStock ? `
+          <div class="qty-control">
+            <button class="qty-btn" onclick="updateQty(-1)">-</button>
+            <input type="number" class="qty-value" id="qty-input" value="1" min="1" readonly>
+            <button class="qty-btn" onclick="updateQty(1)">+</button>
+          </div>
+          <button class="btn-add-to-cart-detail" onclick="addCurrentToCart()">
+            <i class="fas fa-shopping-cart"></i> Add to Cart
+          </button>
+          <div style="color:var(--color-success);font-size:12px;margin-left:10px;"><i class="fas fa-check-circle"></i> In Stock</div>
+        ` : `
+          <div style="color:#ff6b6b;font-size:14px;font-weight:700;padding:16px 0;"><i class="fas fa-times-circle"></i> Sold Out</div>
+        `}
       </div>
       
       <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 12px; color: var(--text-secondary); display: flex; gap: 20px;">

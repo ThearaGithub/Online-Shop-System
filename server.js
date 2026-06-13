@@ -145,7 +145,7 @@ app.get('/api/products', async (req, res) => {
       ...p,
       specs: p.specs ? (typeof p.specs === 'string' ? JSON.parse(p.specs) : p.specs) : {},
       colors: p.colors ? (typeof p.colors === 'string' ? JSON.parse(p.colors) : p.colors) : [],
-      inStock: p.inStock === true || p.inStock === 1,
+      inStock: (p.stock || 0) > 0,
       featured: p.featured === true || p.featured === 1,
       originalPrice: p.originalPrice || null
     }));
@@ -163,7 +163,7 @@ app.get('/api/products/:id', async (req, res) => {
     const row = result.rows[0];
     row.specs = row.specs ? (typeof row.specs === 'string' ? JSON.parse(row.specs) : row.specs) : {};
     row.colors = row.colors ? (typeof row.colors === 'string' ? JSON.parse(row.colors) : row.colors) : [];
-    row.inStock = row.inStock === true || row.inStock === 1;
+    row.inStock = (row.stock || 0) > 0;
     row.featured = row.featured === true || row.featured === 1;
     row.originalPrice = row.originalPrice || null;
     res.json(row);

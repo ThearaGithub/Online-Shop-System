@@ -685,12 +685,14 @@ function renderStars(rating) {
 
 function createProductCard(product) {
   const hasDiscount = product.discount > 0 && product.originalPrice;
+  const soldOut = !product.inStock;
   return `
-    <div class="product-card" data-product-id="${product.id}">
+    <div class="product-card ${soldOut ? 'sold-out' : ''}" data-product-id="${product.id}">
       ${hasDiscount ? `<div class="discount-badge">$${product.discount} Off</div>` : ''}
       <a href="product-detail.html?id=${product.id}" class="product-image-link">
         <div class="product-image">
           <img src="${product.image}" alt="${product.name}" class="product-img" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\\'product-placeholder\\'><i class=\\'fas fa-mobile-alt\\'></i></div>'">
+          ${soldOut ? '<div class="sold-out-overlay"><span>Sold Out</span></div>' : ''}
         </div>
       </a>
       <a href="product-detail.html?id=${product.id}" class="product-name-link">
@@ -711,9 +713,9 @@ function createProductCard(product) {
           <span>Deal ends in ${Math.floor(Math.random() * 30 + 5)}d</span>
         </div>
       ` : ''}
-      <button class="btn-add-cart" data-product-id="${product.id}">
+      <button class="btn-add-cart" data-product-id="${product.id}" ${soldOut ? 'disabled' : ''}>
         <i class="fas fa-shopping-cart"></i>
-        Add to Cart
+        ${soldOut ? 'Sold Out' : 'Add to Cart'}
       </button>
     </div>
   `;
@@ -723,6 +725,7 @@ document.addEventListener('click', async function (e) {
   const btn = e.target.closest('.btn-add-cart');
   if (!btn) return;
   e.preventDefault();
+  if (btn.disabled) return;
   const productId = parseInt(btn.dataset.productId);
 
   const originalHTML = btn.innerHTML;
