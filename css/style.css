@@ -906,6 +906,12 @@ input, select, textarea {
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-md);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.product-card.sold-out:hover .sold-out-overlay {
+  opacity: 1;
 }
 
 .sold-out-overlay span {

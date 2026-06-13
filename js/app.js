@@ -712,6 +712,7 @@ function createProductCard(product) {
         ${hasDiscount ? `<span class="original-price">${formatPrice(product.originalPrice)}</span>` : ''}
       </div>
       ${product.price >= 100 ? `<div class="monthly-payment">Or ${formatPrice(product.price / 12)}/mo. for 12 mo.</div>` : ''}
+      ${product.stock > 0 ? `<div class="stock-count" style="font-size:11px;margin:2px 0;color:${product.stock < 5 ? '#ff6b6b' : product.stock < 15 ? '#f1c40f' : '#2ecc71'};">${product.stock} left</div>` : ''}
       ${hasDiscount ? `
         <div class="deal-timer">
           <i class="fas fa-clock"></i>

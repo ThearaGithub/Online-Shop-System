@@ -124,6 +124,7 @@ function renderProductDetail() {
         <span class="detail-price">${formatPrice(p.price)}</span>
         ${hasDiscount ? `<span class="detail-original-price">${formatPrice(p.originalPrice)}</span>` : ''}
         ${p.price >= 100 ? `<div class="detail-installment" style="margin-top:5px;">Up to 12 months installment: <strong>${formatPrice(p.price/12)}/mo.</strong></div>` : ''}
+        ${p.stock > 0 ? `<div style="margin-top:6px;font-size:13px;color:${p.stock < 5 ? '#ff6b6b' : p.stock < 15 ? '#f1c40f' : '#2ecc71'};"><i class="fas fa-box"></i> ${p.stock} left in stock</div>` : '<div style="margin-top:6px;font-size:13px;color:#ff6b6b;"><i class="fas fa-times-circle"></i> Out of stock</div>'}
       </div>
       
       <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
