@@ -60,61 +60,61 @@ const BANNERS = [
   {
     title: 'Precision on Your Wrist',
     desc: 'The new Series 10 Smartwatch. Advanced health tracking, stunning OLED display, and 7-day battery life.',
-    img: 'assets/Venu 4 45mm.png',
+    img: 'assets/Venu 4 45mm - removed bg.png',
     link: 'products.html?category=Smart+Watch'
   },
   {
     title: 'Pure Sound, Zero Wires',
     desc: 'Immerse yourself in high-fidelity audio with our latest noise-canceling headphones collection.',
-    img: 'assets/Galaxy Buds 4.png',
+    img: 'assets/Galaxy Buds 4 - removed bg.png',
     link: 'products.html?category=Accessories'
   },
   {
     title: 'Smarter, Faster, Better',
     desc: 'Explore the Google Pixel 10a. The most helpful phone yet with AI-powered photography and seamless integration.',
-    img: 'assets/Google Pixel 10a.png',
+    img: 'assets/Google Pixel 10a - removed bg.png',
     link: 'products.html'
   },
   {
     title: 'Unmatched Power',
     desc: 'Samsung Galaxy S26 Ultra. Rewrite the rules of productivity with the integrated S-Pen and 200MP camera.',
-    img: 'assets/Samsung Galaxy S26 Ultra.png',
+    img: 'assets/Samsung Galaxy S26 Ultra - removed bg.png',
     link: 'products.html'
   },
   {
     title: 'Pre-Loved, Pro Quality',
     desc: 'Get premium tech at a fraction of the cost. Certified pre-owned devices with 1-year warranty.',
-    img: 'assets/iPhone 15 Pro Max.png',
+    img: 'assets/iPhone 15 Pro Max - removed bg.png',
     link: 'products.html?category=SecondHand'
   },
   {
     title: 'Elevate Your Style',
     desc: 'Sleek designs and premium builds. Discover the minimalism of the Nothing Phone series.',
-    img: 'assets/Nothing Phone (4a).png',
+    img: 'assets/Nothing Phone (4a) - removed bg.png',
     link: 'products.html'
   },
   {
     title: 'The Watch That Does It All',
     desc: 'Garmin Venu 4. Your ultimate companion for fitness, health, and outdoor adventures.',
-    img: 'assets/Venu 4 41mm.png',
+    img: 'assets/Venu 4 41mm - removed bg.png',
     link: 'products.html?category=Smart+Watch'
   },
   {
     title: 'Flash Sale: Up to 40% Off',
     desc: 'Limited time offers on our best-selling devices. Grab the Realme 16 Pro+ before they are gone!',
-    img: 'assets/Realme 16 Pro+.png',
+    img: 'assets/Realme 16 Pro+ - removed bg.png',
     link: 'products.html?filter=deals'
   },
   {
     title: 'The New Standard of Audio',
     desc: 'Experience crystal clear sound and adaptive transparency with the HUAWEI FreeClip series.',
-    img: 'assets/HUAWEI FreeClip 2.png',
+    img: 'assets/HUAWEI FreeClip 2 - removed bg.png',
     link: 'products.html?category=Accessories'
   },
   {
     title: 'Stay Connected, Always',
     desc: 'Discover our range of high-speed chargers and power banks to keep your tech running all day.',
-    img: 'assets/Fast Car Charger.png',
+    img: 'assets/Fast Car Charger - removed bg.png',
     link: 'products.html?category=Accessories'
   }
 ];
