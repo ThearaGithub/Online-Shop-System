@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shopping Cart — ShopFlow</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%238b5cf6'/><text x='16' y='23' font-size='20' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>S</text></svg>">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
   <!-- Header rendered by app.js -->
 
@@ -21,11 +22,11 @@
       <div class="cart-items-list" id="cart-items">
         <!-- Rendered via JS -->
       </div>
-      
+
       <!-- Order Summary -->
       <aside class="order-summary" id="cart-summary" style="display: none;">
         <h3>Order Summary</h3>
-        
+
         <div class="summary-row">
           <span>Subtotal</span>
           <span id="summary-subtotal">$0.00</span>
@@ -38,20 +39,20 @@
           <span>Shipping</span>
           <span id="summary-shipping">Calculated at checkout</span>
         </div>
-        
+
         <div class="summary-row total">
           <span>Total</span>
           <span id="summary-total" style="color: var(--color-error);">$0.00</span>
         </div>
-        
+
         <button class="btn-checkout" id="btn-checkout" onclick="proceedToCheckout()">
           Proceed to Checkout <i class="fas fa-arrow-right"></i>
         </button>
-        
+
         <button class="btn-continue-shopping" onclick="window.location.href='products.html'">
           Continue Shopping
         </button>
-        
+
         <div id="checkout-msg" class="form-error" style="margin-top: 15px; text-align: center;"></div>
       </aside>
     </div>
@@ -63,4 +64,5 @@
   <script src="js/app.js"></script>
   <script src="js/cart.js"></script>
 </body>
+
 </html>
