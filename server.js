@@ -398,28 +398,16 @@ app.put('/api/orders/:id/status', async (req, res) => {
   console.log(`[STATUS] order=${req.params.id} status=${status} adminId=${JSON.stringify(adminId)} bodyKeys=${Object.keys(req.body).join(',')}`);
   try {
     if (status === 'Completed') {
-      // Track which admin approved, decrement stock
-      const itemsRes = await pool.query(`SELECT * FROM order_items WHERE "orderId" = $1`, [req.params.id]);
-      for (const item of itemsRes.rows) {
-        await pool.query(`UPDATE products SET stock = stock - $1 WHERE id = $2`, [item.quantity, item.productId]);
-      }
+      // Track which admin approved (stock already decremented at order placement)
       const approvedVal = adminId || 'unknown';
       console.log(`[STATUS] Setting approvedBy to: "${approvedVal}"`);
       const updRes = await pool.query(`UPDATE orders SET status = $1, "approvedBy" = $2, "approvedAt" = $3 WHERE id = $4`,
         [status, approvedVal, new Date().toISOString(), req.params.id]);
       console.log(`[STATUS] Updated ${updRes.rowCount} rows`);
-      // Verify
       const checkRes = await pool.query(`SELECT status, "approvedBy" FROM orders WHERE id = $1`, [req.params.id]);
       console.log(`[STATUS] After update: status=${checkRes.rows[0]?.status} approvedBy=${checkRes.rows[0]?.approvedBy}`);
     } else {
-      // Undo — increment stock back, clear approval
-      const orderRes = await pool.query(`SELECT * FROM orders WHERE id = $1`, [req.params.id]);
-      if (orderRes.rows.length > 0 && orderRes.rows[0].status === 'Completed') {
-        const itemsRes = await pool.query(`SELECT * FROM order_items WHERE "orderId" = $1`, [req.params.id]);
-        for (const item of itemsRes.rows) {
-          await pool.query(`UPDATE products SET stock = stock + $1 WHERE id = $2`, [item.quantity, item.productId]);
-        }
-      }
+      // Undo — just revert status (stock stays decremented from placement)
       await pool.query(`UPDATE orders SET status = $1, "approvedBy" = NULL, "approvedAt" = NULL WHERE id = $2`,
         [status, req.params.id]);
     }
