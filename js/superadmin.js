@@ -210,7 +210,8 @@ async function loadApprovals() {
         <td>
           ${a.paymentScreenshot ? `
             <a href="${a.paymentScreenshot}" target="_blank">
-              <img src="${a.paymentScreenshot}" alt="Payment" style="width:40px;height:40px;object-fit:cover;border-radius:6px;border:1px solid rgba(255,255,255,0.1);cursor:pointer;" onmouseover="this.style.transform='scale(2.5)';this.style.zIndex='10';this.style.position='relative'" onmouseout="this.style.transform='';this.style.zIndex='';this.style.position=''" onerror="this.style.display='none'">
+              <img src="${a.paymentScreenshot}" alt="Payment" style="width:50px;height:50px;object-fit:cover;border-radius:6px;border:1px solid rgba(255,255,255,0.1);transition:transform 0.2s;cursor:pointer;" onmouseover="this.style.transform='scale(2.5)';this.style.zIndex='10';this.style.position='relative'" onmouseout="this.style.transform='';this.style.zIndex='';this.style.position=''" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+              <span style="display:none;color:var(--accent-purple);font-size:11px;"><i class="fas fa-image"></i></span>
             </a>
           ` : '<span style="color:var(--text-muted);font-size:11px;">—</span>'}
         </td>
