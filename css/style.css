@@ -1231,8 +1231,8 @@ body {
 .product-card[data-product-id="1"] .product-image img {
   max-width: none;
   max-height: none;
-  width: 98%;
-  height: 98%;
+  width: 96%;
+  height: 96%;
   object-fit: cover;
 }
 
