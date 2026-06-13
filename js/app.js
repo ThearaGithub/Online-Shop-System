@@ -636,12 +636,18 @@ document.addEventListener('DOMContentLoaded', () => {
   ));
 
   // Scroll-to-top button visibility
-  const scrollBtn = document.getElementById('scroll-top-btn');
-  if (scrollBtn) {
-    window.addEventListener('scroll', () => {
-      scrollBtn.classList.toggle('visible', window.scrollY > 400);
-    });
+  let scrollBtn = document.getElementById('scroll-top-btn');
+  if (!scrollBtn) {
+    scrollBtn = document.createElement('button');
+    scrollBtn.id = 'scroll-top-btn';
+    scrollBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
+    scrollBtn.setAttribute('aria-label', 'Scroll to top');
+    scrollBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.body.appendChild(scrollBtn);
   }
+  window.addEventListener('scroll', () => {
+    scrollBtn.classList.toggle('visible', window.scrollY > 400);
+  });
 });
 
 // ─── UTILITY FUNCTIONS ───────────────────────────────────────
