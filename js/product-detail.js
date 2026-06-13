@@ -286,6 +286,10 @@ window.updateQty = function(change) {
 };
 
 window.addCurrentToCart = function() {
+  if (!currentProduct || !currentProduct.inStock) {
+    Toast.show('This product is sold out!', 'error');
+    return;
+  }
   Cart.addItem(
     currentProduct, 
     currentQuantity, 

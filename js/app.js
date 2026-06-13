@@ -742,6 +742,12 @@ document.addEventListener('click', async function (e) {
     return;
   }
 
+  if (!product.inStock) {
+    Toast.show(`${product.name} is sold out!`, 'error');
+    btn.innerHTML = originalHTML;
+    return;
+  }
+
   Cart.addItem(product);
   Toast.show(`${product.name} added to cart!`, 'success');
 

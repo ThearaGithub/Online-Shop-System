@@ -191,7 +191,7 @@ async function loadApprovals() {
     const approvals = await res.json();
     const tbody = document.getElementById('sa-approvals-list');
     if (approvals.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:30px;">No completed orders yet.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;">No orders yet.</td></tr>';
       return;
     }
     tbody.innerHTML = approvals.map(a => `
@@ -206,13 +206,15 @@ async function loadApprovals() {
           `).join('')}
         </td>
         <td style="font-weight:600;color:white;">${formatPrice(a.total)}</td>
-        <td style="color:var(--accent-purple);">${a.approvedBy}</td>
-        <td style="font-size:12px;">${formatDate(a.approvedAt)}</td>
+        <td><span class="order-status ${a.status.toLowerCase()}">${a.status}</span></td>
+        <td style="color:${a.approvedBy ? 'var(--accent-purple)' : 'var(--text-muted)'};">${a.approvedBy || '—'}</td>
+        <td style="font-size:12px;">${formatDate(a.createdAt)}</td>
+        ${a.status === 'Completed' ? `
         <td>
           <button class="btn-status" style="background:#e74c3c;" onclick="disapproveOrder('${a.id}')">
             <i class="fas fa-times"></i> Disapprove
           </button>
-        </td>
+        </td>` : '<td><span style="color:var(--text-muted);font-size:11px;">Pending</span></td>'}
       </tr>
     `).join('');
   } catch (err) {

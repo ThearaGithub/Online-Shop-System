@@ -517,12 +517,11 @@ app.get('/api/superadmin/admins', async (req, res) => {
 app.get('/api/superadmin/approvals', async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT o.id, o."approvedBy", o."approvedAt", o."createdAt", o.total,
+      SELECT o.id, o."approvedBy", o."approvedAt", o."createdAt", o.total, o.status,
              u."firstName" || ' ' || u."lastName" as "customerName"
       FROM orders o
       LEFT JOIN users u ON u.id = o."userId"
-      WHERE o.status = 'Completed' AND o."approvedBy" IS NOT NULL
-      ORDER BY o."approvedAt" DESC
+      ORDER BY o."createdAt" DESC
     `);
     const orders = result.rows;
     for (const order of orders) {
