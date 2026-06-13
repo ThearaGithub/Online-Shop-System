@@ -36,8 +36,12 @@ const initDb = async () => {
       "inStock" BOOLEAN DEFAULT true,
       featured BOOLEAN DEFAULT false,
       section TEXT,
-      image TEXT
+      image TEXT,
+      stock INTEGER DEFAULT 0
     )`);
+
+    // Add stock column if missing (for existing tables)
+    try { await pool.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS stock INTEGER DEFAULT 0`); } catch(e) {}
 
     // Create Orders Table
     await pool.query(`CREATE TABLE IF NOT EXISTS orders (
@@ -52,8 +56,14 @@ const initDb = async () => {
       "shippingInfo" TEXT,
       "paymentScreenshot" TEXT,
       status TEXT DEFAULT 'Processing',
-      "createdAt" TEXT
+      "createdAt" TEXT,
+      "approvedBy" TEXT,
+      "approvedAt" TEXT
     )`);
+
+    // Add approved columns if missing
+    try { await pool.query(`ALTER TABLE orders ADD COLUMN IF NOT EXISTS "approvedBy" TEXT`); } catch(e) {}
+    try { await pool.query(`ALTER TABLE orders ADD COLUMN IF NOT EXISTS "approvedAt" TEXT`); } catch(e) {}
 
     // Create Order Items Table
     await pool.query(`CREATE TABLE IF NOT EXISTS order_items (
@@ -68,13 +78,22 @@ const initDb = async () => {
       FOREIGN KEY("orderId") REFERENCES orders(id)
     )`);
 
-    // Seed Initial Admin User
-    const adminRes = await pool.query("SELECT * FROM users WHERE email = 'admin@shopflow.com'");
-    if (adminRes.rows.length === 0) {
-      await pool.query(`INSERT INTO users (id, "firstName", "lastName", email, password, role, "createdAt")
-              VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-        ['admin-001', 'Admin', 'ShopFlow', 'admin@shopflow.com', 'admin123', 'admin', new Date().toISOString()]);
-      console.log('Seeded Admin User');
+    // Seed Users
+    const usersToSeed = [
+      { id: 'admin-001', firstName: 'Admin', lastName: 'ShopFlow', email: 'admin@shopflow.com', password: 'admin123', role: 'admin' },
+      { id: 'su-001', firstName: 'Super', lastName: 'Admin', email: 'superadmin@shopflow.com', password: 'superadmin123', role: 'superadmin' },
+      { id: 'admin-a-001', firstName: 'Admin', lastName: 'A', email: 'admin-a@shopflow.com', password: 'admin123', role: 'admin' },
+      { id: 'admin-b-001', firstName: 'Admin', lastName: 'B', email: 'admin-b@shopflow.com', password: 'admin123', role: 'admin' },
+      { id: 'admin-c-001', firstName: 'Admin', lastName: 'C', email: 'admin-c@shopflow.com', password: 'admin123', role: 'admin' }
+    ];
+    for (const u of usersToSeed) {
+      const existing = await pool.query("SELECT * FROM users WHERE email = $1", [u.email]);
+      if (existing.rows.length === 0) {
+        await pool.query(`INSERT INTO users (id, "firstName", "lastName", email, password, role, "createdAt")
+          VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+          [u.id, u.firstName, u.lastName, u.email, u.password, u.role, new Date().toISOString()]);
+        console.log('Seeded', u.email);
+      }
     }
   } catch (err) {
     console.error("Database initialization error:", err);

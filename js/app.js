@@ -58,7 +58,7 @@ const Auth = {
 
   isAdmin() {
     const user = this.getCurrentUser();
-    return user && user.role === 'admin';
+    return user && (user.role === 'admin' || user.role === 'superadmin');
   },
 
   async signup(firstName, lastName, email, password) {
@@ -275,12 +275,12 @@ const Orders = {
     }
   },
 
-  async updateStatus(orderId, status) {
+  async updateStatus(orderId, status, adminId) {
     try {
       const res = await fetch(`/api/orders/${orderId}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status })
+        body: JSON.stringify({ status, adminId })
       });
       const data = await res.json();
       return data.success;
@@ -430,13 +430,14 @@ function renderHeader() {
               <div class="user-avatar"><i class="fas fa-user"></i></div>
               <div class="user-info">
                 <strong>${user.firstName}</strong>
-                <span class="user-role">${user.role === 'admin' ? 'Admin' : 'My Account'}</span>
+                <span class="user-role">${user.role === 'admin' ? 'Admin' : user.role === 'superadmin' ? 'Super Admin' : 'My Account'}</span>
               </div>
               <i class="fas fa-chevron-down" style="font-size:10px;color:#a0a0b0"></i>
             </div>
             <div class="user-dropdown" id="user-dropdown">
               <a href="orders.html"><i class="fas fa-box"></i> My Orders</a>
-              ${user.role === 'admin' ? '<a href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a>' : ''}
+              ${user.role === 'admin' || user.role === 'superadmin' ? '<a href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a>' : ''}
+              ${user.role === 'superadmin' ? '<a href="superadmin.html"><i class="fas fa-shield-alt"></i> Super Admin</a>' : ''}
               <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
             </div>
           ` : `

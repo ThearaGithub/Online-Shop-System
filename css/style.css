@@ -1696,6 +1696,11 @@ body {
   display: block;
 }
 
+.input-error {
+  border-color: #ff6b6b !important;
+  box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2) !important;
+}
+
 /* ─── PRODUCT DETAIL PAGE ─────────────────────────────────── */
 .product-detail-section {
   display: grid;
@@ -2581,6 +2586,29 @@ body {
 .btn-status.process:hover {
   background: var(--color-warning);
   color: var(--text-dark);
+}
+
+.period-btn {
+  padding: 8px 16px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 13px;
+  transition: all var(--transition-fast);
+}
+.period-btn:hover { border-color: var(--accent-purple); color: white; }
+.period-btn.active { background: var(--accent-purple); color: white; border-color: var(--accent-purple); }
+
+.order-status.admin {
+  background: rgba(139,92,246,0.15);
+  color: var(--accent-purple);
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .btn-status.done {

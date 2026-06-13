@@ -38,7 +38,8 @@ const reseed = async () => {
     "inStock" BOOLEAN DEFAULT true,
     featured BOOLEAN DEFAULT false,
     section TEXT,
-    image TEXT
+    image TEXT,
+    stock INTEGER DEFAULT 0
   )`);
 
   await pool.query(`CREATE TABLE IF NOT EXISTS orders (
@@ -53,7 +54,9 @@ const reseed = async () => {
     "shippingInfo" TEXT,
     "paymentScreenshot" TEXT,
     status TEXT DEFAULT 'Processing',
-    "createdAt" TEXT
+    "createdAt" TEXT,
+    "approvedBy" TEXT,
+    "approvedAt" TEXT
   )`);
 
   await pool.query(`CREATE TABLE IF NOT EXISTS order_items (
@@ -68,12 +71,21 @@ const reseed = async () => {
     FOREIGN KEY("orderId") REFERENCES orders(id)
   )`);
 
-  // Seed Admin User
-  const adminRes = await pool.query("SELECT * FROM users WHERE email = 'admin@shopflow.com'");
-  if (adminRes.rows.length === 0) {
-    await pool.query(`INSERT INTO users (id, "firstName", "lastName", email, password, role, "createdAt") VALUES ($1,$2,$3,$4,$5,$6,$7)`,
-      ['admin-001', 'Admin', 'ShopFlow', 'admin@shopflow.com', 'admin123', 'admin', new Date().toISOString()]);
-    console.log('Seeded Admin User');
+  // Seed Users
+  const usersToSeed = [
+    { id: 'admin-001', firstName: 'Admin', lastName: 'ShopFlow', email: 'admin@shopflow.com', password: 'admin123', role: 'admin' },
+    { id: 'su-001', firstName: 'Super', lastName: 'Admin', email: 'superadmin@shopflow.com', password: 'superadmin123', role: 'superadmin' },
+    { id: 'admin-a-001', firstName: 'Admin', lastName: 'A', email: 'admin-a@shopflow.com', password: 'admin123', role: 'admin' },
+    { id: 'admin-b-001', firstName: 'Admin', lastName: 'B', email: 'admin-b@shopflow.com', password: 'admin123', role: 'admin' },
+    { id: 'admin-c-001', firstName: 'Admin', lastName: 'C', email: 'admin-c@shopflow.com', password: 'admin123', role: 'admin' }
+  ];
+  for (const u of usersToSeed) {
+    const existing = await pool.query("SELECT * FROM users WHERE email = $1", [u.email]);
+    if (existing.rows.length === 0) {
+      await pool.query(`INSERT INTO users (id, "firstName", "lastName", email, password, role, "createdAt") VALUES ($1,$2,$3,$4,$5,$6,$7)`,
+        [u.id, u.firstName, u.lastName, u.email, u.password, u.role, new Date().toISOString()]);
+      console.log('Seeded', u.email);
+    }
   }
 
 
@@ -83,16 +95,31 @@ const reseed = async () => {
     await pool.query('DELETE FROM products');
     console.log('Cleared old products.');
 
+    // Determine stock based on category
+    const getStock = (category, brand) => {
+      if (category === 'Mobile Phone') return 50;
+      if (category === 'Laptop') return 25;
+      if (category === 'TV') return 15;
+      if (category === 'Audio') return 80;
+      if (category === 'Wearable') return 60;
+      if (category === 'Accessories') return 200;
+      if (category === 'Camera') return 20;
+      if (category === 'Gaming') return 30;
+      if (category === 'Smart Home') return 40;
+      if (category === 'Tablet') return 30;
+      return 100;
+    };
+
     for (const p of PRODUCTS) {
       let image = p.image;
       if (!image || !image.startsWith('assets/')) {
-        image = 'assets/placeholder.png'; // will trigger onerror fallback in UI
+        image = 'assets/placeholder.png';
       }
 
       await pool.query(`
         INSERT INTO products 
-          (id, name, brand, category, price, "originalPrice", discount, description, specs, colors, rating, reviews, "inStock", featured, section, image)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+          (id, name, brand, category, price, "originalPrice", discount, description, specs, colors, rating, reviews, "inStock", featured, section, image, stock)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
         ON CONFLICT (id) DO UPDATE SET
           name = EXCLUDED.name,
           brand = EXCLUDED.brand,
@@ -108,7 +135,8 @@ const reseed = async () => {
           "inStock" = EXCLUDED."inStock",
           featured = EXCLUDED.featured,
           section = EXCLUDED.section,
-          image = EXCLUDED.image
+          image = EXCLUDED.image,
+          stock = EXCLUDED.stock
       `, [
         p.id,
         p.name,
@@ -125,7 +153,8 @@ const reseed = async () => {
         p.inStock ? true : false,
         p.featured ? true : false,
         p.section || null,
-        image
+        image,
+        p.stock !== undefined ? p.stock : getStock(p.category, p.brand)
       ]);
     }
 

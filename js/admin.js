@@ -2,10 +2,13 @@
 // ShopFlow — Admin Panel Logic
 // ============================================================
 
+let currentPeriod = 'all';
+
 document.addEventListener('DOMContentLoaded', () => {
   renderHeader();
 
-  if (!Auth.isLoggedIn() || !Auth.isAdmin()) {
+  const user = Auth.getCurrentUser();
+  if (!Auth.isLoggedIn() || (user.role !== 'admin' && user.role !== 'superadmin')) {
     Toast.show('Access Denied. Admins only.', 'error');
     window.location.href = 'index.html';
     return;
@@ -155,7 +158,8 @@ async function renderAdminDashboard() {
   initAnalytics();
 }
 
-async function initAnalytics() {
+async function initAnalytics(period) {
+  period = period || 'all';
   // Restore canvases and remove placeholders
   document.querySelectorAll('.chart-container').forEach(container => {
     const canvas = container.querySelector('canvas');
@@ -167,6 +171,12 @@ async function initAnalytics() {
     if (ph) ph.remove();
   });
   try {
+    // Load period summary
+    const summaryRes = await fetch(`/api/admin/analytics/summary?period=${period}`);
+    const summary = await summaryRes.json();
+    document.getElementById('admin-period-sold').textContent = summary.productsSold || 0;
+    document.getElementById('admin-period-revenue').textContent = formatPrice(summary.revenue || 0);
+
     // 1. Revenue Trend Chart
     const revRes = await fetch('/api/admin/analytics/revenue');
     const revData = await revRes.json();
@@ -237,7 +247,9 @@ async function initAnalytics() {
 }
 
 window.updateOrderStatus = async function(orderId, newStatus) {
-  if (await Orders.updateStatus(orderId, newStatus)) {
+  const user = Auth.getCurrentUser();
+  const adminId = user ? user.email : undefined;
+  if (await Orders.updateStatus(orderId, newStatus, adminId)) {
     Toast.show(`Order ${orderId} marked as ${newStatus}`, 'success');
     renderAdminDashboard();
   }
@@ -301,8 +313,14 @@ window.editUser = async function(userId) {
       } else {
         Toast.show(data.message || 'Failed to update user', 'error');
       }
-    } catch (err) {
-      Toast.show('Network error', 'error');
     }
   }
+};
+
+window.setPeriod = function(period) {
+  currentPeriod = period;
+  document.querySelectorAll('.period-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.period === period);
+  });
+  initAnalytics(period);
 };

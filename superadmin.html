@@ -3,18 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel — ShopFlow</title>
+  <title>Super Admin — ShopFlow</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%238b5cf6'/><text x='16' y='23' font-size='20' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>S</text></svg>">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <!-- Header rendered by app.js -->
-
   <main class="main-content">
     <div class="page-title-bar">
-      <h1>Admin Dashboard</h1>
+      <h1>Super Admin Dashboard</h1>
     </div>
 
     <div class="admin-page">
@@ -22,20 +20,20 @@
 
       <div class="admin-stats">
         <div class="stat-card">
-          <div class="stat-value" id="stat-orders">0</div>
+          <div class="stat-value" id="sa-total-orders">0</div>
           <div class="stat-label">Total Orders</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value" id="stat-revenue">$0</div>
+          <div class="stat-value" id="sa-total-revenue">$0</div>
           <div class="stat-label">Total Revenue</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value" id="stat-pending">0</div>
-          <div class="stat-label">Pending Processing</div>
+          <div class="stat-value" id="sa-products-sold">0</div>
+          <div class="stat-label">Products Sold</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value" id="stat-customers">0</div>
-          <div class="stat-label">Registered Customers</div>
+          <div class="stat-value" id="sa-total-admins">0</div>
+          <div class="stat-label">Total Admins</div>
         </div>
       </div>
 
@@ -47,73 +45,68 @@
         <button class="period-btn" data-period="year" onclick="setPeriod('year')">This Year</button>
       </div>
 
-      <div id="admin-summary-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px;">
-        <div class="stat-card" style="padding:14px;">
-          <div class="stat-value" id="admin-period-sold" style="font-size:22px;">0</div>
-          <div class="stat-label">Products Sold</div>
-        </div>
-        <div class="stat-card" style="padding:14px;">
-          <div class="stat-value" id="admin-period-revenue" style="font-size:22px;">$0</div>
-          <div class="stat-label">Revenue</div>
-        </div>
-      </div>
-
       <div class="admin-charts-grid">
         <div class="chart-container">
-          <h3 class="chart-title">Revenue Trend (Daily)</h3>
-          <canvas id="revenueChart"></canvas>
+          <h3 class="chart-title">Revenue by Brand</h3>
+          <canvas id="saBrandChart"></canvas>
         </div>
         <div class="chart-container">
-          <h3 class="chart-title">Sales by Category</h3>
-          <canvas id="categoryChart"></canvas>
+          <h3 class="chart-title">Sales by Brand</h3>
+          <canvas id="saSalesChart"></canvas>
         </div>
       </div>
 
-      <h2 style="margin-top: 40px; margin-bottom: 15px;">Recent Orders</h2>
-      <div style="overflow-x: auto;">
+      <h2 style="margin-top:40px;margin-bottom:15px;">Product Stock</h2>
+      <div style="overflow-x:auto;">
         <table class="admin-table">
           <thead>
             <tr>
-              <th>Order ID</th>
-              <th>Date</th>
-              <th>Customer</th>
-              <th>Items</th>
-              <th>Shipping</th>
-              <th>Payment</th>
-              <th>Total</th>
-              <th>Status</th>
-              <th>Action</th>
+              <th>Product</th>
+              <th>Brand</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock Left</th>
             </tr>
           </thead>
-          <tbody id="admin-orders-list">
-            <!-- Rendered via JS -->
-          </tbody>
+          <tbody id="sa-stock-list"></tbody>
         </table>
       </div>
 
-      <h2 style="margin-top: 40px; margin-bottom: 15px;">Registered Users</h2>
-      <div style="overflow-x: auto;">
+      <h2 style="margin-top:40px;margin-bottom:15px;">Admin Accounts</h2>
+      <div style="overflow-x:auto;">
         <table class="admin-table">
           <thead>
             <tr>
               <th>Name</th>
               <th>Email</th>
-              <th>Password</th>
               <th>Role</th>
               <th>Action</th>
             </tr>
           </thead>
-          <tbody id="admin-users-list">
-            <!-- Rendered via JS -->
-          </tbody>
+          <tbody id="sa-admins-list"></tbody>
         </table>
       </div>
 
+      <h2 style="margin-top:40px;margin-bottom:15px;">Order Approvals</h2>
+      <div style="overflow-x:auto;">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Total</th>
+              <th>Approved By</th>
+              <th>Approved At</th>
+            </tr>
+          </thead>
+          <tbody id="sa-approvals-list"></tbody>
+        </table>
+      </div>
     </div>
   </main>
 
   <script src="js/products-data.js"></script>
   <script src="js/app.js"></script>
-  <script src="js/admin.js"></script>
+  <script src="js/superadmin.js"></script>
 </body>
 </html>

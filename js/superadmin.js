@@ -1,0 +1,208 @@
+let currentPeriod = 'all';
+let brandChart = null;
+let salesChart = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderHeader();
+  if (!Auth.isLoggedIn() || Auth.getCurrentUser().role !== 'superadmin') {
+    Toast.show('Access Denied. Super Admins only.', 'error');
+    window.location.href = 'index.html';
+    return;
+  }
+  loadSuperAdminDashboard();
+});
+
+async function loadSuperAdminDashboard() {
+  // Load orders & users for stats
+  const allOrders = await Orders.getAll();
+  const allUsers = await Auth.getUsers();
+  const admins = allUsers.filter(u => u.role === 'admin');
+
+  const totalOrders = allOrders.length;
+  const totalRevenue = allOrders.reduce((sum, o) => sum + o.total, 0);
+  const productsSold = allOrders.reduce((sum, o) => sum + (o.items || []).reduce((s, i) => s + i.quantity, 0), 0);
+
+  document.getElementById('sa-total-orders').textContent = totalOrders;
+  document.getElementById('sa-total-revenue').textContent = formatPrice(totalRevenue);
+  document.getElementById('sa-products-sold').textContent = productsSold;
+  document.getElementById('sa-total-admins').textContent = admins.length;
+
+  // Load analytics with period
+  await loadAnalytics(currentPeriod);
+
+  // Load stock
+  await loadStock();
+
+  // Load admin accounts
+  renderAdmins(admins);
+
+  // Load approval log
+  await loadApprovals();
+}
+
+async function loadAnalytics(period) {
+  try {
+    const res = await fetch(`/api/admin/analytics/summary?period=${period}`);
+    const data = await res.json();
+    updateCharts(data);
+  } catch (err) {
+    console.error('Analytics error:', err);
+  }
+}
+
+function updateCharts(data) {
+  const brands = data.salesByBrand || [];
+  const labels = brands.map(b => b.brand);
+  const revenues = brands.map(b => parseFloat(b.revenue));
+  const counts = brands.map(b => parseInt(b.count));
+
+  // Revenue by brand
+  const revCtx = document.getElementById('saBrandChart');
+  if (brandChart) brandChart.destroy();
+  brandChart = new Chart(revCtx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Revenue',
+        data: revenues,
+        backgroundColor: '#8b5cf6',
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { labels: { color: 'white' } }
+      },
+      scales: {
+        x: { ticks: { color: '#a0a0b0' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+        y: { ticks: { color: '#a0a0b0' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+      }
+    }
+  });
+
+  // Sales count by brand
+  const salesCtx = document.getElementById('saSalesChart');
+  if (salesChart) salesChart.destroy();
+  salesChart = new Chart(salesCtx, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{
+        data: counts,
+        backgroundColor: ['#8b5cf6', '#4a90e2', '#e74c3c', '#f1c40f', '#2ecc71', '#9b59b6', '#e67e22', '#1abc9c']
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { color: 'white', padding: 15 } }
+      }
+    }
+  });
+}
+
+async function loadStock() {
+  try {
+    const res = await fetch('/api/admin/stock');
+    const products = await res.json();
+    const tbody = document.getElementById('sa-stock-list');
+    if (products.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:30px;">No products found.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = products.map(p => `
+      <tr>
+        <td style="color:white;font-weight:600;">${p.name}</td>
+        <td>${p.brand}</td>
+        <td>${p.category}</td>
+        <td>${formatPrice(p.price)}</td>
+        <td>
+          <span style="color:${p.stock < 10 ? '#ff6b6b' : p.stock < 30 ? '#f1c40f' : '#2ecc71'};font-weight:700;">
+            ${p.stock}
+          </span>
+        </td>
+      </tr>
+    `).join('');
+  } catch (err) {
+    console.error('Stock error:', err);
+  }
+}
+
+function renderAdmins(admins) {
+  const tbody = document.getElementById('sa-admins-list');
+  if (admins.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:30px;">No admins found.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = admins.map(a => `
+    <tr>
+      <td style="color:white;">${a.firstName} ${a.lastName}</td>
+      <td style="color:white;">${a.email}</td>
+      <td><span class="order-status admin">${a.role}</span></td>
+      <td>
+        <button class="btn-status" style="background:#4a90e2;" onclick="editAdmin('${a.id}')">
+          <i class="fas fa-edit"></i> Edit
+        </button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+window.editAdmin = async function(userId) {
+  const allUsers = await Auth.getUsers();
+  const user = allUsers.find(u => u.id === userId);
+  if (!user) return;
+  const newFirstName = prompt('First Name:', user.firstName);
+  const newLastName = prompt('Last Name:', user.lastName);
+  const newEmail = prompt('Email:', user.email);
+  const newPassword = prompt('Password:', user.password);
+  if (newFirstName && newEmail) {
+    try {
+      const res = await fetch(`/api/admin/users/${userId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ firstName: newFirstName, lastName: newLastName, email: newEmail, password: newPassword, role: user.role })
+      });
+      const data = await res.json();
+      if (data.success) {
+        Toast.show('Admin updated', 'success');
+        loadSuperAdminDashboard();
+      }
+    } catch (err) {
+      Toast.show('Network error', 'error');
+    }
+  }
+};
+
+async function loadApprovals() {
+  try {
+    const res = await fetch('/api/superadmin/approvals');
+    const approvals = await res.json();
+    const tbody = document.getElementById('sa-approvals-list');
+    if (approvals.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:30px;">No completed orders yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = approvals.map(a => `
+      <tr>
+        <td style="font-weight:700;color:white;font-size:12px;">${a.id}</td>
+        <td style="color:white;">${a.customerName || 'N/A'}</td>
+        <td style="font-weight:600;color:white;">${formatPrice(a.total)}</td>
+        <td style="color:var(--accent-purple);">${a.approvedBy}</td>
+        <td style="font-size:12px;">${formatDate(a.approvedAt)}</td>
+      </tr>
+    `).join('');
+  } catch (err) {
+    console.error('Approvals error:', err);
+  }
+}
+
+window.setPeriod = function(period) {
+  currentPeriod = period;
+  document.querySelectorAll('.period-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.period === period);
+  });
+  loadAnalytics(period);
+};

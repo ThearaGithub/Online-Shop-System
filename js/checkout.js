@@ -88,9 +88,45 @@ function renderCheckoutSummary() {
 function handleCheckoutSubmit(e) {
   e.preventDefault();
   
-  // Verify payment proof
   const fileInput = document.getElementById('payment-proof');
   const errorDiv = document.getElementById('checkout-error');
+  
+  // Clear previous errors
+  document.querySelectorAll('.field-error').forEach(el => el.remove());
+  document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+  
+  // Validate all required fields
+  const fields = [
+    { id: 'firstName', label: 'First Name' },
+    { id: 'lastName', label: 'Last Name' },
+    { id: 'phone', label: 'Phone Number' },
+    { id: 'address', label: 'Shipping Address' }
+  ];
+  
+  const shippingInfo = {};
+  let hasError = false;
+  
+  for (const field of fields) {
+    const el = document.getElementById(field.id);
+    const val = el.value.trim();
+    if (!val) {
+      hasError = true;
+      el.classList.add('input-error');
+      const err = document.createElement('div');
+      err.className = 'field-error';
+      err.style.cssText = 'color: #ff6b6b; font-size: 11px; margin-top: 2px;';
+      err.textContent = `${field.label} is required`;
+      el.parentNode.appendChild(err);
+    } else {
+      shippingInfo[field.id] = val;
+    }
+  }
+  
+  if (hasError) {
+    errorDiv.textContent = 'Please fill in all required fields highlighted above.';
+    errorDiv.classList.add('show');
+    return;
+  }
   
   if (fileInput.files.length === 0) {
     errorDiv.textContent = 'Please upload your payment screenshot.';
@@ -102,14 +138,6 @@ function handleCheckoutSubmit(e) {
   btn.disabled = true;
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing Order...';
   errorDiv.classList.remove('show');
-  
-  // Gather Shipping Info
-  const shippingInfo = {
-    firstName: document.getElementById('firstName').value.trim(),
-    lastName: document.getElementById('lastName').value.trim(),
-    phone: document.getElementById('phone').value.trim(),
-    address: document.getElementById('address').value.trim()
-  };
   
   // Upload screenshot & place order
   setTimeout(async () => {

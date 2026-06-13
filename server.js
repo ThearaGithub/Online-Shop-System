@@ -245,6 +245,8 @@ app.post('/api/orders', upload.single('paymentScreenshot'), async (req, res) => 
         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
         [orderId, item.productId, item.name, item.price, item.quantity, item.selectedColor, item.selectedStorage]
       );
+      // Decrement stock
+      await client.query(`UPDATE products SET stock = stock - $1 WHERE id = $2`, [item.quantity, item.productId]);
     }
 
     await client.query('COMMIT');
@@ -305,9 +307,28 @@ app.get('/api/orders/:id', async (req, res) => {
 });
 
 app.put('/api/orders/:id/status', async (req, res) => {
-  const { status } = req.body;
+  const { status, adminId } = req.body;
   try {
-    await pool.query(`UPDATE orders SET status = $1 WHERE id = $2`, [status, req.params.id]);
+    if (status === 'Completed') {
+      // Track which admin approved, decrement stock
+      const itemsRes = await pool.query(`SELECT * FROM order_items WHERE "orderId" = $1`, [req.params.id]);
+      for (const item of itemsRes.rows) {
+        await pool.query(`UPDATE products SET stock = stock - $1 WHERE id = $2`, [item.quantity, item.productId]);
+      }
+      await pool.query(`UPDATE orders SET status = $1, "approvedBy" = $2, "approvedAt" = $3 WHERE id = $4`,
+        [status, adminId || 'unknown', new Date().toISOString(), req.params.id]);
+    } else {
+      // Undo — increment stock back, clear approval
+      const orderRes = await pool.query(`SELECT * FROM orders WHERE id = $1`, [req.params.id]);
+      if (orderRes.rows.length > 0 && orderRes.rows[0].status === 'Completed') {
+        const itemsRes = await pool.query(`SELECT * FROM order_items WHERE "orderId" = $1`, [req.params.id]);
+        for (const item of itemsRes.rows) {
+          await pool.query(`UPDATE products SET stock = stock + $1 WHERE id = $2`, [item.quantity, item.productId]);
+        }
+      }
+      await pool.query(`UPDATE orders SET status = $1, "approvedBy" = NULL, "approvedAt" = NULL WHERE id = $2`,
+        [status, req.params.id]);
+    }
     res.json({ success: true });
   } catch (err) {
     return res.status(500).json({ success: false, error: err.message });
@@ -316,11 +337,101 @@ app.put('/api/orders/:id/status', async (req, res) => {
 
 app.delete('/api/orders/:id', async (req, res) => {
   try {
+    // Restore stock before deleting
+    const itemsRes = await pool.query(`SELECT * FROM order_items WHERE "orderId" = $1`, [req.params.id]);
+    for (const item of itemsRes.rows) {
+      await pool.query(`UPDATE products SET stock = stock + $1 WHERE id = $2`, [item.quantity, item.productId]);
+    }
     await pool.query(`DELETE FROM order_items WHERE "orderId" = $1`, [req.params.id]);
     await pool.query(`DELETE FROM orders WHERE id = $1`, [req.params.id]);
     res.json({ success: true });
   } catch (err) {
     return res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// ─── ADVANCED ANALYTICS ────────────────────────
+app.get('/api/admin/analytics/summary', async (req, res) => {
+  const { period, adminId } = req.query; // period: day, week, month, year
+  let dateFilter = '';
+  const now = new Date();
+  if (period === 'day') {
+    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
+    dateFilter = ` AND o."createdAt" >= '${start}'`;
+  } else if (period === 'week') {
+    const d = new Date(now); d.setDate(d.getDate() - d.getDay());
+    dateFilter = ` AND o."createdAt" >= '${d.toISOString()}'`;
+  } else if (period === 'month') {
+    const start = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+    dateFilter = ` AND o."createdAt" >= '${start}'`;
+  } else if (period === 'year') {
+    const start = new Date(now.getFullYear(), 0, 1).toISOString();
+    dateFilter = ` AND o."createdAt" >= '${start}'`;
+  }
+
+  const adminFilter = adminId ? ` AND o."approvedBy" = '${adminId}'` : '';
+
+  try {
+    const salesRes = await pool.query(`
+      SELECT COALESCE(SUM(oi.quantity), 0) as "productsSold",
+             COALESCE(SUM(oi.quantity * oi.price), 0) as revenue
+      FROM orders o
+      JOIN order_items oi ON oi."orderId" = o.id
+      WHERE o.status = 'Completed'${dateFilter}${adminFilter}
+    `);
+
+    const brandRes = await pool.query(`
+      SELECT p.brand, COALESCE(SUM(oi.quantity), 0) as count, COALESCE(SUM(oi.quantity * oi.price), 0) as revenue
+      FROM orders o
+      JOIN order_items oi ON oi."orderId" = o.id
+      JOIN products p ON p.id = oi."productId"
+      WHERE o.status = 'Completed'${dateFilter}${adminFilter}
+      GROUP BY p.brand ORDER BY revenue DESC
+    `);
+
+    res.json({
+      productsSold: parseInt(salesRes.rows[0].productsSold),
+      revenue: parseFloat(salesRes.rows[0].revenue),
+      salesByBrand: brandRes.rows
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+// ─── STOCK ──────────────────────────────────────
+app.get('/api/admin/stock', async (req, res) => {
+  try {
+    const result = await pool.query(`SELECT id, name, brand, category, stock, price FROM products ORDER BY name`);
+    res.json(result.rows);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+// ─── SUPERADMIN ─────────────────────────────────
+app.get('/api/superadmin/admins', async (req, res) => {
+  try {
+    const result = await pool.query(`SELECT id, "firstName", "lastName", email, role, "createdAt" FROM users WHERE role = 'admin' ORDER BY email`);
+    res.json(result.rows);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/superadmin/approvals', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT o.id, o."approvedBy", o."approvedAt", o."createdAt", o.total,
+             u."firstName" || ' ' || u."lastName" as "customerName"
+      FROM orders o
+      LEFT JOIN users u ON u.id = o."userId"
+      WHERE o.status = 'Completed' AND o."approvedBy" IS NOT NULL
+      ORDER BY o."approvedAt" DESC
+    `);
+    res.json(result.rows);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
   }
 });
 
