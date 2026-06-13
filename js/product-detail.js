@@ -98,10 +98,16 @@ function renderProductDetail() {
         <img src="${selectedColor && selectedColor.image ? selectedColor.image : p.image}" alt="${p.name}" class="detail-product-img" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<span class=\\'product-emoji\\'>📦</span>')">
       </div>
       <div class="thumb-gallery">
-        <div class="thumb-item active"><img src="${selectedColor && selectedColor.image ? selectedColor.image : p.image}" alt="${p.name}" class="thumb-img"></div>
-        <div class="thumb-item"><img src="${p.image}" alt="${p.name}" class="thumb-img"></div>
-        <div class="thumb-item"><img src="${p.image}" alt="${p.name}" class="thumb-img"></div>
-        <div class="thumb-item"><img src="${p.image}" alt="${p.name}" class="thumb-img"></div>
+        ${p.colors && p.colors.length > 0 && p.colors[0].image ? p.colors.map((c, i) => `
+          <div class="thumb-item ${selectedColor.name === c.name ? 'active' : ''}" onclick="selectColor(${i})">
+            <img src="${c.image}" alt="${c.name}" class="thumb-img">
+          </div>
+        `).join('') : `
+          <div class="thumb-item active"><img src="${selectedColor && selectedColor.image ? selectedColor.image : p.image}" alt="${p.name}" class="thumb-img"></div>
+          <div class="thumb-item"><img src="${p.image}" alt="${p.name}" class="thumb-img"></div>
+          <div class="thumb-item"><img src="${p.image}" alt="${p.name}" class="thumb-img"></div>
+          <div class="thumb-item"><img src="${p.image}" alt="${p.name}" class="thumb-img"></div>
+        `}
       </div>
     </div>
     
