@@ -218,11 +218,20 @@ async function loadApprovals() {
         <td style="color:${a.approvedBy ? 'var(--accent-purple)' : 'var(--text-muted)'};font-size:12px;">${a.approverName || a.approvedBy || '—'}</td>
         <td style="font-size:12px;">${formatDate(a.createdAt)}</td>
         ${a.status === 'Completed' ? `
-        <td>
-          <button class="btn-status" style="background:#e74c3c;" onclick="disapproveOrder('${a.id}')">
+        <td style="display:flex;gap:4px;flex-wrap:nowrap;">
+          <button class="btn-status" style="background:#e74c3c;padding:4px 8px;font-size:11px;" onclick="disapproveOrder('${a.id}')">
             <i class="fas fa-times"></i> Disapprove
           </button>
-        </td>` : '<td><span style="color:var(--text-muted);font-size:11px;">Pending</span></td>'}
+          <button class="btn-status" style="background:#c0392b;padding:4px 8px;font-size:11px;" onclick="deleteSaOrder('${a.id}')">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>` : `
+        <td style="display:flex;gap:4px;flex-wrap:nowrap;">
+          <span style="color:var(--text-muted);font-size:11px;line-height:28px;">Pending</span>
+          <button class="btn-status" style="background:#c0392b;padding:4px 8px;font-size:11px;margin-left:4px;" onclick="deleteSaOrder('${a.id}')">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>`}
       </tr>
     `).join('');
   } catch (err) {
@@ -240,6 +249,22 @@ window.disapproveOrder = async function(orderId) {
       loadSuperAdminDashboard();
     } else {
       Toast.show(data.message || 'Failed to disapprove', 'error');
+    }
+  } catch (err) {
+    Toast.show('Network error', 'error');
+  }
+};
+
+window.deleteSaOrder = async function(orderId) {
+  if (!confirm(`Delete order ${orderId}? This cannot be undone. Stock will be restored.`)) return;
+  try {
+    const res = await fetch(`/api/orders/${orderId}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.success) {
+      Toast.show(`Order ${orderId} deleted`, 'success');
+      loadSuperAdminDashboard();
+    } else {
+      Toast.show(data.message || 'Failed to delete order', 'error');
     }
   } catch (err) {
     Toast.show('Network error', 'error');
