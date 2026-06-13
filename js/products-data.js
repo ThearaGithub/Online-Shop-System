@@ -738,36 +738,6 @@ const PRODUCTS = [
     section: "accessories",
     image: "assets/BOSE QuietComfort Ultra.png"
   },
-  {
-    id: 26,
-    name: "MagSafe Charger Stand",
-    brand: "Apple",
-    category: "Accessories",
-    price: 49.00,
-    originalPrice: null,
-    discount: 0,
-    description: "Apple MagSafe Charger Stand — 15W wireless charging for iPhone, perfectly aligned with magnets. Includes USB-C cable.",
-    specs: {
-      display: "—",
-      processor: "—",
-      ram: "—",
-      storage: ["—"],
-      camera: "—",
-      battery: "—",
-      os: "MagSafe, Qi2",
-      weight: "55g"
-    },
-    colors: [
-      { name: "White", hex: "#f5f5f5" }
-    ],
-    rating: 4.5,
-    reviews: 810,
-    inStock: true,
-    featured: false,
-    section: "accessories",
-    image: "assets/placeholder.svg"
-  },
-
   // ─── SECONDHAND ───────────────────────────────────────────
   {
     id: 27,
