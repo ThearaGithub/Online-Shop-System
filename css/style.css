@@ -1222,6 +1222,11 @@ body {
   object-fit: contain;
 }
 
+.product-card[data-product-id="1"] .product-image img {
+  max-width: 95%;
+  max-height: 95%;
+}
+
 .product-name {
   font-weight: 700;
   font-size: 15px;
