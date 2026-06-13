@@ -1774,7 +1774,7 @@ body {
 .main-image {
   background: var(--bg-tertiary);
   border-radius: var(--radius-lg);
-  padding: 40px;
+  padding: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1782,8 +1782,8 @@ body {
 }
 
 .main-image .detail-product-img {
-  max-width: 100%;
-  max-height: 100%;
+  width: 90%;
+  height: 90%;
   object-fit: contain;
 }
 
