@@ -594,3 +594,34 @@ renderAdminDashboard = function() {
   origRender.call(this);
   renderProductsTable();
 };
+
+// ═══════════════════════════════════════════════
+// SEARCH / FILTER
+// ═══════════════════════════════════════════════
+
+window.filterAdminOrders = function() {
+  const q = (document.getElementById('admin-order-search').value || '').toLowerCase().replace(/\s/g, '');
+  const rows = document.querySelectorAll('#admin-orders-list tr');
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase().replace(/\s/g, '');
+    row.style.display = text.includes(q) ? '' : 'none';
+  });
+};
+
+window.filterAdminUsers = function() {
+  const q = (document.getElementById('admin-user-search').value || '').toLowerCase().replace(/\s/g, '');
+  const rows = document.querySelectorAll('#admin-users-list tr');
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase().replace(/\s/g, '');
+    row.style.display = text.includes(q) ? '' : 'none';
+  });
+};
+
+window.filterAdminProducts = function() {
+  const q = (document.getElementById('admin-product-search').value || '').toLowerCase().replace(/\s/g, '');
+  const rows = document.querySelectorAll('#admin-products-list tr');
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase().replace(/\s/g, '');
+    row.style.display = text.includes(q) ? '' : 'none';
+  });
+};

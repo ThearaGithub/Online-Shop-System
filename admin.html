@@ -87,6 +87,9 @@
       </div>
 
       <h2 style="margin-top: 40px; margin-bottom: 15px;">Recent Orders</h2>
+      <div style="margin-bottom:10px;">
+        <input type="text" id="admin-order-search" class="modal-input" style="max-width:300px;" placeholder="Search orders..." oninput="filterAdminOrders()">
+      </div>
       <div style="overflow-x: auto;">
         <table class="admin-table">
           <thead>
@@ -109,6 +112,9 @@
       </div>
 
       <h2 style="margin-top: 40px; margin-bottom: 15px;">Registered Users</h2>
+      <div style="margin-bottom:10px;">
+        <input type="text" id="admin-user-search" class="modal-input" style="max-width:300px;" placeholder="Search users..." oninput="filterAdminUsers()">
+      </div>
       <div style="overflow-x: auto;">
         <table class="admin-table">
           <thead>
@@ -132,6 +138,9 @@
           <i class="fas fa-plus"></i> Add Product
         </button>
       </h2>
+      <div style="margin-bottom:10px;">
+        <input type="text" id="admin-product-search" class="modal-input" style="max-width:300px;" placeholder="Search products..." oninput="filterAdminProducts()">
+      </div>
       <div style="overflow-x: auto;">
         <table class="admin-table">
           <thead>

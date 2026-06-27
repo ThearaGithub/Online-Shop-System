@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (currentProduct.colors && currentProduct.colors.length > 0) {
     selectedColor = currentProduct.colors[0];
   }
-  if (currentProduct.specs.storage && currentProduct.specs.storage[0] !== '—') {
+  if (currentProduct.specs && currentProduct.specs.storage && Array.isArray(currentProduct.specs.storage) && currentProduct.specs.storage[0] && currentProduct.specs.storage[0] !== '—') {
     selectedStorage = currentProduct.specs.storage[0];
   }
   
@@ -120,12 +120,6 @@ function renderProductDetail() {
       
       <h1 class="detail-product-name">${p.name}</h1>
       
-      <div class="product-rating" style="font-size:14px; margin-bottom:10px;">
-        <span class="stars">${renderStars(p.rating)}</span> 
-        <span style="color:white; font-weight:600; margin-left:5px;">${p.rating}</span> 
-        <span style="color:var(--text-muted); margin-left:5px;">(${p.reviews} reviews)</span>
-      </div>
-      
       <div style="margin-bottom: 15px;">
         <span class="detail-price">${formatPrice(p.price)}</span>
         ${hasDiscount ? `<span class="detail-original-price">${formatPrice(p.originalPrice)}</span>` : ''}
@@ -139,21 +133,21 @@ function renderProductDetail() {
       
       <!-- Quick Specs -->
       <div class="quick-specs" style="margin-bottom: 25px;">
-        ${p.specs.display !== '—' ? `
+        ${p.specs && p.specs.display && p.specs.display !== '—' ? `
           <div class="quick-spec">
             <div class="spec-icon"><i class="fas fa-mobile-alt"></i></div>
             <div class="spec-value">${p.specs.display.split(',')[0]}</div>
             <div class="spec-label">Display</div>
           </div>
         ` : ''}
-        ${p.specs.processor !== '—' ? `
+        ${p.specs && p.specs.processor && p.specs.processor !== '—' ? `
           <div class="quick-spec">
             <div class="spec-icon"><i class="fas fa-microchip"></i></div>
             <div class="spec-value">${p.specs.processor.split(' ')[0]}</div>
             <div class="spec-label">Chipset</div>
           </div>
         ` : ''}
-        ${p.specs.battery !== '—' ? `
+        ${p.specs && p.specs.battery && p.specs.battery !== '—' ? `
           <div class="quick-spec">
             <div class="spec-icon"><i class="fas fa-battery-full"></i></div>
             <div class="spec-value">${p.specs.battery.split(' ')[0]}</div>
@@ -176,7 +170,7 @@ function renderProductDetail() {
         </div>
       ` : ''}
       
-      ${p.specs.storage && p.specs.storage[0] !== '—' ? `
+      ${p.specs && p.specs.storage && Array.isArray(p.specs.storage) && p.specs.storage[0] && p.specs.storage[0] !== '—' ? `
         <div class="option-section" style="margin-bottom: 25px;">
           <div class="option-label">Storage</div>
           <div class="option-buttons">
@@ -223,29 +217,29 @@ function renderSpecs() {
     <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
       <div class="spec-card">
         <div class="spec-card-title">Performance</div>
-        <div class="spec-row"><div class="spec-key">Processor</div><div class="spec-value-text">${p.specs.processor}</div></div>
-        <div class="spec-row"><div class="spec-key">RAM</div><div class="spec-value-text">${p.specs.ram}</div></div>
+        <div class="spec-row"><div class="spec-key">Processor</div><div class="spec-value-text">${p.specs && p.specs.processor ? p.specs.processor : '—'}</div></div>
+        <div class="spec-row"><div class="spec-key">RAM</div><div class="spec-value-text">${p.specs && p.specs.ram ? p.specs.ram : '—'}</div></div>
       </div>
       <div class="spec-card">
         <div class="spec-card-title">Storage & Software</div>
-        <div class="spec-row"><div class="spec-key">Storage</div><div class="spec-value-text">${Array.isArray(p.specs.storage) ? p.specs.storage.join(', ') : p.specs.storage || 'Standard'}</div></div>
-        <div class="spec-row"><div class="spec-key">OS</div><div class="spec-value-text">${p.specs.os}</div></div>
+        <div class="spec-row"><div class="spec-key">Storage</div><div class="spec-value-text">${p.specs && p.specs.storage ? (Array.isArray(p.specs.storage) ? p.specs.storage.join(', ') : p.specs.storage) : '—'}</div></div>
+        <div class="spec-row"><div class="spec-key">OS</div><div class="spec-value-text">${p.specs && p.specs.os ? p.specs.os : '—'}</div></div>
         <div class="spec-row"><div class="spec-key">Cloud</div><div class="spec-value-text">Seamless Sync Supported</div></div>
       </div>
       <div class="spec-card">
         <div class="spec-card-title">Display</div>
-        <div class="spec-row"><div class="spec-key">Screen</div><div class="spec-value-text">${p.specs.display}</div></div>
+        <div class="spec-row"><div class="spec-key">Screen</div><div class="spec-value-text">${p.specs && p.specs.display ? p.specs.display : '—'}</div></div>
         <div class="spec-row"><div class="spec-key">Refresh Rate</div><div class="spec-value-text">Up to 120Hz Adaptive</div></div>
       </div>
       <div class="spec-card">
         <div class="spec-card-title">Camera System</div>
-        <div class="spec-row"><div class="spec-key">Main Camera</div><div class="spec-value-text">${p.specs.camera}</div></div>
+        <div class="spec-row"><div class="spec-key">Main Camera</div><div class="spec-value-text">${p.specs && p.specs.camera ? p.specs.camera : '—'}</div></div>
         <div class="spec-row"><div class="spec-key">Video</div><div class="spec-value-text">4K@60fps HDR, 1080p@240fps</div></div>
         <div class="spec-row"><div class="spec-key">Front Camera</div><div class="spec-value-text">Ultra-wide Lens with Auto-focus</div></div>
       </div>
       <div class="spec-card">
         <div class="spec-card-title">Power & Battery</div>
-        <div class="spec-row"><div class="spec-key">Battery</div><div class="spec-value-text">${p.specs.battery}</div></div>
+        <div class="spec-row"><div class="spec-key">Battery</div><div class="spec-value-text">${p.specs && p.specs.battery ? p.specs.battery : '—'}</div></div>
         <div class="spec-row"><div class="spec-key">Charging</div><div class="spec-value-text">Fast Charging & Wireless Supported</div></div>
         <div class="spec-row"><div class="spec-key">Port</div><div class="spec-value-text">USB Type-C</div></div>
       </div>
@@ -253,7 +247,7 @@ function renderSpecs() {
         <div class="spec-card-title">Build & Connectivity</div>
         <div class="spec-row"><div class="spec-key">Connectivity</div><div class="spec-value-text">5G, Wi-Fi 6E/7, Bluetooth 5.3</div></div>
         <div class="spec-row"><div class="spec-key">Resistance</div><div class="spec-value-text">IP68 Dust/Water Resistant</div></div>
-        <div class="spec-row"><div class="spec-key">Weight</div><div class="spec-value-text">${p.specs.weight}</div></div>
+        <div class="spec-row"><div class="spec-key">Weight</div><div class="spec-value-text">${p.specs && p.specs.weight ? p.specs.weight : '—'}</div></div>
       </div>
     </div>
   `;

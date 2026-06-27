@@ -545,3 +545,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// ═══════════════════════════════════════════════
+// SEARCH / FILTER
+// ═══════════════════════════════════════════════
+
+window.filterSaProducts = function() {
+  const q = (document.getElementById('sa-product-search').value || '').toLowerCase().replace(/\s/g, '');
+  const rows = document.querySelectorAll('#sa-products-list tr');
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase().replace(/\s/g, '');
+    row.style.display = text.includes(q) ? '' : 'none';
+  });
+};
+
+window.filterSaApprovals = function() {
+  const q = (document.getElementById('sa-approval-search').value || '').toLowerCase().replace(/\s/g, '');
+  const rows = document.querySelectorAll('#sa-approvals-list tr');
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase().replace(/\s/g, '');
+    row.style.display = text.includes(q) ? '' : 'none';
+  });
+};
+
+window.filterSaStock = function() {
+  const q = (document.getElementById('sa-stock-search').value || '').toLowerCase().replace(/\s/g, '');
+  const rows = document.querySelectorAll('#sa-stock-list tr');
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase().replace(/\s/g, '');
+    row.style.display = text.includes(q) ? '' : 'none';
+  });
+};
