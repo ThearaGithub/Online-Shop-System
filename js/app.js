@@ -369,6 +369,7 @@ function renderHeader() {
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 
   const navItems = [
+    { label: 'Home', href: 'index.html', icon: '' },
     {
       label: 'Product',
       href: 'products.html',
