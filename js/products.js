@@ -181,11 +181,11 @@ function applyFiltersAndSort() {
 
   // 1. Search filter
   if (currentFilters.search) {
-    const q = currentFilters.search.toLowerCase();
+    const q = currentFilters.search.toLowerCase().replace(/\s/g, '');
     filtered = filtered.filter(p => 
-      p.name.toLowerCase().includes(q) || 
-      p.brand.toLowerCase().includes(q) || 
-      p.description.toLowerCase().includes(q)
+      p.name.toLowerCase().replace(/\s/g, '').includes(q) || 
+      p.brand.toLowerCase().replace(/\s/g, '').includes(q) || 
+      p.description.toLowerCase().replace(/\s/g, '').includes(q)
     );
   }
 
