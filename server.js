@@ -282,16 +282,16 @@ app.get('/api/products/:id', async (req, res) => {
 // Product Management (Admin)
 app.post('/api/products', async (req, res) => {
   try {
-    const { name, brand, category, price, originalPrice, discount, description, specs, colors, rating, reviews, inStock, featured, section, image } = req.body;
+    const { name, brand, category, price, originalPrice, discount, description, specs, colors, rating, reviews, inStock, featured, section, image, stock } = req.body;
 
     // Get max ID to increment
     const idRes = await pool.query(`SELECT MAX(id) as max_id FROM products`);
     const newId = (idRes.rows[0].max_id || 0) + 1;
 
     await pool.query(`
-      INSERT INTO products (id, name, brand, category, price, "originalPrice", discount, description, specs, colors, rating, reviews, "inStock", featured, section, image)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
-      [newId, name, brand, category, price, originalPrice || null, discount || 0, description, JSON.stringify(specs || {}), JSON.stringify(colors || []), rating || 0, reviews || 0, inStock || true, featured || false, section || null, image || 'assets/placeholder.png']
+      INSERT INTO products (id, name, brand, category, price, "originalPrice", discount, description, specs, colors, rating, reviews, "inStock", featured, section, image, stock)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`,
+      [newId, name, brand, category, price, originalPrice || null, discount || 0, description, JSON.stringify(specs || {}), JSON.stringify(colors || []), rating || 0, reviews || 0, inStock || true, featured || false, section || null, image || 'assets/placeholder.png', stock || 0]
     );
     res.json({ success: true, id: newId });
   } catch (err) {
@@ -301,14 +301,14 @@ app.post('/api/products', async (req, res) => {
 
 app.put('/api/products/:id', async (req, res) => {
   try {
-    const { name, brand, category, price, originalPrice, discount, description, specs, colors, rating, reviews, inStock, featured, section, image } = req.body;
+    const { name, brand, category, price, originalPrice, discount, description, specs, colors, rating, reviews, inStock, featured, section, image, stock } = req.body;
     await pool.query(`
       UPDATE products SET
         name = $1, brand = $2, category = $3, price = $4, "originalPrice" = $5, discount = $6,
         description = $7, specs = $8, colors = $9, rating = $10, reviews = $11, "inStock" = $12,
-        featured = $13, section = $14, image = $15
-      WHERE id = $16`,
-      [name, brand, category, price, originalPrice, discount, description, JSON.stringify(specs || {}), JSON.stringify(colors || []), rating, reviews, inStock, featured, section, image, req.params.id]
+        featured = $13, section = $14, image = $15, stock = $16
+      WHERE id = $17`,
+      [name, brand, category, price, originalPrice, discount, description, JSON.stringify(specs || {}), JSON.stringify(colors || []), rating, reviews, inStock, featured, section, image, stock || 0, req.params.id]
     );
     res.json({ success: true });
   } catch (err) {
