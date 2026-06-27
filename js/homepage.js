@@ -225,7 +225,7 @@ function renderProductSection(products, sectionName, containerId, limit = 4) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
-  const sectionProducts = products.filter(p => p.section === sectionName).slice(0, limit);
+  const sectionProducts = products.filter(p => p.section === sectionName).sort((a, b) => b.id - a.id).slice(0, limit);
 
   if (sectionProducts.length === 0) {
     container.innerHTML = '<p style="color: var(--text-secondary);">Products arriving soon.</p>';
