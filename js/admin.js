@@ -585,30 +585,124 @@ window.deleteProduct = async function(id) {
   }
 };
 
-// Handle image upload
+// ─── CROP & UPLOAD ──────────────────────────────
+let cropFile = null;
+let cropOffsetX = 0, cropOffsetY = 0;
+let cropDragStartX, cropDragStartY, cropDragOrigX, cropDragOrigY;
+let cropScale = 1;
+
+window.closeCropModal = function() {
+  document.getElementById('crop-modal').style.display = 'none';
+  cropFile = null;
+};
+
+function openCropModal(file) {
+  cropFile = file;
+  cropOffsetX = 0;
+  cropOffsetY = 0;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = document.getElementById('crop-image');
+    img.src = e.target.result;
+    img.onload = function() {
+      const container = document.getElementById('crop-container');
+      const cw = container.clientWidth;
+      const ch = container.clientHeight - 0;
+      const iw = img.naturalWidth;
+      const ih = img.naturalHeight;
+      cropScale = Math.min(cw / iw, ch / ih) * 0.9;
+      img.style.width = (iw * cropScale) + 'px';
+      img.style.height = (ih * cropScale) + 'px';
+      img.style.left = ((cw - iw * cropScale) / 2) + 'px';
+      img.style.top = ((ch - ih * cropScale) / 2) + 'px';
+      cropOffsetX = (cw - iw * cropScale) / 2;
+      cropOffsetY = (ch - ih * cropScale) / 2;
+    };
+  };
+  reader.readAsDataURL(file);
+  document.getElementById('crop-modal').style.display = 'flex';
+}
+
+// Drag image in crop modal
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('crop-container');
+  if (!container) return;
+  container.addEventListener('mousedown', function(e) {
+    cropDragStartX = e.clientX;
+    cropDragStartY = e.clientY;
+    cropDragOrigX = cropOffsetX;
+    cropDragOrigY = cropOffsetY;
+    const onMove = (ev) => {
+      cropOffsetX = cropDragOrigX + (ev.clientX - cropDragStartX);
+      cropOffsetY = cropDragOrigY + (ev.clientY - cropDragStartY);
+      const img = document.getElementById('crop-image');
+      img.style.left = cropOffsetX + 'px';
+      img.style.top = cropOffsetY + 'px';
+    };
+    const onUp = () => {
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    };
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+});
+
+window.cropAndUpload = async function() {
+  if (!cropFile) return;
+  const img = document.getElementById('crop-image');
+  const container = document.getElementById('crop-container');
+  const cw = container.clientWidth;
+  const ch = container.clientHeight;
+  
+  const canvas = document.createElement('canvas');
+  const cropSize = 400;
+  canvas.width = cropSize;
+  canvas.height = cropSize;
+  const ctx = canvas.getContext('2d');
+  
+  // Calculate crop area in image coordinates
+  const cropLeft = (cw - cropSize) / 2;
+  const cropTop = (ch - cropSize) / 2;
+  const sx = (cropLeft - cropOffsetX) / cropScale;
+  const sy = (cropTop - cropOffsetY) / cropScale;
+  const sw = cropSize / cropScale;
+  const sh = cropSize / cropScale;
+  
+  ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cropSize, cropSize);
+  
+  canvas.toBlob(async function(blob) {
+    const formData = new FormData();
+    formData.append('image', blob, cropFile.name);
+    try {
+      Toast.show('Uploading...', 'info');
+      const res = await fetch('/api/products/upload-image', { method: 'POST', body: formData });
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById('product-image-url').value = data.url;
+        const preview = document.getElementById('product-image-preview');
+        preview.querySelector('img').src = data.url;
+        preview.style.display = 'block';
+        Toast.show('Image uploaded', 'success');
+        closeCropModal();
+      } else {
+        Toast.show('Upload failed', 'error');
+      }
+    } catch (err) {
+      Toast.show('Upload error', 'error');
+    }
+  }, 'image/jpeg', 0.9);
+};
+
+// Handle image upload (open crop modal instead)
 document.addEventListener('DOMContentLoaded', () => {
   const fileInput = document.getElementById('product-image-input');
   if (fileInput) {
-    fileInput.addEventListener('change', async function() {
+    fileInput.addEventListener('change', function() {
       const file = this.files[0];
       if (!file) return;
-      const formData = new FormData();
-      formData.append('image', file);
-      try {
-        const res = await fetch('/api/products/upload-image', { method: 'POST', body: formData });
-        const data = await res.json();
-        if (data.success) {
-          document.getElementById('product-image-url').value = data.url;
-          const preview = document.getElementById('product-image-preview');
-          preview.querySelector('img').src = data.url;
-          preview.style.display = 'block';
-          Toast.show('Image uploaded', 'success');
-        } else {
-          Toast.show('Upload failed', 'error');
-        }
-      } catch (err) {
-        Toast.show('Upload error', 'error');
-      }
+      openCropModal(file);
+      this.value = ''; // Allow re-selecting same file
     });
   }
 });
