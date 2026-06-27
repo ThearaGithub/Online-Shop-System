@@ -232,8 +232,11 @@
           <textarea id="pf-specs" class="modal-input" rows="4" style="resize:vertical;font-family:monospace;font-size:12px;" placeholder='{"display":"6.7&quot; OLED","processor":"A19","ram":"8GB","storage":["128GB","256GB"],"camera":"48MP","battery":"4000 mAh","os":"iOS","weight":"200g"}'></textarea>
         </div>
         <div style="grid-column:1/-1;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;">
-          <div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">Colors (JSON array)</div>
-          <textarea id="pf-colors" class="modal-input" rows="3" style="resize:vertical;font-family:monospace;font-size:12px;" placeholder='[{"name":"Black","hex":"#000000"},{"name":"White","hex":"#ffffff"}]'></textarea>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <span style="font-size:13px;color:var(--text-secondary);">Colors</span>
+            <button type="button" class="btn-status" style="background:var(--accent-purple);padding:4px 12px;font-size:11px;" onclick="addColorRow()">+ Add Color</button>
+          </div>
+          <div id="color-editor"></div>
         </div>
         <div style="grid-column:1/-1;display:flex;gap:10px;align-items:center;padding-top:8px;">
           <label><input type="checkbox" id="pf-featured"> Featured</label>

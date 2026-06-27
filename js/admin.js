@@ -401,6 +401,97 @@ window.setPeriod = function(period) {
 
 let editingProductId = null;
 
+// Color editor
+let colorIndexCounter = 0;
+
+window.addColorRow = function(data) {
+  const container = document.getElementById('color-editor');
+  if (!container) return;
+  const idx = colorIndexCounter++;
+  const name = data ? data.name : '';
+  const hex = data ? data.hex : '#8b5cf6';
+  const img = data ? (data.image || '') : '';
+  const row = document.createElement('div');
+  row.id = `color-row-${idx}`;
+  row.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap;padding:8px;background:var(--bg-tertiary);border-radius:6px;';
+  row.innerHTML = `
+    <input type="text" id="col-name-${idx}" class="modal-input" style="width:120px;" placeholder="Name" value="${name}">
+    <input type="color" id="col-hex-${idx}" value="${hex}" style="width:36px;height:36px;border:none;border-radius:4px;cursor:pointer;background:none;padding:0;">
+    <input type="text" id="col-img-${idx}" class="modal-input" style="width:180px;font-size:11px;" placeholder="Image URL (or upload)" value="${img}" readonly>
+    <button type="button" class="btn-status" style="background:#4a90e2;padding:4px 8px;font-size:11px;" onclick="uploadColorImage(${idx})">
+      <i class="fas fa-upload"></i>
+    </button>
+    <div id="col-preview-${idx}" style="${img ? 'display:block' : 'display:none'};width:32px;height:32px;border-radius:4px;overflow:hidden;">
+      <img src="${img}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.display='none'">
+    </div>
+    <button type="button" class="btn-status" style="background:#e74c3c;padding:4px 8px;font-size:11px;" onclick="removeColorRow(${idx})">
+      <i class="fas fa-times"></i>
+    </button>
+  `;
+  container.appendChild(row);
+};
+
+window.removeColorRow = function(idx) {
+  const row = document.getElementById(`color-row-${idx}`);
+  if (row) row.remove();
+};
+
+window.uploadColorImage = async function(idx) {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = async function() {
+    const file = this.files[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append('image', file);
+    try {
+      const res = await fetch('/api/products/upload-image', { method: 'POST', body: formData });
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById(`col-img-${idx}`).value = data.url;
+        const preview = document.getElementById(`col-preview-${idx}`);
+        preview.querySelector('img').src = data.url;
+        preview.style.display = 'block';
+        Toast.show('Color image uploaded', 'success');
+      } else {
+        Toast.show('Upload failed', 'error');
+      }
+    } catch (err) {
+      Toast.show('Upload error', 'error');
+    }
+  };
+  input.click();
+};
+
+function buildColorsFromEditor() {
+  const container = document.getElementById('color-editor');
+  if (!container) return [];
+  const rows = container.querySelectorAll('[id^="color-row-"]');
+  const colors = [];
+  rows.forEach(row => {
+    const id = row.id.replace('color-row-', '');
+    const name = document.getElementById(`col-name-${id}`)?.value.trim();
+    const hex = document.getElementById(`col-hex-${id}`)?.value;
+    const img = document.getElementById(`col-img-${id}`)?.value.trim();
+    if (name) {
+      const c = { name, hex: hex || '#8b5cf6' };
+      if (img) c.image = img;
+      colors.push(c);
+    }
+  });
+  return colors;
+}
+
+function populateColorEditor(colors) {
+  const container = document.getElementById('color-editor');
+  if (container) container.innerHTML = '';
+  colorIndexCounter = 0;
+  if (colors && colors.length > 0) {
+    colors.forEach(c => addColorRow(c));
+  }
+}
+
 async function renderProductsTable() {
   const tbody = document.getElementById('admin-products-list');
   if (!tbody) return;
@@ -439,6 +530,7 @@ window.showAddProductModal = function() {
   document.getElementById('pf-stock').value = 10;
   document.getElementById('product-image-url').value = '';
   document.getElementById('product-image-preview').style.display = 'none';
+  populateColorEditor([]);
   document.getElementById('product-modal').style.display = 'flex';
 };
 
@@ -462,7 +554,7 @@ window.editProduct = async function(id) {
     document.getElementById('pf-stock').value = p.stock || 0;
     document.getElementById('pf-description').value = p.description || '';
     document.getElementById('pf-specs').value = p.specs ? JSON.stringify(p.specs, null, 2) : '';
-    document.getElementById('pf-colors').value = p.colors ? JSON.stringify(p.colors, null, 2) : '';
+    populateColorEditor(p.colors);
     document.getElementById('pf-featured').checked = p.featured || false;
     document.getElementById('pf-instock').checked = p.inStock !== false;
     if (p.image) {
@@ -552,13 +644,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Parse colors JSON
-      try {
-        data.colors = document.getElementById('pf-colors').value.trim() ? JSON.parse(document.getElementById('pf-colors').value) : [];
-      } catch(e) {
-        Toast.show('Invalid colors JSON format', 'error');
-        return;
-      }
+      // Build colors from editor
+      data.colors = buildColorsFromEditor();
 
       if (!data.name || !data.brand || !data.category || !data.price) {
         Toast.show('Please fill in required fields', 'error');
