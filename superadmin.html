@@ -116,6 +116,30 @@
         </table>
       </div>
 
+      <h2 style="margin-top:40px;margin-bottom:15px;">
+        Manage Products
+        <button class="btn-status" style="background:var(--accent-purple);margin-left:10px;" onclick="showAddProductModal()">
+          <i class="fas fa-plus"></i> Add Product
+        </button>
+      </h2>
+      <div style="overflow-x:auto;">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Brand</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="sa-products-list"></tbody>
+        </table>
+      </div>
+
       <h2 style="margin-top:40px;margin-bottom:15px;">Order Approvals</h2>
       <div style="overflow-x:auto;">
         <table class="admin-table">
@@ -141,5 +165,88 @@
   <script src="js/products-data.js"></script>
   <script src="js/app.js"></script>
   <script src="js/superadmin.js"></script>
+
+  <!-- Product Modal -->
+  <div class="modal-overlay" id="product-modal" style="display:none;" onclick="if(event.target===this)closeProductModal()">
+    <div class="modal-content" style="max-width:700px;max-height:90vh;overflow-y:auto;padding:30px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h2 id="product-modal-title">Add Product</h2>
+        <button onclick="closeProductModal()" style="background:none;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;">&times;</button>
+      </div>
+      <form id="product-form" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="grid-column:1/-1;">
+          <label style="display:block;margin-bottom:4px;font-size:13px;color:var(--text-secondary);">Product Image</label>
+          <input type="file" id="product-image-input" accept="image/*" style="width:100%;padding:8px;background:var(--bg-tertiary);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:white;">
+          <input type="hidden" id="product-image-url">
+          <div id="product-image-preview" style="margin-top:8px;display:none;"><img style="max-height:100px;border-radius:6px;"></div>
+        </div>
+        <div>
+          <label style="display:block;margin-bottom:4px;font-size:13px;color:var(--text-secondary);">Name *</label>
+          <input type="text" id="pf-name" class="modal-input" required>
+        </div>
+        <div>
+          <label style="display:block;margin-bottom:4px;font-size:13px;color:var(--text-secondary);">Brand *</label>
+          <input type="text" id="pf-brand" class="modal-input" required>
+        </div>
+        <div>
+          <label style="display:block;margin-bottom:4px;font-size:13px;color:var(--text-secondary);">Category *</label>
+          <select id="pf-category" class="modal-input" required>
+            <option value="">Select...</option>
+            <option value="Mobile Phone">Mobile Phone</option>
+            <option value="Smart Watch">Smart Watch</option>
+            <option value="Accessories">Accessories</option>
+            <option value="SecondHand">SecondHand</option>
+            <option value="Tablet">Tablet</option>
+            <option value="Laptop">Laptop</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block;margin-bottom:4px;font-size:13px;color:var(--text-secondary);">Section</label>
+          <select id="pf-section" class="modal-input">
+            <option value="">None</option>
+            <option value="special-offer">Special Offer</option>
+            <option value="new-arrival">New Arrival</option>
+            <option value="accessories">Accessories</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block;margin-bottom:4px;font-size:13px;color:var(--text-secondary);">Price *</label>
+          <input type="number" step="0.01" id="pf-price" class="modal-input" required>
+        </div>
+        <div>
+          <label style="display:block;margin-bottom:4px;font-size:13px;color:var(--text-secondary);">Original Price</label>
+          <input type="number" step="0.01" id="pf-original-price" class="modal-input">
+        </div>
+        <div>
+          <label style="display:block;margin-bottom:4px;font-size:13px;color:var(--text-secondary);">Discount</label>
+          <input type="number" step="0.01" id="pf-discount" class="modal-input" value="0">
+        </div>
+        <div>
+          <label style="display:block;margin-bottom:4px;font-size:13px;color:var(--text-secondary);">Stock *</label>
+          <input type="number" id="pf-stock" class="modal-input" value="10" required>
+        </div>
+        <div style="grid-column:1/-1;">
+          <label style="display:block;margin-bottom:4px;font-size:13px;color:var(--text-secondary);">Description</label>
+          <textarea id="pf-description" class="modal-input" rows="3" style="resize:vertical;"></textarea>
+        </div>
+        <div style="grid-column:1/-1;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;">
+          <div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">Specs (JSON format)</div>
+          <textarea id="pf-specs" class="modal-input" rows="4" style="resize:vertical;font-family:monospace;font-size:12px;" placeholder='{"display":"6.7&quot; OLED","processor":"A19","ram":"8GB","storage":["128GB","256GB"],"camera":"48MP","battery":"4000 mAh","os":"iOS","weight":"200g"}'></textarea>
+        </div>
+        <div style="grid-column:1/-1;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;">
+          <div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">Colors (JSON array)</div>
+          <textarea id="pf-colors" class="modal-input" rows="3" style="resize:vertical;font-family:monospace;font-size:12px;" placeholder='[{"name":"Black","hex":"#000000"},{"name":"White","hex":"#ffffff"}]'></textarea>
+        </div>
+        <div style="grid-column:1/-1;display:flex;gap:10px;align-items:center;padding-top:8px;">
+          <label><input type="checkbox" id="pf-featured"> Featured</label>
+          <label><input type="checkbox" id="pf-instock" checked> In Stock</label>
+        </div>
+        <div style="grid-column:1/-1;display:flex;gap:10px;margin-top:10px;">
+          <button type="submit" class="btn-primary" style="flex:1;" id="product-form-submit">Save Product</button>
+          <button type="button" class="btn-status" style="background:#555;" onclick="closeProductModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </body>
 </html>

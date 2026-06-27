@@ -24,6 +24,16 @@ const storage = new CloudinaryStorage({
 });
 const upload = multer({ storage });
 
+// Multer config for product images (cloud storage)
+const productStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'shopflow/products',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp']
+  }
+});
+const productUpload = multer({ storage: productStorage });
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -219,6 +229,16 @@ app.delete('/api/admin/users/:id', async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// Product image upload
+app.post('/api/products/upload-image', productUpload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ success: false, message: 'No file uploaded' });
+    res.json({ success: true, url: req.file.path });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
   }
 });
 

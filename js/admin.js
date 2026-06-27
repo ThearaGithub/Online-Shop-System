@@ -394,3 +394,203 @@ window.setPeriod = function(period) {
   });
   initAnalytics(period);
 };
+
+// ═══════════════════════════════════════════════
+// PRODUCT MANAGEMENT
+// ═══════════════════════════════════════════════
+
+let editingProductId = null;
+
+async function renderProductsTable() {
+  const tbody = document.getElementById('admin-products-list');
+  if (!tbody) return;
+  try {
+    const res = await fetch('/api/products');
+    const products = await res.json();
+    tbody.innerHTML = products.map(p => `
+      <tr>
+        <td style="font-size:12px;color:var(--text-muted);">${p.id}</td>
+        <td>
+          ${p.image ? `<img src="${p.image}" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:6px;" onerror="this.style.display='none'">` : '<span style="color:var(--text-muted);font-size:18px;">📦</span>'}
+        </td>
+        <td style="color:white;font-size:13px;">${p.name}</td>
+        <td style="font-size:12px;">${p.brand}</td>
+        <td style="font-size:12px;">${p.category}</td>
+        <td style="color:white;font-weight:600;">${formatPrice(p.price)}</td>
+        <td style="color:${p.stock < 5 ? '#ff6b6b' : '#2ecc71'};font-weight:600;">${p.stock}</td>
+        <td>
+          <div style="display:flex;gap:4px;">
+            <button class="btn-status" style="background:#4a90e2;" onclick="editProduct(${p.id})"><i class="fas fa-edit"></i></button>
+            <button class="btn-status" style="background:#e74c3c;" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i></button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  } catch (err) {
+    console.error('Failed to load products:', err);
+  }
+}
+
+window.showAddProductModal = function() {
+  editingProductId = null;
+  document.getElementById('product-modal-title').textContent = 'Add Product';
+  document.getElementById('product-form').reset();
+  document.getElementById('pf-instock').checked = true;
+  document.getElementById('pf-stock').value = 10;
+  document.getElementById('product-image-url').value = '';
+  document.getElementById('product-image-preview').style.display = 'none';
+  document.getElementById('product-modal').style.display = 'flex';
+};
+
+window.closeProductModal = function() {
+  document.getElementById('product-modal').style.display = 'none';
+};
+
+window.editProduct = async function(id) {
+  try {
+    const res = await fetch(`/api/products/${id}`);
+    const p = await res.json();
+    editingProductId = id;
+    document.getElementById('product-modal-title').textContent = 'Edit Product';
+    document.getElementById('pf-name').value = p.name || '';
+    document.getElementById('pf-brand').value = p.brand || '';
+    document.getElementById('pf-category').value = p.category || '';
+    document.getElementById('pf-section').value = p.section || '';
+    document.getElementById('pf-price').value = p.price || '';
+    document.getElementById('pf-original-price').value = p.originalPrice || '';
+    document.getElementById('pf-discount').value = p.discount || 0;
+    document.getElementById('pf-stock').value = p.stock || 0;
+    document.getElementById('pf-description').value = p.description || '';
+    document.getElementById('pf-specs').value = p.specs ? JSON.stringify(p.specs, null, 2) : '';
+    document.getElementById('pf-colors').value = p.colors ? JSON.stringify(p.colors, null, 2) : '';
+    document.getElementById('pf-featured').checked = p.featured || false;
+    document.getElementById('pf-instock').checked = p.inStock !== false;
+    if (p.image) {
+      document.getElementById('product-image-url').value = p.image;
+      const preview = document.getElementById('product-image-preview');
+      preview.querySelector('img').src = p.image;
+      preview.style.display = 'block';
+    }
+    document.getElementById('product-modal').style.display = 'flex';
+  } catch (err) {
+    Toast.show('Failed to load product', 'error');
+  }
+};
+
+window.deleteProduct = async function(id) {
+  if (!confirm('Delete this product? This cannot be undone.')) return;
+  try {
+    const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.success) {
+      Toast.show('Product deleted', 'success');
+      renderProductsTable();
+    } else {
+      Toast.show('Failed to delete', 'error');
+    }
+  } catch (err) {
+    Toast.show('Network error', 'error');
+  }
+};
+
+// Handle image upload
+document.addEventListener('DOMContentLoaded', () => {
+  const fileInput = document.getElementById('product-image-input');
+  if (fileInput) {
+    fileInput.addEventListener('change', async function() {
+      const file = this.files[0];
+      if (!file) return;
+      const formData = new FormData();
+      formData.append('image', file);
+      try {
+        const res = await fetch('/api/products/upload-image', { method: 'POST', body: formData });
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById('product-image-url').value = data.url;
+          const preview = document.getElementById('product-image-preview');
+          preview.querySelector('img').src = data.url;
+          preview.style.display = 'block';
+          Toast.show('Image uploaded', 'success');
+        } else {
+          Toast.show('Upload failed', 'error');
+        }
+      } catch (err) {
+        Toast.show('Upload error', 'error');
+      }
+    });
+  }
+});
+
+// Handle form submit
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('product-form');
+  if (form) {
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById('pf-name').value.trim(),
+        brand: document.getElementById('pf-brand').value.trim(),
+        category: document.getElementById('pf-category').value,
+        price: parseFloat(document.getElementById('pf-price').value),
+        originalPrice: parseFloat(document.getElementById('pf-original-price').value) || null,
+        discount: parseFloat(document.getElementById('pf-discount').value) || 0,
+        description: document.getElementById('pf-description').value.trim(),
+        stock: parseInt(document.getElementById('pf-stock').value) || 0,
+        featured: document.getElementById('pf-featured').checked,
+        inStock: document.getElementById('pf-instock').checked,
+        section: document.getElementById('pf-section').value || null,
+        image: document.getElementById('product-image-url').value || 'assets/placeholder.svg',
+        rating: 0,
+        reviews: 0
+      };
+
+      // Parse specs JSON
+      try {
+        data.specs = document.getElementById('pf-specs').value.trim() ? JSON.parse(document.getElementById('pf-specs').value) : {};
+      } catch(e) {
+        Toast.show('Invalid specs JSON format', 'error');
+        return;
+      }
+
+      // Parse colors JSON
+      try {
+        data.colors = document.getElementById('pf-colors').value.trim() ? JSON.parse(document.getElementById('pf-colors').value) : [];
+      } catch(e) {
+        Toast.show('Invalid colors JSON format', 'error');
+        return;
+      }
+
+      if (!data.name || !data.brand || !data.category || !data.price) {
+        Toast.show('Please fill in required fields', 'error');
+        return;
+      }
+
+      try {
+        const url = editingProductId ? `/api/products/${editingProductId}` : '/api/products';
+        const method = editingProductId ? 'PUT' : 'POST';
+        const res = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        if (result.success) {
+          Toast.show(editingProductId ? 'Product updated' : 'Product created', 'success');
+          closeProductModal();
+          renderProductsTable();
+        } else {
+          Toast.show(result.message || 'Failed to save', 'error');
+        }
+      } catch (err) {
+        Toast.show('Network error', 'error');
+      }
+    });
+  }
+});
+
+// Also render products table on dashboard load
+const origRender = renderAdminDashboard;
+renderAdminDashboard = function() {
+  origRender.call(this);
+  renderProductsTable();
+};
