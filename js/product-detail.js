@@ -332,7 +332,7 @@ function renderStarsDisplay(rating) {
 }
 
 let reviewRating = 5;
-window.setReviewRating = function(val) { reviewRating = val; renderReviewForm(); };
+window.setReviewRating = function(val) { reviewRating = val; renderReviewForm(); renderNewReviewForm(); };
 
 async function renderReviews() {
   const container = document.getElementById('reviews-container');
@@ -358,16 +358,25 @@ async function renderReviews() {
   container.style.display = 'block';
   content.innerHTML = `
     ${user ? `
-      <div class="review-form-card" id="review-form-container">
-        <h4 style="margin-bottom:10px;color:white;">${userReview ? 'Edit Your Review' : 'Write a Review'}</h4>
+      <div class="review-form-card" id="review-form-container" style="display:${editingReviewId ? 'block' : 'none'};">
+        <h4 style="margin-bottom:10px;color:white;">Edit Your Review</h4>
         <div class="review-stars-input" id="review-stars">${renderStarsInput(reviewRating)}</div>
         <textarea id="review-comment" placeholder="Share your thoughts about this product..." rows="3">${userReview ? userReview.comment : ''}</textarea>
         <div style="display:flex;gap:8px;margin-top:8px;">
-          <button class="btn-primary" style="padding:8px 16px;font-size:13px;" onclick="submitReview()">${userReview ? 'Update' : 'Submit'}</button>
-          ${userReview ? `<button class="btn-status" style="background:#555;padding:8px 16px;font-size:13px;" onclick="cancelReviewEdit()">Cancel</button>` : ''}
-          ${userReview ? `<button class="btn-status" style="background:#e74c3c;padding:8px 16px;font-size:13px;" onclick="deleteReview(${userReview.id})">Delete</button>` : ''}
+          <button class="btn-primary" style="padding:8px 16px;font-size:13px;" onclick="submitReview()">Update</button>
+          <button class="btn-status" style="background:#555;padding:8px 16px;font-size:13px;" onclick="cancelReviewEdit()">Cancel</button>
         </div>
       </div>
+      ${!userReview ? `
+      <div class="review-form-card" id="new-review-form">
+        <h4 style="margin-bottom:10px;color:white;">Write a Review</h4>
+        <div class="review-stars-input" id="new-review-stars">${renderStarsInput(5)}</div>
+        <textarea id="new-review-comment" placeholder="Share your thoughts about this product..." rows="3"></textarea>
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button class="btn-primary" style="padding:8px 16px;font-size:13px;" onclick="submitNewReview()">Submit</button>
+        </div>
+      </div>
+      ` : ''}
     ` : `
       <p style="color:var(--text-secondary);margin-bottom:15px;"><a href="login.html" style="color:var(--accent-purple);">Log in</a> to write a review.</p>
     `}
@@ -404,6 +413,11 @@ async function renderReviews() {
 
 function renderReviewForm() {
   const starsContainer = document.getElementById('review-stars');
+  if (starsContainer) starsContainer.innerHTML = renderStarsInput(reviewRating);
+}
+
+function renderNewReviewForm() {
+  const starsContainer = document.getElementById('new-review-stars');
   if (starsContainer) starsContainer.innerHTML = renderStarsInput(reviewRating);
 }
 
@@ -454,6 +468,7 @@ window.setEditReview = function(id) {
   if (!review) return;
   editingReviewId = id;
   reviewRating = review.rating;
+  document.getElementById('review-form-container').style.display = 'block';
   document.getElementById('review-comment').value = review.comment;
   renderReviewForm();
   document.getElementById('review-form-container').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -463,6 +478,34 @@ window.cancelReviewEdit = function() {
   editingReviewId = null;
   reviewRating = 5;
   renderReviews();
+};
+
+window.submitNewReview = async function() {
+  const user = Auth.getCurrentUser();
+  if (!user) { Toast.show('Please log in first', 'error'); return; }
+  const comment = document.getElementById('new-review-comment').value.trim();
+  if (!comment) { Toast.show('Please write a comment', 'error'); return; }
+  const rating = reviewRating; // uses the global from star clicks
+  try {
+    const res = await fetch(`/api/products/${currentProduct.id}/reviews`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user.id, userName: user.firstName + ' ' + (user.lastName || ''), avatar: user.avatar || null, rating, comment })
+    });
+    const data = await res.json();
+    if (data.success) {
+      Toast.show('Review submitted', 'success');
+      reviewRating = 5;
+      renderReviews();
+      currentProduct = await getProductById(currentProduct.id);
+      renderProductDetail();
+      renderSpecs();
+    } else {
+      Toast.show('Failed to submit', 'error');
+    }
+  } catch(e) {
+    Toast.show('Network error', 'error');
+  }
 };
 
 window.deleteReview = async function(id) {

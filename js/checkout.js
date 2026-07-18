@@ -69,17 +69,18 @@ function renderCheckoutSummary() {
   const itemsContainer = document.getElementById('checkout-items');
   
   itemsContainer.innerHTML = items.map(item => `
-    <div style="display: flex; gap: 10px; margin-bottom: 12px; font-size: 13px;">
-      <div style="width: 40px; height: 40px; background: var(--bg-elevated); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
-        <img src="${item.image}" alt="${item.name}" class="product-img" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\\'product-emoji\\'>📦</span>'">
+    <div style="display: flex; gap: 12px; margin-bottom: 16px; font-size: 13px; align-items: flex-start;">
+      <div style="width: 48px; height: 48px; flex-shrink: 0; background: var(--bg-elevated); border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+        <img src="${item.image}" alt="${item.name}" class="product-img" style="width: 100%; height: 100%; object-fit: contain; border-radius:4px;" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\\'product-emoji\\'>📦</span>'">
       </div>
-      <div style="flex: 1;">
-        <div style="color: white; font-weight: 600;">${item.name} <span style="color: var(--text-muted)">x${item.quantity}</span></div>
-        <div style="color: var(--text-secondary); font-size: 11px;">
+      <div style="flex: 1; min-width: 0;">
+        <div style="color: white; font-weight: 600; font-size: 13px; line-height: 1.3; word-break: break-word;">${item.name}</div>
+        <div style="color: var(--text-muted); font-size: 11px; margin-top: 2px;">Qty: ${item.quantity}</div>
+        <div style="color: var(--text-secondary); font-size: 11px; margin-top: 2px;">
           ${item.selectedColor ? item.selectedColor : ''} ${item.selectedStorage ? ` | ${item.selectedStorage}` : ''}
         </div>
       </div>
-      <div style="color: white; font-weight: 700;">
+      <div style="color: white; font-weight: 700; font-size: 14px; white-space: nowrap; flex-shrink: 0;">
         ${formatPrice(item.price * item.quantity)}
       </div>
     </div>

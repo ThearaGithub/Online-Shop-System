@@ -147,6 +147,7 @@ const Cart = {
     if (actualQty <= 0) return items;
     if (existing) {
       existing.quantity = actualQty;
+      if (!existing.originalPrice) existing.originalPrice = product.originalPrice || null;
     } else {
       items.push({
         productId: product.id,
