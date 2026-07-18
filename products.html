@@ -22,36 +22,38 @@
     <div class="catalog-layout">
       <!-- Sidebar Filters -->
       <aside class="filter-sidebar">
-        <h3>Filters</h3>
+        <h3>Filters <button class="filter-toggle-all" onclick="toggleAllFilters()">Collapse All</button></h3>
         
         <div class="filter-group">
-          <h4>Categories</h4>
-          <div id="filter-categories">
+          <h4 onclick="toggleFilter(this)">Categories <i class="fas fa-chevron-up"></i></h4>
+          <div class="filter-content" id="filter-categories">
             <!-- Rendered by products.js -->
           </div>
         </div>
         
         <div class="filter-group">
-          <h4>Brands</h4>
-          <div id="filter-brands">
+          <h4 onclick="toggleFilter(this)">Brands <i class="fas fa-chevron-up"></i></h4>
+          <div class="filter-content" id="filter-brands">
             <!-- Rendered by products.js -->
           </div>
         </div>
         
         <div class="filter-group">
-          <h4>Price Range</h4>
-          <div class="price-range" id="price-range-group">
-            <input type="number" id="price-min" placeholder="Min $">
-            <span>-</span>
-            <input type="number" id="price-max" placeholder="Max $">
+          <h4 onclick="toggleFilter(this)">Price Range <i class="fas fa-chevron-up"></i></h4>
+          <div class="filter-content">
+            <div class="price-range" id="price-range-group">
+              <input type="number" id="price-min" placeholder="Min $">
+              <span>-</span>
+              <input type="number" id="price-max" placeholder="Max $">
+            </div>
+            <div id="price-error" style="color:#ff6b6b;font-size:12px;display:none;margin-top:4px;"></div>
+            <button class="btn-filter" id="btn-apply-price">Apply</button>
           </div>
-          <div id="price-error" style="color:#ff6b6b;font-size:12px;display:none;margin-top:4px;"></div>
-          <button class="btn-filter" id="btn-apply-price">Apply</button>
         </div>
         
         <div class="filter-group">
-          <h4>Rating</h4>
-          <div id="filter-rating">
+          <h4 onclick="toggleFilter(this)">Rating <i class="fas fa-chevron-up"></i></h4>
+          <div class="filter-content" id="filter-rating">
             <label class="filter-option"><input type="radio" name="rating-filter" value="" checked onchange="updateRating('')"> Any</label>
             <label class="filter-option"><input type="radio" name="rating-filter" value="4.5" onchange="updateRating('4.5')"> 4.5 &amp; up</label>
             <label class="filter-option"><input type="radio" name="rating-filter" value="4" onchange="updateRating('4')"> 4 &amp; up</label>
@@ -60,29 +62,31 @@
         </div>
         
         <div class="filter-group">
-          <h4>Screen Size</h4>
-          <div id="filter-screen-size">
+          <h4 onclick="toggleFilter(this)">Screen Size <i class="fas fa-chevron-up"></i></h4>
+          <div class="filter-content" id="filter-screen-size">
             <!-- rendered by products.js -->
           </div>
         </div>
         
         <div class="filter-group">
-          <h4>Color</h4>
-          <div id="filter-colors">
+          <h4 onclick="toggleFilter(this)">Color <i class="fas fa-chevron-up"></i></h4>
+          <div class="filter-content" id="filter-colors">
             <!-- rendered by products.js -->
           </div>
         </div>
         
         <div class="filter-group">
-          <h4>Availability</h4>
-          <label class="filter-option">
-            <input type="checkbox" id="filter-instock" checked>
-            In Stock Only
-          </label>
-          <label class="filter-option">
-            <input type="checkbox" id="filter-deals">
-            Special Offers Only
-          </label>
+          <h4 onclick="toggleFilter(this)">Availability <i class="fas fa-chevron-up"></i></h4>
+          <div class="filter-content">
+            <label class="filter-option">
+              <input type="checkbox" id="filter-instock" checked>
+              In Stock Only
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" id="filter-deals">
+              Special Offers Only
+            </label>
+          </div>
         </div>
         
         <button class="btn-filter" id="btn-reset-filters" style="background: var(--bg-elevated); margin-top: 20px;">Reset All Filters</button>

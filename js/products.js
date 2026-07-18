@@ -127,6 +127,28 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 });
 
+// ─── FILTER COLLAPSE ─────────────────────────────────────
+window.toggleFilter = function(header) {
+  const content = header.nextElementSibling;
+  const icon = header.querySelector('i');
+  if (content && content.classList.contains('filter-content')) {
+    const isOpen = content.style.display !== 'none';
+    content.style.display = isOpen ? 'none' : '';
+    if (icon) icon.className = isOpen ? 'fas fa-chevron-down' : 'fas fa-chevron-up';
+  }
+};
+
+window.toggleAllFilters = function() {
+  const allCollapsed = document.querySelectorAll('.filter-content').length === document.querySelectorAll('.filter-content[style*="display: none"]').length;
+  document.querySelectorAll('.filter-content').forEach(el => {
+    el.style.display = allCollapsed ? '' : 'none';
+  });
+  document.querySelectorAll('.filter-group h4 i').forEach(icon => {
+    icon.className = allCollapsed ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
+  });
+  document.querySelector('.filter-toggle-all').textContent = allCollapsed ? 'Collapse All' : 'Expand All';
+};
+
 function updatePageTitle() {
   const titleEl = document.getElementById('page-title');
   const breadcrumbEl = document.getElementById('breadcrumb-current');
