@@ -3198,8 +3198,17 @@ body {
   display: flex;
   flex-direction: column;
 }
-.reviews-list .fa-star.active,
-.reviews-list .fa-star { color: #f1c40f; }
+.reviews-list .fa-star.active { color: #f1c40f; }
+.reviews-list .fa-star:not(.active) { color: #444; }
+.review-card .review-text {
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: var(--bg-tertiary);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+}
   gap: 12px;
 }
 .review-card {

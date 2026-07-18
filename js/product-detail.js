@@ -121,7 +121,7 @@ function renderProductDetail() {
       
       <h1 class="detail-product-name">${p.name}</h1>
       
-      ${p.reviews > 0 ? `<div style="margin-bottom:8px;display:flex;align-items:center;gap:8px;"><span class="stars">${renderStars(p.rating)}</span><span style="color:var(--text-secondary);font-size:13px;">${p.rating.toFixed(1)} (${p.reviews} ${p.reviews === 1 ? 'review' : 'reviews'})</span></div>` : ''}
+      <div style="margin-bottom:8px;display:flex;align-items:center;gap:8px;"><span class="stars">${p.reviews > 0 ? renderStars(p.rating) : '<i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>'}</span>${p.reviews > 0 ? `<span style="color:var(--text-secondary);font-size:13px;">${p.rating.toFixed(1)} (${p.reviews} ${p.reviews === 1 ? 'review' : 'reviews'})</span>` : '<span style="color:var(--text-muted);font-size:12px;">No reviews yet</span>'}</div>
       
       <div style="margin-bottom: 15px;">
         <span class="detail-price">${formatPrice(p.price)}</span>
@@ -393,7 +393,7 @@ async function renderReviews() {
               ` : ''}
             </div>
           </div>
-          ${r.comment ? `<p style="color:var(--text-secondary);font-size:13px;margin-top:8px;line-height:1.5;">${r.comment}</p>` : ''}
+          ${r.comment ? `<p class="review-text">${r.comment}</p>` : ''}
         </div>
       `).join('')}
     </div>
