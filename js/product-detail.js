@@ -363,7 +363,7 @@ async function renderReviews() {
         <div class="review-stars-input" id="review-stars">${renderStarsInput(reviewRating)}</div>
         <textarea id="review-comment" placeholder="Share your thoughts about this product..." rows="3">${userReview ? userReview.comment : ''}</textarea>
         <div style="display:flex;gap:8px;margin-top:8px;">
-          <button class="btn-primary" style="padding:8px 16px;font-size:13px;" onclick="submitReview()">Update</button>
+          <button class="btn-primary" style="padding:8px 16px;font-size:13px;" onclick="submitReview()">Edit</button>
           <button class="btn-status" style="background:#555;padding:8px 16px;font-size:13px;" onclick="cancelReviewEdit()">Cancel</button>
         </div>
       </div>
@@ -438,6 +438,7 @@ window.submitReview = async function() {
       if (data.success) {
         Toast.show('Review updated', 'success');
         editingReviewId = null;
+        document.getElementById('review-form-container').style.display = 'none';
         renderReviews();
         // Refresh product data to get new rating
         currentProduct = await getProductById(currentProduct.id);
@@ -496,6 +497,7 @@ window.submitNewReview = async function() {
     if (data.success) {
       Toast.show('Review submitted', 'success');
       reviewRating = 5;
+      document.getElementById('new-review-form').style.display = 'none';
       renderReviews();
       currentProduct = await getProductById(currentProduct.id);
       renderProductDetail();

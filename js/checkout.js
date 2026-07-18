@@ -90,7 +90,6 @@ function renderCheckoutSummary() {
   const subtotal = Cart.getSubtotal();
   const tax = Cart.getTax();
   const shipping = Cart.getShipping();
-  const total = subtotal + tax + shipping;
   
   // Calculate total discount/savings from cart items (originalPrice - price) * qty
   const totalSavings = items.reduce((sum, item) => {
@@ -100,16 +99,25 @@ function renderCheckoutSummary() {
     return sum;
   }, 0);
   
-  document.getElementById('summary-subtotal').textContent = formatPrice(subtotal);
+  const originalTotal = subtotal + totalSavings;
+  const discountedSubtotal = subtotal;
+  const finalTotal = discountedSubtotal + tax + shipping;
+  
+  document.getElementById('summary-subtotal').textContent = formatPrice(discountedSubtotal);
+  
   if (totalSavings > 0) {
+    document.getElementById('summary-original-row').style.display = 'flex';
+    document.getElementById('summary-original').textContent = formatPrice(originalTotal);
     document.getElementById('summary-discount-row').style.display = 'flex';
     document.getElementById('summary-discount').textContent = '-' + formatPrice(totalSavings);
   } else {
+    document.getElementById('summary-original-row').style.display = 'none';
     document.getElementById('summary-discount-row').style.display = 'none';
   }
+  
   document.getElementById('summary-tax').textContent = formatPrice(tax);
   document.getElementById('summary-shipping').innerHTML = shipping === 0 ? '<span class="free">Free</span>' : formatPrice(shipping);
-  document.getElementById('summary-total').textContent = formatPrice(total);
+  document.getElementById('summary-total').textContent = formatPrice(finalTotal);
 }
 
 function handleCheckoutSubmit(e) {
