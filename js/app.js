@@ -730,7 +730,7 @@ function createProductCard(product) {
       </a>
       <div class="product-meta">
         <span class="product-brand-tag">${product.brand}</span>
-        <span class="product-rating"><span class="stars">${renderStars(product.rating)}</span> ${product.rating}</span>
+        ${product.reviews > 0 ? `<span class="product-rating"><span class="stars">${renderStars(product.rating)}</span> ${product.rating}</span>` : ''}
       </div>
       <div class="product-price">
         <span class="current-price">${formatPrice(product.price)}</span>

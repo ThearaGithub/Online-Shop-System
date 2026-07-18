@@ -3197,6 +3197,9 @@ body {
 .reviews-list {
   display: flex;
   flex-direction: column;
+}
+.reviews-list .fa-star.active,
+.reviews-list .fa-star { color: #f1c40f; }
   gap: 12px;
 }
 .review-card {

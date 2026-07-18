@@ -363,9 +363,7 @@ async function renderReviews() {
         <div class="review-stars-input" id="review-stars">${renderStarsInput(reviewRating)}</div>
         <textarea id="review-comment" placeholder="Share your thoughts about this product..." rows="3">${userReview ? userReview.comment : ''}</textarea>
         <div style="display:flex;gap:8px;margin-top:8px;">
-          <button class="btn-primary" style="padding:8px 16px;font-size:13px;" onclick="submitReview()">
-            ${userReview ? 'Update' : 'Submit'}
-          </button>
+          <button class="btn-primary" style="padding:8px 16px;font-size:13px;" onclick="submitReview()">${userReview ? 'Update' : 'Submit'}</button>
           ${userReview ? `<button class="btn-status" style="background:#555;padding:8px 16px;font-size:13px;" onclick="cancelReviewEdit()">Cancel</button>` : ''}
           ${userReview ? `<button class="btn-status" style="background:#e74c3c;padding:8px 16px;font-size:13px;" onclick="deleteReview(${userReview.id})">Delete</button>` : ''}
         </div>
@@ -385,7 +383,15 @@ async function renderReviews() {
                 <div style="font-size:11px;color:var(--text-muted);">${formatDate(r.createdAt)}${r.updatedAt !== r.createdAt ? ' (edited)' : ''}</div>
               </div>
             </div>
-            <div style="color:var(--accent-purple);">${renderStarsDisplay(r.rating)}</div>
+            <div style="color:var(--accent-purple);display:flex;align-items:center;gap:8px;">
+              ${renderStarsDisplay(r.rating)}
+              ${user && r.userId === user.id ? `
+                <div style="display:flex;gap:4px;margin-left:8px;">
+                  <button class="btn-status" style="background:#4a90e2;padding:4px 8px;font-size:11px;" onclick="setEditReview(${r.id})"><i class="fas fa-edit"></i></button>
+                  <button class="btn-status" style="background:#e74c3c;padding:4px 8px;font-size:11px;" onclick="deleteReview(${r.id})"><i class="fas fa-trash"></i></button>
+                </div>
+              ` : ''}
+            </div>
           </div>
           ${r.comment ? `<p style="color:var(--text-secondary);font-size:13px;margin-top:8px;line-height:1.5;">${r.comment}</p>` : ''}
         </div>
@@ -443,6 +449,16 @@ window.submitReview = async function() {
   }
 };
 
+window.setEditReview = function(id) {
+  const review = currentReviews.find(r => r.id === id);
+  if (!review) return;
+  editingReviewId = id;
+  reviewRating = review.rating;
+  document.getElementById('review-comment').value = review.comment;
+  renderReviewForm();
+  document.getElementById('review-form-container').scrollIntoView({ behavior: 'smooth', block: 'center' });
+};
+
 window.cancelReviewEdit = function() {
   editingReviewId = null;
   reviewRating = 5;
@@ -469,5 +485,6 @@ window.deleteReview = async function(id) {
 function formatDate(dateStr) {
   if (!dateStr) return '';
   const d = new Date(dateStr);
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + 
+    ' at ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 }
