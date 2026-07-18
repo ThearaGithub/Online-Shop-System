@@ -294,6 +294,22 @@ function applyFiltersAndSort() {
   if (currentFilters.minPrice && currentFilters.maxPrice && minP > maxP) {
     priceError.textContent = 'Min price cannot be higher than max price.';
     priceError.style.display = 'block';
+  } else if (currentFilters.minPrice) {
+    const maxProductPrice = Math.max(...allProducts.map(p => p.price));
+    if (minP > maxProductPrice) {
+      priceError.textContent = `No products above $${minP.toFixed(2)}. Max price is $${maxProductPrice.toFixed(2)}.`;
+      priceError.style.display = 'block';
+    } else {
+      priceError.style.display = 'none';
+    }
+  } else if (currentFilters.maxPrice) {
+    const minProductPrice = Math.min(...allProducts.map(p => p.price));
+    if (maxP < minProductPrice) {
+      priceError.textContent = `No products below $${maxP.toFixed(2)}. Min price is $${minProductPrice.toFixed(2)}.`;
+      priceError.style.display = 'block';
+    } else {
+      priceError.style.display = 'none';
+    }
   } else {
     priceError.style.display = 'none';
   }
