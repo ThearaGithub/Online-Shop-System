@@ -27,8 +27,8 @@ const PRODUCTS = [
       { name: "Silver", hex: "#e8e8e8", image: "assets/iPhone 17 Pro Max Silver - removed bg.png" },
       { name: "Deep Blue", hex: "#1a3a5c", image: "assets/iPhone 17 Pro Max Deep Blue - removed bg.png" }
     ],
-    rating: 4.9,
-    reviews: 1240,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: true,
     section: "special-offer",
@@ -59,8 +59,8 @@ const PRODUCTS = [
       { name: "Titanium Blue", hex: "#4a6fa5" },
       { name: "Titanium Silver", hex: "#c0c0c0" }
     ],
-    rating: 4.8,
-    reviews: 980,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: true,
     section: "special-offer",
@@ -97,8 +97,8 @@ const PRODUCTS = [
       { name: "White Titanium", hex: "#f5f0e8", image: "assets/iPhone 15 Pro Max - White Titanium.png" },
       { name: "Black Titanium", hex: "#2c2c2e", image: "assets/iPhone 15 Pro Max - Black Titanium.png" }
     ],
-    rating: 4.8,
-    reviews: 3200,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: true,
     section: "special-offer",
@@ -129,8 +129,8 @@ const PRODUCTS = [
       { name: "Navy", hex: "#2a3f5f" },
       { name: "Silver Shadow", hex: "#c0c0c0" }
     ],
-    rating: 4.7,
-    reviews: 520,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: true,
     section: "special-offer",
@@ -159,8 +159,8 @@ const PRODUCTS = [
       { name: "Space Black", hex: "#1a1a2e" },
       { name: "Hazel Brown", hex: "#8b6c5c" }
     ],
-    rating: 4.7,
-    reviews: 340,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "special-offer",
@@ -190,8 +190,8 @@ const PRODUCTS = [
       { name: "Soft Pink", hex: "#f8bbd0" },
       { name: "White", hex: "#f5f5f5" }
     ],
-    rating: 4.6,
-    reviews: 890,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: true,
     section: "new-arrival",
@@ -220,8 +220,8 @@ const PRODUCTS = [
       { name: "White", hex: "#f5f5f5" },
       { name: "Black", hex: "#1a1a2e" }
     ],
-    rating: 4.5,
-    reviews: 420,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "new-arrival",
@@ -250,8 +250,8 @@ const PRODUCTS = [
       { name: "White", hex: "#f5f5f5" },
       { name: "Black", hex: "#1a1a2e" }
     ],
-    rating: 4.4,
-    reviews: 310,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "new-arrival",
@@ -280,8 +280,8 @@ const PRODUCTS = [
       { name: "Titanium Black", hex: "#2c2c2e" },
       { name: "Titanium Blue", hex: "#4a6fa5" }
     ],
-    rating: 4.8,
-    reviews: 670,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "new-arrival",
@@ -310,8 +310,8 @@ const PRODUCTS = [
       { name: "Sparkle Black", hex: "#1a1a2e" },
       { name: "Sparkle Blue", hex: "#4a6fa5" }
     ],
-    rating: 4.2,
-    reviews: 180,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "new-arrival",
@@ -341,8 +341,8 @@ const PRODUCTS = [
       { name: "Porcelain", hex: "#f5f0e8" },
       { name: "Bay", hex: "#4a8fa5" }
     ],
-    rating: 4.6,
-    reviews: 560,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "new-arrival",
@@ -371,8 +371,8 @@ const PRODUCTS = [
       { name: "Lightning Blue", hex: "#2a5f9f" },
       { name: "Dark Silk", hex: "#1a1a2e" }
     ],
-    rating: 4.5,
-    reviews: 290,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "new-arrival",
@@ -401,8 +401,8 @@ const PRODUCTS = [
       { name: "Royal Bronze", hex: "#8b6c5c" },
       { name: "Titanium Silver", hex: "#c0c0c0" }
     ],
-    rating: 4.3,
-    reviews: 150,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "new-arrival",
@@ -433,8 +433,8 @@ const PRODUCTS = [
       { name: "Black", hex: "#1a1a2e" },
       { name: "Silver", hex: "#c0c0c0" }
     ],
-    rating: 4.0,
-    reviews: 120,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "smart-watch",
@@ -463,8 +463,8 @@ const PRODUCTS = [
       { name: "Black", hex: "#1a1a2e" },
       { name: "Champagne Gold", hex: "#d4a574" }
     ],
-    rating: 4.4,
-    reviews: 2100,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "smart-watch",
@@ -493,8 +493,8 @@ const PRODUCTS = [
       { name: "Slate/Black", hex: "#2c2c2e" },
       { name: "Silver/Gray", hex: "#c0c0c0" }
     ],
-    rating: 4.7,
-    reviews: 430,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "smart-watch",
@@ -523,8 +523,8 @@ const PRODUCTS = [
       { name: "White/Gold", hex: "#f5f0e8" },
       { name: "Black/Slate", hex: "#2c2c2e" }
     ],
-    rating: 4.7,
-    reviews: 380,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "smart-watch",
@@ -553,8 +553,8 @@ const PRODUCTS = [
       { name: "Natural Titanium", hex: "#9a8e7f" },
       { name: "Black Titanium", hex: "#2c2c2e" }
     ],
-    rating: 4.9,
-    reviews: 860,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: true,
     section: "smart-watch",
@@ -586,8 +586,8 @@ const PRODUCTS = [
       { name: "Purple", hex: "#8b5cf6" },
       { name: "Beige", hex: "#f5e6d3" }
     ],
-    rating: 4.5,
-    reviews: 340,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "accessories",
@@ -617,8 +617,8 @@ const PRODUCTS = [
       { name: "White", hex: "#f5f5f5" },
       { name: "Green", hex: "#7ab87a" }
     ],
-    rating: 4.6,
-    reviews: 520,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "accessories",
@@ -647,8 +647,8 @@ const PRODUCTS = [
       { name: "White", hex: "#f5f5f5" },
       { name: "Black", hex: "#1a1a2e" }
     ],
-    rating: 4.4,
-    reviews: 230,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "accessories",
@@ -676,8 +676,8 @@ const PRODUCTS = [
     colors: [
       { name: "Silver", hex: "#c0c0c0" }
     ],
-    rating: 4.3,
-    reviews: 190,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "accessories",
@@ -705,8 +705,8 @@ const PRODUCTS = [
     colors: [
       { name: "White", hex: "#f5f5f5" }
     ],
-    rating: 4.8,
-    reviews: 4500,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: true,
     section: "accessories",
@@ -736,8 +736,8 @@ const PRODUCTS = [
       { name: "White Smoke", hex: "#f5f0e8" },
       { name: "Sandstone", hex: "#d4a574" }
     ],
-    rating: 4.8,
-    reviews: 1200,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "accessories",
@@ -766,8 +766,8 @@ const PRODUCTS = [
     colors: [
       { name: "Graphite", hex: "#2c2c2e" }
     ],
-    rating: 4.2,
-    reviews: 45,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "secondhand",
@@ -795,8 +795,8 @@ const PRODUCTS = [
     colors: [
       { name: "Phantom Black", hex: "#1a1a2e" }
     ],
-    rating: 4.3,
-    reviews: 32,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "secondhand",
@@ -824,8 +824,8 @@ const PRODUCTS = [
     colors: [
       { name: "Obsidian", hex: "#2c2c2e" }
     ],
-    rating: 4.4,
-    reviews: 28,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "secondhand",
@@ -853,8 +853,8 @@ const PRODUCTS = [
     colors: [
       { name: "Midnight", hex: "#1a1a2e" }
     ],
-    rating: 4.3,
-    reviews: 38,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "secondhand",
@@ -885,8 +885,8 @@ const PRODUCTS = [
       { name: "Black", hex: "#1a1a2e" },
       { name: "White", hex: "#f5f5f5" }
     ],
-    rating: 4.7,
-    reviews: 280,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "new-arrival",
@@ -915,8 +915,8 @@ const PRODUCTS = [
       { name: "Jade Green", hex: "#5a8f7a" },
       { name: "Obsidian Black", hex: "#1a1a2e" }
     ],
-    rating: 4.6,
-    reviews: 190,
+    rating: 0,
+    reviews: 0,
     inStock: true,
     featured: false,
     section: "new-arrival",
