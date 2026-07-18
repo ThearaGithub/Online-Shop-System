@@ -132,16 +132,17 @@ window.toggleFilter = function(header) {
   const content = header.nextElementSibling;
   const icon = header.querySelector('i');
   if (content && content.classList.contains('filter-content')) {
-    const isOpen = content.style.display !== 'none';
-    content.style.display = isOpen ? 'none' : '';
-    if (icon) icon.className = isOpen ? 'fas fa-chevron-down' : 'fas fa-chevron-up';
+    const isHidden = content.style.display === 'none' || getComputedStyle(content).display === 'none';
+    content.style.display = isHidden ? 'block' : 'none';
+    if (icon) icon.className = isHidden ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
   }
 };
 
 window.toggleAllFilters = function() {
-  const allCollapsed = document.querySelectorAll('.filter-content').length === document.querySelectorAll('.filter-content[style*="display: none"]').length;
-  document.querySelectorAll('.filter-content').forEach(el => {
-    el.style.display = allCollapsed ? '' : 'none';
+  const contents = document.querySelectorAll('.filter-content');
+  const allCollapsed = Array.from(contents).every(el => el.style.display === 'none' || getComputedStyle(el).display === 'none');
+  contents.forEach(el => {
+    el.style.display = allCollapsed ? 'block' : 'none';
   });
   document.querySelectorAll('.filter-group h4 i').forEach(icon => {
     icon.className = allCollapsed ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
