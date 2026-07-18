@@ -191,12 +191,12 @@ function initSidebar() {
   const allSizes = [...new Set(allProducts.flatMap(p => {
     if (!p.specs || !p.specs.display || p.specs.display === '—') return [];
     const match = p.specs.display.match(/^([\d.]+)"/);
-    return match ? [match[1] + '"'] : [];
+    return match ? [match[1]] : [];
   }))].sort((a, b) => parseFloat(a) - parseFloat(b));
   screenContainer.innerHTML = allSizes.map(s => `
     <label class="filter-option">
       <input type="checkbox" value="${s}" onchange="updateScreenSize(this)">
-      ${s}
+      ${s}"
     </label>
   `).join('') || '<span style="color:var(--text-muted);font-size:12px;">N/A</span>';
 
@@ -314,7 +314,7 @@ function applyFiltersAndSort() {
     filtered = filtered.filter(p => {
       if (!p.specs || !p.specs.display || p.specs.display === '—') return false;
       const match = p.specs.display.match(/^([\d.]+)"/);
-      return match && currentFilters.screenSize.includes(match[1] + '"');
+      return match && currentFilters.screenSize.includes(match[1]);
     });
   }
 
