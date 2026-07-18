@@ -107,13 +107,17 @@ const Auth = {
   updateProfile(updates) {
     const user = this.getCurrentUser();
     if (!user) return false;
-    const users = this.getUsers();
-    const idx = users.findIndex(u => u.id === user.id);
-    if (idx === -1) return false;
-    Object.assign(users[idx], updates);
-    localStorage.setItem(STORAGE.USERS, JSON.stringify(users));
-    const { password: _, ...safeUser } = users[idx];
-    localStorage.setItem(STORAGE.CURRENT_USER, JSON.stringify(safeUser));
+    Object.assign(user, updates);
+    localStorage.setItem(STORAGE.CURRENT_USER, JSON.stringify(user));
+    // Also update in users list if present
+    try {
+      const users = JSON.parse(localStorage.getItem(STORAGE.USERS) || '[]');
+      const idx = users.findIndex(u => u.id === user.id);
+      if (idx !== -1) {
+        Object.assign(users[idx], updates);
+        localStorage.setItem(STORAGE.USERS, JSON.stringify(users));
+      }
+    } catch(e) {}
     return true;
   }
 };
@@ -440,12 +444,13 @@ function renderHeader() {
             <div class="user-account" id="user-menu-toggle">
               <div class="user-avatar"><i class="fas fa-user"></i></div>
               <div class="user-info">
-                <strong>${user.firstName}</strong>
+                <strong>${user.firstName === 'Admin' ? user.email : user.firstName}</strong>
                 <span class="user-role">${user.role === 'superadmin' ? 'Super Admin' : user.role === 'admin' ? 'Admin' : 'My Account'}</span>
               </div>
               <i class="fas fa-chevron-down" style="font-size:10px;color:#a0a0b0"></i>
             </div>
             <div class="user-dropdown" id="user-dropdown">
+              <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
               <a href="orders.html"><i class="fas fa-box"></i> My Orders</a>
               ${user.role === 'superadmin' ? '<a href="superadmin.html"><i class="fas fa-crown"></i> Super Admin Panel</a>' : ''}
               ${user.role === 'admin' || user.role === 'superadmin' ? '<a href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a>' : ''}

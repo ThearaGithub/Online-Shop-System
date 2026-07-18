@@ -40,12 +40,37 @@
         
         <div class="filter-group">
           <h4>Price Range</h4>
-          <div class="price-range">
+          <div class="price-range" id="price-range-group">
             <input type="number" id="price-min" placeholder="Min $">
             <span>-</span>
             <input type="number" id="price-max" placeholder="Max $">
           </div>
+          <div id="price-error" style="color:#ff6b6b;font-size:12px;display:none;margin-top:4px;"></div>
           <button class="btn-filter" id="btn-apply-price">Apply</button>
+        </div>
+        
+        <div class="filter-group">
+          <h4>Rating</h4>
+          <div id="filter-rating">
+            <label class="filter-option"><input type="radio" name="rating-filter" value="" checked onchange="updateRating('')"> Any</label>
+            <label class="filter-option"><input type="radio" name="rating-filter" value="4.5" onchange="updateRating('4.5')"> 4.5 &amp; up</label>
+            <label class="filter-option"><input type="radio" name="rating-filter" value="4" onchange="updateRating('4')"> 4 &amp; up</label>
+            <label class="filter-option"><input type="radio" name="rating-filter" value="3" onchange="updateRating('3')"> 3 &amp; up</label>
+          </div>
+        </div>
+        
+        <div class="filter-group">
+          <h4>Storage</h4>
+          <div id="filter-storage">
+            <!-- rendered by products.js -->
+          </div>
+        </div>
+        
+        <div class="filter-group">
+          <h4>Color</h4>
+          <div id="filter-colors">
+            <!-- rendered by products.js -->
+          </div>
         </div>
         
         <div class="filter-group">

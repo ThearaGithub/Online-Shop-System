@@ -10,6 +10,9 @@ let currentFilters = {
   brand: [],
   minPrice: '',
   maxPrice: '',
+  minRating: '',
+  storage: [],
+  color: [],
   inStockOnly: true,
   dealsOnly: false
 };
@@ -150,6 +153,30 @@ function initSidebar() {
     `;
   }).join('');
   
+  // Render Storage filters (from product specs)
+  const storageContainer = document.getElementById('filter-storage');
+  const allStorage = [...new Set(allProducts.flatMap(p => 
+    p.specs && p.specs.storage && Array.isArray(p.specs.storage) ? p.specs.storage : []
+  ))].filter(s => s && s !== '—').sort();
+  storageContainer.innerHTML = allStorage.map(s => `
+    <label class="filter-option">
+      <input type="checkbox" value="${s}" onchange="updateStorage(this)">
+      ${s}
+    </label>
+  `).join('') || '<span style="color:var(--text-muted);font-size:12px;">N/A</span>';
+
+  // Render Color filters (from product colors)
+  const colorContainer = document.getElementById('filter-colors');
+  const allColors = [...new Set(allProducts.flatMap(p => 
+    p.colors && p.colors.length > 0 ? p.colors.map(c => c.name) : []
+  ))].sort();
+  colorContainer.innerHTML = allColors.map(c => `
+    <label class="filter-option">
+      <input type="checkbox" value="${c}" onchange="updateColor(this)">
+      ${c}
+    </label>
+  `).join('') || '<span style="color:var(--text-muted);font-size:12px;">N/A</span>';
+
   // Set initial checkbox states
   if (currentFilters.dealsOnly) document.getElementById('filter-deals').checked = true;
 
@@ -172,6 +199,29 @@ window.updateBrand = function(checkbox) {
     currentFilters.brand.push(checkbox.value);
   } else {
     currentFilters.brand = currentFilters.brand.filter(b => b !== checkbox.value);
+  }
+  applyFiltersAndSort();
+};
+
+window.updateRating = function(val) {
+  currentFilters.minRating = val;
+  applyFiltersAndSort();
+};
+
+window.updateStorage = function(checkbox) {
+  if (checkbox.checked) {
+    currentFilters.storage.push(checkbox.value);
+  } else {
+    currentFilters.storage = currentFilters.storage.filter(s => s !== checkbox.value);
+  }
+  applyFiltersAndSort();
+};
+
+window.updateColor = function(checkbox) {
+  if (checkbox.checked) {
+    currentFilters.color.push(checkbox.value);
+  } else {
+    currentFilters.color = currentFilters.color.filter(c => c !== checkbox.value);
   }
   applyFiltersAndSort();
 };
@@ -204,15 +254,45 @@ function applyFiltersAndSort() {
     filtered = filtered.filter(p => currentFilters.brand.includes(p.brand));
   }
 
-  // 5. Price filter
+  // 5. Price filter with validation
+  const priceError = document.getElementById('price-error');
+  const minP = parseFloat(currentFilters.minPrice);
+  const maxP = parseFloat(currentFilters.maxPrice);
+  if (currentFilters.minPrice && currentFilters.maxPrice && minP > maxP) {
+    priceError.textContent = 'Min price cannot be higher than max price.';
+    priceError.style.display = 'block';
+  } else {
+    priceError.style.display = 'none';
+  }
   if (currentFilters.minPrice) {
-    filtered = filtered.filter(p => p.price >= parseFloat(currentFilters.minPrice));
+    filtered = filtered.filter(p => p.price >= minP);
   }
   if (currentFilters.maxPrice) {
-    filtered = filtered.filter(p => p.price <= parseFloat(currentFilters.maxPrice));
+    filtered = filtered.filter(p => p.price <= maxP);
   }
 
-  // 6. Availability & Deals
+  // 6. Rating filter
+  if (currentFilters.minRating) {
+    filtered = filtered.filter(p => p.rating >= parseFloat(currentFilters.minRating));
+  }
+
+  // 7. Storage filter
+  if (currentFilters.storage.length > 0) {
+    filtered = filtered.filter(p => 
+      p.specs && p.specs.storage && Array.isArray(p.specs.storage) && 
+      currentFilters.storage.some(s => p.specs.storage.includes(s))
+    );
+  }
+
+  // 8. Color filter
+  if (currentFilters.color.length > 0) {
+    filtered = filtered.filter(p => 
+      p.colors && p.colors.length > 0 && 
+      currentFilters.color.some(c => p.colors.map(co => co.name).includes(c))
+    );
+  }
+
+  // 9. Availability & Deals
   if (currentFilters.inStockOnly) {
     filtered = filtered.filter(p => p.inStock);
   }
@@ -220,7 +300,7 @@ function applyFiltersAndSort() {
     filtered = filtered.filter(p => p.discount > 0);
   }
 
-  // 7. Sorting
+  // 10. Sorting
   switch(currentSort) {
     case 'price-low':
       filtered.sort((a, b) => a.price - b.price);

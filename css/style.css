@@ -3157,6 +3157,86 @@ body {
   animation: float 2s ease-in-out infinite;
 }
 
+/* ─── PROFILE PAGE ──────────────────────────────────────────── */
+.profile-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.profile-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 40px;
+}
+.profile-avatar-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  overflow: hidden;
+  border: 3px solid var(--accent-purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-tertiary);
+}
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.profile-avatar i {
+  font-size: 60px;
+  color: var(--text-muted);
+}
+.btn-upload-avatar {
+  display: inline-block;
+  padding: 8px 16px;
+  background: var(--accent-purple);
+  color: white;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.btn-upload-avatar:hover { opacity: 0.8; }
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.profile-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.profile-form .form-group label {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.profile-form .form-group input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-tertiary);
+  color: white;
+  font-size: 14px;
+}
+.role-badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: var(--accent-purple);
+  color: white;
+}
+
 /* ─── RESPONSIVE ──────────────────────────────────────────── */
 @media (max-width: 1024px) {
   .products-grid,
