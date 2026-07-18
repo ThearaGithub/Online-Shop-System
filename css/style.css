@@ -2928,6 +2928,8 @@ body {
   border-color: rgba(255,255,255,0.25);
 }
 
+.filter-content { display: none; }
+
 .filter-option {
   display: flex;
   align-items: center;

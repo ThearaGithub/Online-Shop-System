@@ -22,24 +22,24 @@
     <div class="catalog-layout">
       <!-- Sidebar Filters -->
       <aside class="filter-sidebar">
-        <h3>Filters <button class="filter-toggle-all" onclick="toggleAllFilters()">Collapse All</button></h3>
+        <h3>Filters <button class="filter-toggle-all" onclick="toggleAllFilters()">Expand All</button></h3>
         
         <div class="filter-group">
-          <h4 onclick="toggleFilter(this)">Categories <i class="fas fa-chevron-up"></i></h4>
+          <h4 onclick="toggleFilter(this)">Categories <i class="fas fa-chevron-down"></i></h4>
           <div class="filter-content" id="filter-categories">
             <!-- Rendered by products.js -->
           </div>
         </div>
         
         <div class="filter-group">
-          <h4 onclick="toggleFilter(this)">Brands <i class="fas fa-chevron-up"></i></h4>
+          <h4 onclick="toggleFilter(this)">Brands <i class="fas fa-chevron-down"></i></h4>
           <div class="filter-content" id="filter-brands">
             <!-- Rendered by products.js -->
           </div>
         </div>
         
         <div class="filter-group">
-          <h4 onclick="toggleFilter(this)">Price Range <i class="fas fa-chevron-up"></i></h4>
+          <h4 onclick="toggleFilter(this)">Price Range <i class="fas fa-chevron-down"></i></h4>
           <div class="filter-content">
             <div class="price-range" id="price-range-group">
               <input type="number" id="price-min" placeholder="Min $">
@@ -52,7 +52,7 @@
         </div>
         
         <div class="filter-group">
-          <h4 onclick="toggleFilter(this)">Rating <i class="fas fa-chevron-up"></i></h4>
+          <h4 onclick="toggleFilter(this)">Rating <i class="fas fa-chevron-down"></i></h4>
           <div class="filter-content" id="filter-rating">
             <label class="filter-option"><input type="radio" name="rating-filter" value="" checked onchange="updateRating('')"> Any</label>
             <label class="filter-option"><input type="radio" name="rating-filter" value="4.5" onchange="updateRating('4.5')"> 4.5 &amp; up</label>
@@ -62,21 +62,21 @@
         </div>
         
         <div class="filter-group">
-          <h4 onclick="toggleFilter(this)">Screen Size <i class="fas fa-chevron-up"></i></h4>
+          <h4 onclick="toggleFilter(this)">Screen Size <i class="fas fa-chevron-down"></i></h4>
           <div class="filter-content" id="filter-screen-size">
             <!-- rendered by products.js -->
           </div>
         </div>
         
         <div class="filter-group">
-          <h4 onclick="toggleFilter(this)">Color <i class="fas fa-chevron-up"></i></h4>
+          <h4 onclick="toggleFilter(this)">Color <i class="fas fa-chevron-down"></i></h4>
           <div class="filter-content" id="filter-colors">
             <!-- rendered by products.js -->
           </div>
         </div>
         
         <div class="filter-group">
-          <h4 onclick="toggleFilter(this)">Availability <i class="fas fa-chevron-up"></i></h4>
+          <h4 onclick="toggleFilter(this)">Availability <i class="fas fa-chevron-down"></i></h4>
           <div class="filter-content">
             <label class="filter-option">
               <input type="checkbox" id="filter-instock" checked>
