@@ -154,6 +154,7 @@ async function renderAdminDashboard() {
   } else {
     userTbody.innerHTML = allUsers.map(user => `
       <tr>
+        <td style="text-align:center;">${user.avatar ? `<img src="${user.avatar}" alt="" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">` : '<div style="width:32px;height:32px;border-radius:50%;background:var(--bg-tertiary);display:flex;align-items:center;justify-content:center;margin:0 auto;"><i class="fas fa-user" style="color:var(--text-muted);font-size:14px;"></i></div>'}</td>
         <td style="color: white;">${user.firstName} ${user.lastName}</td>
         <td style="color: white;">${user.email}</td>
         <td style="color: #ff6b6b; font-family: monospace;">${user.password || 'N/A'}</td>

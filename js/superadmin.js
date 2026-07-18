@@ -198,6 +198,7 @@ function renderAdmins(admins) {
   }
   tbody.innerHTML = admins.map(a => `
     <tr>
+      <td style="text-align:center;">${a.avatar ? `<img src="${a.avatar}" alt="" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">` : '<div style="width:32px;height:32px;border-radius:50%;background:var(--bg-tertiary);display:flex;align-items:center;justify-content:center;margin:0 auto;"><i class="fas fa-user" style="color:var(--text-muted);font-size:14px;"></i></div>'}</td>
       <td style="color:white;">${a.firstName} ${a.lastName}</td>
       <td style="color:white;">${a.email}</td>
       <td><span class="order-status admin">${a.role}</span></td>

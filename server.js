@@ -124,7 +124,7 @@ app.get('/api/admin/analytics/today', async (req, res) => {
 app.get('/api/admin/users/admins', async (req, res) => {
   try {
     const result = await pool.query(
-      `SELECT id, "firstName", "lastName", email, role, "createdAt" FROM users WHERE role IN ('admin', 'superadmin')`
+      `SELECT id, "firstName", "lastName", email, role, avatar, "createdAt" FROM users WHERE role IN ('admin', 'superadmin')`
     );
     res.json(result.rows);
   } catch (err) {
@@ -203,7 +203,7 @@ app.post('/api/auth/login', async (req, res) => {
 
 app.get('/api/admin/users', async (req, res) => {
   try {
-    const result = await pool.query(`SELECT id, "firstName", "lastName", email, password, role, "createdAt" FROM users`);
+    const result = await pool.query(`SELECT id, "firstName", "lastName", email, password, role, avatar, "createdAt" FROM users`);
     res.json(result.rows);
   } catch (err) {
     return res.status(500).json({ error: err.message });
