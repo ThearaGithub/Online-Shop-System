@@ -65,6 +65,21 @@ function initCheckout() {
 }
 
 function renderCheckoutSummary() {
+  // Migrate missing originalPrice from PRODUCTS static data (for items added before originalPrice was stored)
+  const raw = Cart.getItems();
+  let needsSave = false;
+  raw.forEach(item => {
+    if (item.originalPrice === undefined || item.originalPrice === null) {
+      const p = typeof PRODUCTS !== 'undefined' && PRODUCTS.find(pr => pr.id === item.productId);
+      if (p && p.originalPrice) {
+        item.originalPrice = p.originalPrice;
+        needsSave = true;
+      }
+    }
+  });
+  if (needsSave) {
+    localStorage.setItem('cart', JSON.stringify(raw));
+  }
   const items = Cart.getItems();
   const itemsContainer = document.getElementById('checkout-items');
   
