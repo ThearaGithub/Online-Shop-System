@@ -32,7 +32,6 @@ function renderProfile(user) {
         <input type="file" id="avatar-input" accept="image/*" style="display:none;">
         <h2 id="profile-name-display">${user.firstName} ${user.lastName || ''}</h2>
         <p style="color:var(--text-secondary);font-size:13px;">${user.email}</p>
-        ${user.role !== 'user' ? `<span class="role-badge">${user.role === 'superadmin' ? 'Super Admin' : 'Admin'}</span>` : ''}
       </div>
       <form id="profile-form" class="profile-form">
         <div class="form-group">
@@ -66,7 +65,16 @@ function renderProfile(user) {
         user.avatar = data.url;
         Auth.updateProfile({ avatar: data.url });
         document.getElementById('profile-avatar').innerHTML = `<img src="${data.url}" alt="Avatar">`;
+        // Also save to server
+        try {
+          await fetch('/api/auth/profile', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: user.id, avatar: data.url })
+          });
+        } catch(e) {}
         Toast.show('Photo updated', 'success');
+        setTimeout(() => window.location.reload(), 800);
       } else {
         Toast.show('Upload failed', 'error');
       }
@@ -86,6 +94,15 @@ function renderProfile(user) {
     }
     Auth.updateProfile({ firstName, lastName });
     document.getElementById('profile-name-display').textContent = `${firstName} ${lastName || ''}`;
+    // Save to server
+    try {
+      await fetch('/api/auth/profile', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user.id, firstName, lastName })
+      });
+    } catch(e) {}
     Toast.show('Profile updated', 'success');
+    setTimeout(() => window.location.reload(), 500);
   });
 }

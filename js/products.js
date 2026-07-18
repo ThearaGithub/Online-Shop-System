@@ -2,6 +2,39 @@
 // ShopFlow — Products Catalog Logic
 // ============================================================
 
+// Manual color-to-product mapping (product name lowercase -> color tags)
+const PRODUCT_COLORS = {
+  'samsung galaxy s26 ultra': ['black'],
+  'samsung s26': ['white'],
+  'iphone 17e': ['pink'],
+  'iphone 15 pro max': ['gold', 'white', 'black'],
+  'apple watch ultra 3': ['black'],
+  'airpods pro 3': ['white'],
+  'iphone 17 pro max': ['orange'],
+  'oppo find x9 pro': ['gray'],
+  'nothing phone (4a) pro': ['white'],
+  'nothing phone (4a)': ['blue'],
+  'oppo a6': ['gold'],
+  'google pixel 10a': ['red'],
+  'realme 16 pro+': ['gold'],
+  'vivo v70 fe': ['purple'],
+  'hmd watch p1': ['black'],
+  'xiaomi smart band 10': ['pink'],
+  'garmin venu 4 (45mm)': ['black'],
+  'garmin venu 4 (41mm)': ['white', 'gold'],
+  'huawei freeclip 2': ['black'],
+  'samsung galaxy buds 4': ['white'],
+  'mcdodo usb-c 100w charger': ['white'],
+  'fast car charger 65w': ['silver'],
+  'bose quietcomfort ultra': ['black'],
+  'iphone 13 pro': ['gray'],
+  'samsung galaxy s23': ['silver', 'white'],
+  'google pixel 8 (used)': ['gold'],
+  'iphone 14 (used)': ['black'],
+  'huawei pura 80 pro': ['white'],
+  'iphone 14 pro max': ['black']
+};
+
 let allProducts = [];
 let currentProducts = [];
 let currentFilters = {
@@ -165,17 +198,15 @@ function initSidebar() {
     </label>
   `).join('') || '<span style="color:var(--text-muted);font-size:12px;">N/A</span>';
 
-  // Render Color filters (from product colors)
+  // Render Color filters (from manual mapping)
   const colorContainer = document.getElementById('filter-colors');
-  const allColors = [...new Set(allProducts.flatMap(p => 
-    p.colors && p.colors.length > 0 ? p.colors.map(c => c.name) : []
-  ))].sort();
+  const allColors = [...new Set(Object.values(PRODUCT_COLORS).flat())].sort();
   colorContainer.innerHTML = allColors.map(c => `
     <label class="filter-option">
       <input type="checkbox" value="${c}" onchange="updateColor(this)">
       ${c}
     </label>
-  `).join('') || '<span style="color:var(--text-muted);font-size:12px;">N/A</span>';
+  `).join('');
 
   // Set initial checkbox states
   if (currentFilters.dealsOnly) document.getElementById('filter-deals').checked = true;
@@ -284,12 +315,12 @@ function applyFiltersAndSort() {
     );
   }
 
-  // 8. Color filter
+  // 8. Color filter (using manual mapping)
   if (currentFilters.color.length > 0) {
-    filtered = filtered.filter(p => 
-      p.colors && p.colors.length > 0 && 
-      currentFilters.color.some(c => p.colors.map(co => co.name).includes(c))
-    );
+    filtered = filtered.filter(p => {
+      const tags = PRODUCT_COLORS[p.name.toLowerCase()];
+      return tags && currentFilters.color.some(c => tags.includes(c.toLowerCase()));
+    });
   }
 
   // 9. Availability & Deals

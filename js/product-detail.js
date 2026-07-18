@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderProductDetail();
   renderSpecs();
   renderRelatedProducts(allProducts);
+  renderReviews();
 });
 
 function renderProductDetail() {
@@ -119,6 +120,8 @@ function renderProductDetail() {
       </div>
       
       <h1 class="detail-product-name">${p.name}</h1>
+      
+      ${p.reviews > 0 ? `<div style="margin-bottom:8px;display:flex;align-items:center;gap:8px;"><span class="stars">${renderStars(p.rating)}</span><span style="color:var(--text-secondary);font-size:13px;">${p.rating.toFixed(1)} (${p.reviews} ${p.reviews === 1 ? 'review' : 'reviews'})</span></div>` : ''}
       
       <div style="margin-bottom: 15px;">
         <span class="detail-price">${formatPrice(p.price)}</span>
@@ -307,3 +310,162 @@ window.addCurrentToCart = function() {
   );
   Toast.show(`${currentQuantity}x ${currentProduct.name} added to cart!`, 'success');
 };
+
+// ─── REVIEWS ────────────────────────────────────────────────
+let currentReviews = [];
+let editingReviewId = null;
+
+function renderStarsInput(rating) {
+  let s = '';
+  for (let i = 1; i <= 5; i++) {
+    s += `<i class="fas fa-star star-picker ${i <= rating ? 'active' : ''}" data-val="${i}" onclick="setReviewRating(${i})"></i>`;
+  }
+  return s;
+}
+
+function renderStarsDisplay(rating) {
+  let s = '';
+  for (let i = 1; i <= 5; i++) {
+    s += `<i class="fas fa-star ${i <= rating ? 'active' : ''}" style="font-size:13px;"></i>`;
+  }
+  return s;
+}
+
+let reviewRating = 5;
+window.setReviewRating = function(val) { reviewRating = val; renderReviewForm(); };
+
+async function renderReviews() {
+  const container = document.getElementById('reviews-container');
+  const content = document.getElementById('reviews-content');
+  if (!container || !content) return;
+  
+  try {
+    const res = await fetch(`/api/products/${currentProduct.id}/reviews`);
+    currentReviews = await res.json();
+  } catch(e) {
+    currentReviews = [];
+  }
+  
+  const user = Auth.getCurrentUser();
+  const userReview = user ? currentReviews.find(r => r.userId === user.id) : null;
+  
+  container.style.display = 'block';
+  content.innerHTML = `
+    ${user ? `
+      <div class="review-form-card" id="review-form-container">
+        <h4 style="margin-bottom:10px;color:white;">${userReview && !editingReviewId ? 'Your Review' : 'Write a Review'}</h4>
+        <div class="review-stars-input" id="review-stars">${renderStarsInput(reviewRating)}</div>
+        <textarea id="review-comment" placeholder="Share your thoughts about this product..." rows="3">${userReview && editingReviewId === userReview.id ? userReview.comment : ''}</textarea>
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button class="btn-primary" style="padding:8px 16px;font-size:13px;" onclick="submitReview()">
+            ${userReview && !editingReviewId ? 'Update' : 'Submit'}
+          </button>
+          ${userReview || editingReviewId ? `<button class="btn-status" style="background:#555;padding:8px 16px;font-size:13px;" onclick="cancelReviewEdit()">Cancel</button>` : ''}
+          ${userReview ? `<button class="btn-status" style="background:#e74c3c;padding:8px 16px;font-size:13px;" onclick="deleteReview(${userReview.id})">Delete</button>` : ''}
+        </div>
+      </div>
+    ` : `
+      <p style="color:var(--text-secondary);margin-bottom:15px;"><a href="login.html" style="color:var(--accent-purple);">Log in</a> to write a review.</p>
+    `}
+    <div class="reviews-list" id="reviews-list">
+      ${currentReviews.length === 0 ? '<p style="color:var(--text-muted);font-size:14px;">No reviews yet. Be the first!</p>' : ''}
+      ${currentReviews.map(r => `
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-author">
+              <i class="fas fa-user-circle" style="font-size:32px;color:var(--text-muted);"></i>
+              <div>
+                <strong style="color:white;font-size:14px;">${r.userName}</strong>
+                <div style="font-size:11px;color:var(--text-muted);">${formatDate(r.createdAt)}${r.updatedAt !== r.createdAt ? ' (edited)' : ''}</div>
+              </div>
+            </div>
+            <div style="color:var(--accent-purple);">${renderStarsDisplay(r.rating)}</div>
+          </div>
+          ${r.comment ? `<p style="color:var(--text-secondary);font-size:13px;margin-top:8px;line-height:1.5;">${r.comment}</p>` : ''}
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  // Pre-fill review form if editing
+  if (userReview && editingReviewId === userReview.id) {
+    reviewRating = userReview.rating;
+    renderReviewForm();
+  }
+}
+
+function renderReviewForm() {
+  const starsContainer = document.getElementById('review-stars');
+  if (starsContainer) starsContainer.innerHTML = renderStarsInput(reviewRating);
+}
+
+window.submitReview = async function() {
+  const user = Auth.getCurrentUser();
+  if (!user) { Toast.show('Please log in first', 'error'); return; }
+  const comment = document.getElementById('review-comment').value.trim();
+  if (!comment) { Toast.show('Please write a comment', 'error'); return; }
+  
+  try {
+    if (editingReviewId) {
+      const res = await fetch(`/api/reviews/${editingReviewId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rating: reviewRating, comment })
+      });
+      const data = await res.json();
+      if (data.success) {
+        Toast.show('Review updated', 'success');
+        editingReviewId = null;
+        renderReviews();
+        // Refresh product data to get new rating
+        currentProduct = await getProductById(currentProduct.id);
+        renderProductDetail();
+      }
+    } else {
+      const res = await fetch(`/api/products/${currentProduct.id}/reviews`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user.id, userName: user.firstName + ' ' + (user.lastName || ''), rating: reviewRating, comment })
+      });
+      const data = await res.json();
+      if (data.success) {
+        Toast.show('Review submitted', 'success');
+        reviewRating = 5;
+        renderReviews();
+        currentProduct = await getProductById(currentProduct.id);
+        renderProductDetail();
+      }
+    }
+  } catch(e) {
+    Toast.show('Failed to submit review', 'error');
+  }
+};
+
+window.cancelReviewEdit = function() {
+  editingReviewId = null;
+  reviewRating = 5;
+  renderReviews();
+};
+
+window.deleteReview = async function(id) {
+  if (!confirm('Delete your review?')) return;
+  try {
+    const res = await fetch(`/api/reviews/${id}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.success) {
+      Toast.show('Review deleted', 'success');
+      reviewRating = 5;
+      renderReviews();
+      currentProduct = await getProductById(currentProduct.id);
+      renderProductDetail();
+    }
+  } catch(e) {
+    Toast.show('Failed to delete review', 'error');
+  }
+};
+
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}

@@ -176,7 +176,7 @@ app.post('/api/auth/signup', async (req, res) => {
       `INSERT INTO users (id, "firstName", "lastName", email, password, "createdAt") VALUES ($1, $2, $3, $4, $5, $6)`,
       [id, firstName, lastName, email.toLowerCase(), password, createdAt]
     );
-    res.json({ success: true, user: { id, firstName, lastName, email: email.toLowerCase(), role: 'customer' } });
+    res.json({ success: true, user: { id, firstName, lastName, email: email.toLowerCase(), role: 'customer', avatar: null } });
   } catch (err) {
     if (err.message.includes('unique constraint')) {
       return res.status(400).json({ success: false, message: 'Email already registered.' });
@@ -189,7 +189,7 @@ app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const result = await pool.query(
-      `SELECT id, "firstName", "lastName", email, role FROM users WHERE email = $1 AND password = $2`,
+      `SELECT id, "firstName", "lastName", email, role, avatar FROM users WHERE email = $1 AND password = $2`,
       [email.toLowerCase(), password]
     );
     if (result.rows.length === 0) {
@@ -207,6 +207,24 @@ app.get('/api/admin/users', async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     return res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/auth/profile', async (req, res) => {
+  const { userId, firstName, lastName, avatar } = req.body;
+  try {
+    const fields = [];
+    const values = [];
+    if (firstName !== undefined) { fields.push('"firstName" = $' + (values.length + 1)); values.push(firstName); }
+    if (lastName !== undefined) { fields.push('"lastName" = $' + (values.length + 1)); values.push(lastName); }
+    if (avatar !== undefined) { fields.push('avatar = $' + (values.length + 1)); values.push(avatar); }
+    if (fields.length === 0) return res.status(400).json({ error: 'No fields to update' });
+    values.push(userId);
+    const r = await pool.query(`UPDATE users SET ${fields.join(', ')} WHERE id = $${values.length} RETURNING id, "firstName", "lastName", email, role, avatar`, values);
+    if (r.rows.length === 0) return res.status(404).json({ error: 'User not found' });
+    res.json({ success: true, user: r.rows[0] });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -588,6 +606,79 @@ app.put('/api/superadmin/approvals/:id/disapprove', async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     return res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// ─── REVIEWS API ─────────────────────────────────────────────
+app.get('/api/products/:id/reviews', async (req, res) => {
+  try {
+    const r = await pool.query(`SELECT * FROM reviews WHERE "productId" = $1 ORDER BY "createdAt" DESC`, [req.params.id]);
+    res.json(r.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/products/:id/reviews', async (req, res) => {
+  try {
+    const { userId, userName, rating, comment } = req.body;
+    if (!userId || !rating) return res.status(400).json({ error: 'Missing required fields' });
+    const r = await pool.query(
+      `INSERT INTO reviews ("productId", "userId", "userName", rating, comment, "createdAt", "updatedAt")
+       VALUES ($1, $2, $3, $4, $5, $6, $6) RETURNING *`,
+      [req.params.id, userId, userName || 'Anonymous', rating, comment || '', new Date().toISOString()]
+    );
+    // Update product rating & review count
+    await pool.query(`
+      UPDATE products SET
+        rating = (SELECT COALESCE(AVG(rating), 0) FROM reviews WHERE "productId" = $1),
+        reviews = (SELECT COUNT(*) FROM reviews WHERE "productId" = $1)
+      WHERE id = $1
+    `, [req.params.id]);
+    res.json({ success: true, review: r.rows[0] });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/reviews/:id', async (req, res) => {
+  try {
+    const { rating, comment } = req.body;
+    const r = await pool.query(
+      `UPDATE reviews SET rating = $1, comment = $2, "updatedAt" = $3 WHERE id = $4 RETURNING *`,
+      [rating, comment || '', new Date().toISOString(), req.params.id]
+    );
+    if (r.rows.length === 0) return res.status(404).json({ error: 'Review not found' });
+    // Update product rating
+    const review = r.rows[0];
+    await pool.query(`
+      UPDATE products SET
+        rating = (SELECT COALESCE(AVG(rating), 0) FROM reviews WHERE "productId" = $1),
+        reviews = (SELECT COUNT(*) FROM reviews WHERE "productId" = $1)
+      WHERE id = $1
+    `, [review.productId]);
+    res.json({ success: true, review: r.rows[0] });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/reviews/:id', async (req, res) => {
+  try {
+    const review = await pool.query(`SELECT * FROM reviews WHERE id = $1`, [req.params.id]);
+    if (review.rows.length === 0) return res.status(404).json({ error: 'Review not found' });
+    const productId = review.rows[0].productId;
+    await pool.query(`DELETE FROM reviews WHERE id = $1`, [req.params.id]);
+    // Update product rating & review count
+    await pool.query(`
+      UPDATE products SET
+        rating = (SELECT COALESCE(AVG(rating), 0) FROM reviews WHERE "productId" = $1),
+        reviews = (SELECT COUNT(*) FROM reviews WHERE "productId" = $1)
+      WHERE id = $1
+    `, [productId]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 

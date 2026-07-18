@@ -442,7 +442,7 @@ function renderHeader() {
           </a>
           ${user ? `
             <div class="user-account" id="user-menu-toggle">
-              <div class="user-avatar"><i class="fas fa-user"></i></div>
+              <div class="user-avatar">${user.avatar ? `<img src="${user.avatar}" alt="Avatar" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` : '<i class="fas fa-user"></i>'}</div>
               <div class="user-info">
                 <strong>${user.firstName === 'Admin' ? user.email : user.firstName}</strong>
                 <span class="user-role">${user.role === 'superadmin' ? 'Super Admin' : user.role === 'admin' ? 'Admin' : 'My Account'}</span>

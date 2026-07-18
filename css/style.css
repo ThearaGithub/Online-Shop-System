@@ -3157,6 +3157,65 @@ body {
   animation: float 2s ease-in-out infinite;
 }
 
+/* ─── REVIEWS ────────────────────────────────────────────────── */
+.reviews-section {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+.review-form-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+.review-stars-input {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+.star-picker {
+  font-size: 22px;
+  color: #444;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.star-picker.active,
+.star-picker:hover { color: #f1c40f; }
+#review-comment {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-tertiary);
+  color: white;
+  font-size: 13px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.review-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px;
+}
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.review-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 /* ─── PROFILE PAGE ──────────────────────────────────────────── */
 .profile-page {
   max-width: 600px;
