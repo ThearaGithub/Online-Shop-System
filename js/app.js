@@ -444,7 +444,7 @@ function renderHeader() {
             <div class="user-account" id="user-menu-toggle">
               <div class="user-avatar">${user.avatar ? `<img src="${user.avatar}" alt="Avatar" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` : '<i class="fas fa-user"></i>'}</div>
               <div class="user-info">
-                <strong>${user.firstName === 'Admin' ? user.email : user.firstName}</strong>
+                <strong>${user.firstName === 'Admin' ? user.email : (user.firstName + ' ' + (user.lastName || '')).trim()}</strong>
                 <span class="user-role">${user.role === 'superadmin' ? 'Super Admin' : user.role === 'admin' ? 'Admin' : 'My Account'}</span>
               </div>
               <i class="fas fa-chevron-down" style="font-size:10px;color:#a0a0b0"></i>

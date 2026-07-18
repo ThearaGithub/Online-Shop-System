@@ -349,18 +349,24 @@ async function renderReviews() {
   const user = Auth.getCurrentUser();
   const userReview = user ? currentReviews.find(r => r.userId === user.id) : null;
   
+  // Auto-enter edit mode if user has a review
+  if (userReview && !editingReviewId) {
+    editingReviewId = userReview.id;
+    reviewRating = userReview.rating;
+  }
+  
   container.style.display = 'block';
   content.innerHTML = `
     ${user ? `
       <div class="review-form-card" id="review-form-container">
-        <h4 style="margin-bottom:10px;color:white;">${userReview && !editingReviewId ? 'Your Review' : 'Write a Review'}</h4>
+        <h4 style="margin-bottom:10px;color:white;">${userReview ? 'Edit Your Review' : 'Write a Review'}</h4>
         <div class="review-stars-input" id="review-stars">${renderStarsInput(reviewRating)}</div>
-        <textarea id="review-comment" placeholder="Share your thoughts about this product..." rows="3">${userReview && editingReviewId === userReview.id ? userReview.comment : ''}</textarea>
+        <textarea id="review-comment" placeholder="Share your thoughts about this product..." rows="3">${userReview ? userReview.comment : ''}</textarea>
         <div style="display:flex;gap:8px;margin-top:8px;">
           <button class="btn-primary" style="padding:8px 16px;font-size:13px;" onclick="submitReview()">
-            ${userReview && !editingReviewId ? 'Update' : 'Submit'}
+            ${userReview ? 'Update' : 'Submit'}
           </button>
-          ${userReview || editingReviewId ? `<button class="btn-status" style="background:#555;padding:8px 16px;font-size:13px;" onclick="cancelReviewEdit()">Cancel</button>` : ''}
+          ${userReview ? `<button class="btn-status" style="background:#555;padding:8px 16px;font-size:13px;" onclick="cancelReviewEdit()">Cancel</button>` : ''}
           ${userReview ? `<button class="btn-status" style="background:#e74c3c;padding:8px 16px;font-size:13px;" onclick="deleteReview(${userReview.id})">Delete</button>` : ''}
         </div>
       </div>
@@ -373,7 +379,7 @@ async function renderReviews() {
         <div class="review-card">
           <div class="review-header">
             <div class="review-author">
-              <i class="fas fa-user-circle" style="font-size:32px;color:var(--text-muted);"></i>
+              ${r.avatar ? `<img src="${r.avatar}" alt="" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">` : `<i class="fas fa-user-circle" style="font-size:32px;color:var(--text-muted);"></i>`}
               <div>
                 <strong style="color:white;font-size:14px;">${r.userName}</strong>
                 <div style="font-size:11px;color:var(--text-muted);">${formatDate(r.createdAt)}${r.updatedAt !== r.createdAt ? ' (edited)' : ''}</div>
@@ -387,11 +393,7 @@ async function renderReviews() {
     </div>
   `;
 
-  // Pre-fill review form if editing
-  if (userReview && editingReviewId === userReview.id) {
-    reviewRating = userReview.rating;
-    renderReviewForm();
-  }
+  renderReviewForm();
 }
 
 function renderReviewForm() {
@@ -425,7 +427,7 @@ window.submitReview = async function() {
       const res = await fetch(`/api/products/${currentProduct.id}/reviews`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user.id, userName: user.firstName + ' ' + (user.lastName || ''), rating: reviewRating, comment })
+        body: JSON.stringify({ userId: user.id, userName: user.firstName + ' ' + (user.lastName || ''), avatar: user.avatar || null, rating: reviewRating, comment })
       });
       const data = await res.json();
       if (data.success) {

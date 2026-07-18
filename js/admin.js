@@ -26,6 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Hide product management from non-superadmin
+  if (!Auth.isSuperAdmin()) {
+    const addBtn = document.querySelector('[onclick="showAddProductModal()"]');
+    if (addBtn) addBtn.style.display = 'none';
+  }
+
   renderAdminDashboard();
 });
 
@@ -498,6 +504,7 @@ async function renderProductsTable() {
   try {
     const res = await fetch('/api/products');
     const products = await res.json();
+    const isSuper = Auth.isSuperAdmin();
     tbody.innerHTML = products.map(p => `
       <tr>
         <td style="font-size:12px;color:var(--text-muted);">${p.id}</td>
@@ -510,10 +517,10 @@ async function renderProductsTable() {
         <td style="color:white;font-weight:600;">${formatPrice(p.price)}</td>
         <td style="color:${p.stock < 5 ? '#ff6b6b' : '#2ecc71'};font-weight:600;">${p.stock}</td>
         <td>
-          <div style="display:flex;gap:4px;">
+          ${isSuper ? `<div style="display:flex;gap:4px;">
             <button class="btn-status" style="background:#4a90e2;" onclick="editProduct(${p.id})"><i class="fas fa-edit"></i></button>
             <button class="btn-status" style="background:#e74c3c;" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i></button>
-          </div>
+          </div>` : '<span style="color:var(--text-muted);font-size:12px;">—</span>'}
         </td>
       </tr>
     `).join('');

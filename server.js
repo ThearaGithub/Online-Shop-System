@@ -621,12 +621,12 @@ app.get('/api/products/:id/reviews', async (req, res) => {
 
 app.post('/api/products/:id/reviews', async (req, res) => {
   try {
-    const { userId, userName, rating, comment } = req.body;
+    const { userId, userName, avatar, rating, comment } = req.body;
     if (!userId || !rating) return res.status(400).json({ error: 'Missing required fields' });
     const r = await pool.query(
-      `INSERT INTO reviews ("productId", "userId", "userName", rating, comment, "createdAt", "updatedAt")
-       VALUES ($1, $2, $3, $4, $5, $6, $6) RETURNING *`,
-      [req.params.id, userId, userName || 'Anonymous', rating, comment || '', new Date().toISOString()]
+      `INSERT INTO reviews ("productId", "userId", "userName", avatar, rating, comment, "createdAt", "updatedAt")
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $7) RETURNING *`,
+      [req.params.id, userId, userName || 'Anonymous', avatar || null, rating, comment || '', new Date().toISOString()]
     );
     // Update product rating & review count
     await pool.query(`
