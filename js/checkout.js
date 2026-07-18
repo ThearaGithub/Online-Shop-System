@@ -91,7 +91,21 @@ function renderCheckoutSummary() {
   const shipping = Cart.getShipping();
   const total = subtotal + tax + shipping;
   
+  // Calculate total discount/savings from cart items (originalPrice - price) * qty
+  const totalSavings = items.reduce((sum, item) => {
+    if (item.originalPrice && item.originalPrice > item.price) {
+      return sum + (item.originalPrice - item.price) * item.quantity;
+    }
+    return sum;
+  }, 0);
+  
   document.getElementById('summary-subtotal').textContent = formatPrice(subtotal);
+  if (totalSavings > 0) {
+    document.getElementById('summary-discount-row').style.display = 'flex';
+    document.getElementById('summary-discount').textContent = '-' + formatPrice(totalSavings);
+  } else {
+    document.getElementById('summary-discount-row').style.display = 'none';
+  }
   document.getElementById('summary-tax').textContent = formatPrice(tax);
   document.getElementById('summary-shipping').innerHTML = shipping === 0 ? '<span class="free">Free</span>' : formatPrice(shipping);
   document.getElementById('summary-total').textContent = formatPrice(total);

@@ -153,6 +153,7 @@ const Cart = {
         name: product.name,
         brand: product.brand,
         price: product.price,
+        originalPrice: product.originalPrice || null,
         image: product.image,
         quantity: actualQty,
         selectedColor,
