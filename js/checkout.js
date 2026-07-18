@@ -41,6 +41,8 @@ function initCheckout() {
   document.getElementById('firstName').value = user.firstName;
   document.getElementById('lastName').value = user.lastName;
   document.getElementById('email').value = user.email;
+  if (user.phone) document.getElementById('phone').value = user.phone;
+  if (user.address) document.getElementById('address').value = user.address;
   
   // Render Summary Sidebar
   renderCheckoutSummary();

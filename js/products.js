@@ -44,7 +44,7 @@ let currentFilters = {
   minPrice: '',
   maxPrice: '',
   minRating: '',
-  storage: [],
+  screenSize: [],
   color: [],
   inStockOnly: true,
   dealsOnly: false
@@ -186,14 +186,16 @@ function initSidebar() {
     `;
   }).join('');
   
-  // Render Storage filters (from product specs)
-  const storageContainer = document.getElementById('filter-storage');
-  const allStorage = [...new Set(allProducts.flatMap(p => 
-    p.specs && p.specs.storage && Array.isArray(p.specs.storage) ? p.specs.storage : []
-  ))].filter(s => s && s !== '—').sort();
-  storageContainer.innerHTML = allStorage.map(s => `
+  // Render Screen Size filters (from specs.display)
+  const screenContainer = document.getElementById('filter-screen-size');
+  const allSizes = [...new Set(allProducts.flatMap(p => {
+    if (!p.specs || !p.specs.display || p.specs.display === '—') return [];
+    const match = p.specs.display.match(/^([\d.]+)"/);
+    return match ? [match[1] + '"'] : [];
+  }))].sort((a, b) => parseFloat(a) - parseFloat(b));
+  screenContainer.innerHTML = allSizes.map(s => `
     <label class="filter-option">
-      <input type="checkbox" value="${s}" onchange="updateStorage(this)">
+      <input type="checkbox" value="${s}" onchange="updateScreenSize(this)">
       ${s}
     </label>
   `).join('') || '<span style="color:var(--text-muted);font-size:12px;">N/A</span>';
@@ -239,11 +241,11 @@ window.updateRating = function(val) {
   applyFiltersAndSort();
 };
 
-window.updateStorage = function(checkbox) {
+window.updateScreenSize = function(checkbox) {
   if (checkbox.checked) {
-    currentFilters.storage.push(checkbox.value);
+    currentFilters.screenSize.push(checkbox.value);
   } else {
-    currentFilters.storage = currentFilters.storage.filter(s => s !== checkbox.value);
+    currentFilters.screenSize = currentFilters.screenSize.filter(s => s !== checkbox.value);
   }
   applyFiltersAndSort();
 };
@@ -307,12 +309,13 @@ function applyFiltersAndSort() {
     filtered = filtered.filter(p => p.rating >= parseFloat(currentFilters.minRating));
   }
 
-  // 7. Storage filter
-  if (currentFilters.storage.length > 0) {
-    filtered = filtered.filter(p => 
-      p.specs && p.specs.storage && Array.isArray(p.specs.storage) && 
-      currentFilters.storage.some(s => p.specs.storage.includes(s))
-    );
+  // 7. Screen Size filter
+  if (currentFilters.screenSize.length > 0) {
+    filtered = filtered.filter(p => {
+      if (!p.specs || !p.specs.display || p.specs.display === '—') return false;
+      const match = p.specs.display.match(/^([\d.]+)"/);
+      return match && currentFilters.screenSize.includes(match[1] + '"');
+    });
   }
 
   // 8. Color filter (using manual mapping)

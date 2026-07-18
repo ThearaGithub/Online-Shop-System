@@ -195,6 +195,9 @@ function renderProductDetail() {
           <button class="btn-add-to-cart-detail" onclick="addCurrentToCart()">
             <i class="fas fa-shopping-cart"></i> Add to Cart
           </button>
+          <button class="btn-wishlist-detail" onclick="toggleWishlistDetail()" title="Wishlist">
+            <i class="fa${Wishlist.isInWishlist(p.id) ? 's' : 'r'} fa-heart"></i>
+          </button>
           <div style="color:var(--color-success);font-size:12px;margin-left:10px;"><i class="fas fa-check-circle"></i> In Stock</div>
         ` : `
           <div style="color:#ff6b6b;font-size:14px;font-weight:700;padding:16px 0;"><i class="fas fa-times-circle"></i> Sold Out</div>
@@ -309,6 +312,14 @@ window.addCurrentToCart = function() {
     selectedStorage
   );
   Toast.show(`${currentQuantity}x ${currentProduct.name} added to cart!`, 'success');
+};
+
+window.toggleWishlistDetail = function() {
+  if (!currentProduct) return;
+  const added = Wishlist.toggle(currentProduct);
+  const btn = document.querySelector('.btn-wishlist-detail i');
+  if (btn) btn.className = added ? 'fas fa-heart' : 'far fa-heart';
+  Toast.show(added ? 'Added to Wishlist' : 'Removed from Wishlist', added ? 'success' : 'info');
 };
 
 // ─── REVIEWS ────────────────────────────────────────────────

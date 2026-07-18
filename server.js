@@ -211,16 +211,18 @@ app.get('/api/admin/users', async (req, res) => {
 });
 
 app.put('/api/auth/profile', async (req, res) => {
-  const { userId, firstName, lastName, avatar } = req.body;
+  const { userId, firstName, lastName, avatar, address, phone } = req.body;
   try {
     const fields = [];
     const values = [];
     if (firstName !== undefined) { fields.push('"firstName" = $' + (values.length + 1)); values.push(firstName); }
     if (lastName !== undefined) { fields.push('"lastName" = $' + (values.length + 1)); values.push(lastName); }
     if (avatar !== undefined) { fields.push('avatar = $' + (values.length + 1)); values.push(avatar); }
+    if (address !== undefined) { fields.push('address = $' + (values.length + 1)); values.push(address); }
+    if (phone !== undefined) { fields.push('phone = $' + (values.length + 1)); values.push(phone); }
     if (fields.length === 0) return res.status(400).json({ error: 'No fields to update' });
     values.push(userId);
-    const r = await pool.query(`UPDATE users SET ${fields.join(', ')} WHERE id = $${values.length} RETURNING id, "firstName", "lastName", email, role, avatar`, values);
+    const r = await pool.query(`UPDATE users SET ${fields.join(', ')} WHERE id = $${values.length} RETURNING id, "firstName", "lastName", email, role, avatar, address, phone`, values);
     if (r.rows.length === 0) return res.status(404).json({ error: 'User not found' });
     res.json({ success: true, user: r.rows[0] });
   } catch (err) {

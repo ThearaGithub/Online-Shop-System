@@ -242,6 +242,7 @@ input, select, textarea {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  position: relative;
   transition: all var(--transition-normal);
   position: relative;
   border: 1px solid rgba(255,255,255,0.06);
@@ -862,6 +863,48 @@ input, select, textarea {
 
 .product-img[src] {
   opacity: 1;
+}
+
+.btn-wishlist {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 3;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+.btn-wishlist:hover {
+  background: rgba(0,0,0,0.8);
+  transform: scale(1.1);
+}
+.btn-wishlist .fas.fa-heart {
+  color: #e74c3c;
+}
+
+.wishlist-count-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--color-error);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .discount-badge {
@@ -2053,6 +2096,29 @@ body {
 .btn-add-to-cart-detail:hover {
   background: #7c3aed;
   box-shadow: 0 6px 25px rgba(139,92,246,0.55);
+}
+
+.btn-wishlist-detail {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255,255,255,0.12);
+  background: transparent;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+.btn-wishlist-detail:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.25);
+}
+.btn-wishlist-detail .fas.fa-heart {
+  color: #e74c3c;
 }
 
 /* Specs Table */

@@ -44,6 +44,8 @@ const initDb = async () => {
     try { await pool.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS stock INTEGER DEFAULT 0`); } catch(e) {}
     try { await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar TEXT`); } catch(e) {}
     try { await pool.query(`ALTER TABLE reviews ADD COLUMN IF NOT EXISTS avatar TEXT`); } catch(e) {}
+    try { await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS address TEXT`); } catch(e) {}
+    try { await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS phone TEXT`); } catch(e) {}
 
     // Create Reviews Table
     await pool.query(`CREATE TABLE IF NOT EXISTS reviews (

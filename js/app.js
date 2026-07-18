@@ -8,7 +8,8 @@ const STORAGE = {
   USERS: 'genzshop_users',
   CURRENT_USER: 'genzshop_current_user',
   CART: 'genzshop_cart',
-  ORDERS: 'genzshop_orders'
+  ORDERS: 'genzshop_orders',
+  WISHLIST: 'genzshop_wishlist'
 };
 
 // ─── INITIALIZATION ──────────────────────────────────────────
@@ -218,6 +219,61 @@ const Cart = {
 
   updateBadge() {
     document.querySelectorAll('.cart-count-badge').forEach(el => {
+      const count = this.getCount();
+      el.textContent = count;
+      el.style.display = count > 0 ? 'flex' : 'none';
+    });
+  }
+};
+
+// ─── WISHLIST ────────────────────────────────────────────
+const Wishlist = {
+  getItems() {
+    return JSON.parse(localStorage.getItem(STORAGE.WISHLIST) || '[]');
+  },
+  save(items) {
+    localStorage.setItem(STORAGE.WISHLIST, JSON.stringify(items));
+    this.updateBadge();
+  },
+  addItem(product) {
+    const items = this.getItems();
+    if (!items.some(i => i.productId === product.id)) {
+      items.push({
+        productId: product.id,
+        name: product.name,
+        brand: product.brand,
+        price: product.price,
+        image: product.image
+      });
+      this.save(items);
+    }
+    return items;
+  },
+  removeItem(productId) {
+    let items = this.getItems();
+    items = items.filter(i => i.productId !== productId);
+    this.save(items);
+    return items;
+  },
+  toggle(product) {
+    const items = this.getItems();
+    const exists = items.find(i => i.productId === product.id);
+    if (exists) {
+      this.removeItem(product.id);
+      return false;
+    } else {
+      this.addItem(product);
+      return true;
+    }
+  },
+  isInWishlist(productId) {
+    return this.getItems().some(i => i.productId === productId);
+  },
+  getCount() {
+    return this.getItems().length;
+  },
+  updateBadge() {
+    document.querySelectorAll('.wishlist-count-badge').forEach(el => {
       const count = this.getCount();
       el.textContent = count;
       el.style.display = count > 0 ? 'flex' : 'none';
@@ -442,6 +498,10 @@ function renderHeader() {
             <i class="fas fa-shopping-cart"></i>
             <span class="cart-count-badge" style="display:${cartCount > 0 ? 'flex' : 'none'}">${cartCount}</span>
           </a>
+          <a href="wishlist.html" class="icon-btn" id="wishlist-icon" title="Wishlist" style="position:relative;">
+            <i class="fas fa-heart"></i>
+            <span class="wishlist-count-badge" style="display:none">0</span>
+          </a>
           ${user ? `
             <div class="user-account" id="user-menu-toggle">
               <div class="user-avatar">${user.avatar ? `<img src="${user.avatar}" alt="Avatar" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` : '<i class="fas fa-user"></i>'}</div>
@@ -454,6 +514,7 @@ function renderHeader() {
             <div class="user-dropdown" id="user-dropdown">
               <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
               <a href="orders.html"><i class="fas fa-box"></i> My Orders</a>
+              <a href="wishlist.html"><i class="fas fa-heart"></i> My Wishlist</a>
               ${user.role === 'superadmin' ? '<a href="superadmin.html"><i class="fas fa-crown"></i> Super Admin Panel</a>' : ''}
               ${user.role === 'admin' || user.role === 'superadmin' ? '<a href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a>' : ''}
               <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
@@ -721,6 +782,9 @@ function createProductCard(product) {
   return `
     <div class="product-card ${soldOut ? 'sold-out' : ''}" data-product-id="${product.id}">
       ${hasDiscount ? `<div class="discount-badge">$${product.discount} Off</div>` : ''}
+      <button class="btn-wishlist" data-product-id="${product.id}" title="Add to Wishlist">
+        <i class="fa${Wishlist.isInWishlist(product.id) ? 's' : 'r'} fa-heart"></i>
+      </button>
       <a href="product-detail.html?id=${product.id}" class="product-image-link">
         <div class="product-image">
           <img src="${product.image}" alt="${product.name}" class="product-img" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\\'product-placeholder\\'><i class=\\'fas fa-mobile-alt\\'></i></div>'">
@@ -794,6 +858,24 @@ document.addEventListener('click', async function (e) {
     btn.innerHTML = originalHTML;
     btn.classList.remove('added');
   }, 1500);
+});
+
+// ─── WISHLIST CLICK HANDLER ───────────────────────────────
+document.addEventListener('click', async function(e) {
+  const btn = e.target.closest('.btn-wishlist');
+  if (!btn) return;
+  e.preventDefault();
+  const productId = parseInt(btn.dataset.productId);
+  const product = await getProductById(productId);
+  if (!product) return;
+  const added = Wishlist.toggle(product);
+  if (added) {
+    btn.querySelector('i').className = 'fas fa-heart';
+    Toast.show('Added to Wishlist', 'success');
+  } else {
+    btn.querySelector('i').className = 'far fa-heart';
+    Toast.show('Removed from Wishlist', 'info');
+  }
 });
 
 const animStyles = document.createElement('style');

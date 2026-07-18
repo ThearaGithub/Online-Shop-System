@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Wishlist — ShopFlow</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+  <main class="main-content">
+    <div class="page-title-bar">
+      <h1>My Wishlist</h1>
+    </div>
+
+    <div class="cart-page-layout" id="wishlist-container">
+      <div class="cart-items-list" id="wishlist-items"></div>
+      <aside class="order-summary" id="wishlist-sidebar">
+        <h3>Wishlist</h3>
+        <p style="color:var(--text-secondary);font-size:14px;margin-bottom:15px;">Products you've saved for later.</p>
+        <div id="wishlist-summary">
+          <span id="wishlist-count" style="color:white;font-weight:600;">0 items</span>
+        </div>
+        <a href="products.html" class="btn-primary" style="display:block;text-align:center;margin-top:15px;">Browse Products</a>
+      </aside>
+    </div>
+  </main>
+
+  <script src="js/products-data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/wishlist.js"></script>
+</body>
+
+</html>

@@ -43,6 +43,14 @@ function renderProfile(user) {
           <input type="text" id="pf-lastname" value="${user.lastName || ''}">
         </div>
         <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="pf-phone" value="${user.phone || ''}" placeholder="012 345 678">
+        </div>
+        <div class="form-group">
+          <label>Delivery Address</label>
+          <textarea id="pf-address" rows="3" placeholder="House/Street, Sangkat, Khan, Phnom Penh">${user.address || ''}</textarea>
+        </div>
+        <div class="form-group">
           <label>Email</label>
           <input type="email" id="pf-email" value="${user.email || ''}" disabled style="opacity:0.6;">
         </div>
@@ -88,18 +96,24 @@ function renderProfile(user) {
     e.preventDefault();
     const firstName = document.getElementById('pf-firstname').value.trim();
     const lastName = document.getElementById('pf-lastname').value.trim();
+    const address = document.getElementById('pf-address').value.trim();
+    const phone = document.getElementById('pf-phone').value.trim();
     if (!firstName) {
       Toast.show('First name is required', 'error');
       return;
     }
-    Auth.updateProfile({ firstName, lastName });
+    const updates = { firstName };
+    if (lastName) updates.lastName = lastName;
+    if (address) updates.address = address;
+    if (phone) updates.phone = phone;
+    Auth.updateProfile(updates);
     document.getElementById('profile-name-display').textContent = `${firstName} ${lastName || ''}`;
     // Save to server
     try {
       await fetch('/api/auth/profile', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user.id, firstName, lastName })
+        body: JSON.stringify({ userId: user.id, ...updates })
       });
     } catch(e) {}
     Toast.show('Profile updated', 'success');
