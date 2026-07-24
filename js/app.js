@@ -505,6 +505,7 @@ function renderHeader() {
           <div style="position:relative;">
             <div class="icon-btn" id="notification-bell" title="Notifications" style="cursor:pointer;">
               <i class="fas fa-bell"></i>
+              <span class="notification-badge" style="display:none">0</span>
             </div>
             <div class="notification-dropdown" id="notification-dropdown"></div>
           </div>
@@ -621,6 +622,7 @@ function renderHeader() {
 
   Cart.updateBadge();
   Wishlist.updateBadge();
+  updateNotifBadge();
 }
 
 function renderFooter() {
@@ -914,6 +916,25 @@ window.toggleTheme = function() {
     localStorage.setItem('shopflow-theme', 'dark');
   }
 };
+
+function updateNotifBadge() {
+  const badge = document.querySelector('.notification-badge');
+  if (!badge) return;
+  const user = Auth.getCurrentUser();
+  if (!user || typeof PRODUCTS === 'undefined') { badge.style.display = 'none'; return; }
+  
+  const wishlistIds = new Set(Wishlist.getItems().map(i => i.productId));
+  let count = 0;
+  
+  for (const p of PRODUCTS) {
+    if (p.originalPrice && p.originalPrice > p.price) {
+      if (wishlistIds.has(p.id) || p.discount > 0) count++;
+    }
+  }
+  
+  badge.textContent = count;
+  badge.style.display = count > 0 ? 'flex' : 'none';
+}
 
 // ─── NOTIFICATIONS ──────────────────────────────────────────
 async function checkPriceDrops() {
