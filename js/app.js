@@ -623,6 +623,25 @@ function renderHeader() {
   Cart.updateBadge();
   Wishlist.updateBadge();
   updateNotifBadge();
+  // Async refresh badge from API for accuracy
+  setTimeout(refreshNotifBadge, 500);
+}
+
+async function refreshNotifBadge() {
+  const user = Auth.getCurrentUser();
+  if (!user) return;
+  try {
+    const res = await fetch('/api/products');
+    if (!res.ok) return;
+    const products = await res.json();
+    const items = Wishlist.getItems();
+    let count = 0;
+    for (const item of items) {
+      const p = products.find(d => d.id === item.productId);
+      if (p && p.originalPrice && p.originalPrice > p.price) count++;
+    }
+    updateNotifBadge(count);
+  } catch(e) {}
 }
 
 function renderFooter() {
