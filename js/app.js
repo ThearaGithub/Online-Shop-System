@@ -885,6 +885,7 @@ document.addEventListener('click', async function(e) {
     btn.querySelector('i').className = 'far fa-heart';
     Toast.show('Removed from Wishlist', 'info');
   }
+  updateNotifBadge();
 });
 
 const animStyles = document.createElement('style');
@@ -921,13 +922,16 @@ function updateNotifBadge() {
   const badge = document.querySelector('.notification-badge');
   if (!badge) return;
   const user = Auth.getCurrentUser();
-  if (!user || typeof PRODUCTS === 'undefined') { badge.style.display = 'none'; return; }
+  if (!user) { badge.style.display = 'none'; return; }
   
-  const wishlistIds = new Set(Wishlist.getItems().map(i => i.productId));
+  const items = Wishlist.getItems();
+  if (items.length === 0) { badge.style.display = 'none'; return; }
+  
+  const data = typeof PRODUCTS !== 'undefined' ? PRODUCTS : [];
   let count = 0;
-  
-  for (const p of PRODUCTS) {
-    if (wishlistIds.has(p.id) && p.originalPrice && p.originalPrice > p.price) count++;
+  for (const item of items) {
+    const p = data.find(d => d.id === item.productId);
+    if (p && p.originalPrice && p.originalPrice > p.price) count++;
   }
   
   badge.textContent = count;
@@ -1036,6 +1040,7 @@ document.addEventListener('click', async function(e) {
   e.stopPropagation();
   const data = await checkPriceDrops();
   renderNotificationDropdown(data);
+  updateNotifBadge();
 });
 
 window.showAllDeals = function(el) {
