@@ -923,18 +923,16 @@ async function checkPriceDrops() {
   const wishlistItems = Wishlist.getItems();
   const wishlistNotifs = [];
   
-  // Check wishlist items for price drops
+  // Check wishlist items for current discounts
   for (const item of wishlistItems) {
     const product = await getProductById(item.productId);
     if (!product) continue;
-    const storedPrice = item.price;
-    const currentPrice = product.price;
-    if (currentPrice < storedPrice) {
+    if (product.originalPrice && product.originalPrice > product.price) {
       wishlistNotifs.push({
         type: 'wishlist',
         productId: item.productId,
         productImage: item.image,
-        message: `${item.name} dropped from ${formatPrice(storedPrice)} to ${formatPrice(currentPrice)}`
+        message: `${item.name} — save $${(product.originalPrice - product.price).toFixed(0)}! Now ${formatPrice(product.price)}`
       });
     }
   }
