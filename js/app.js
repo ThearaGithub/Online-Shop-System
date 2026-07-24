@@ -918,22 +918,21 @@ window.toggleTheme = function() {
   }
 };
 
-function updateNotifBadge() {
+function updateNotifBadge(count) {
   const badge = document.querySelector('.notification-badge');
   if (!badge) return;
-  const user = Auth.getCurrentUser();
-  if (!user) { badge.style.display = 'none'; return; }
-  
-  const items = Wishlist.getItems();
-  if (items.length === 0) { badge.style.display = 'none'; return; }
-  
-  const data = typeof PRODUCTS !== 'undefined' ? PRODUCTS : [];
-  let count = 0;
-  for (const item of items) {
-    const p = data.find(d => d.id === item.productId);
-    if (p && p.originalPrice && p.originalPrice > p.price) count++;
+  if (count === undefined) {
+    const user = Auth.getCurrentUser();
+    if (!user) { badge.style.display = 'none'; return; }
+    const items = Wishlist.getItems();
+    if (items.length === 0) { badge.style.display = 'none'; return; }
+    const data = typeof PRODUCTS !== 'undefined' ? PRODUCTS : [];
+    count = 0;
+    for (const item of items) {
+      const p = data.find(d => d.id === item.productId);
+      if (p && p.originalPrice && p.originalPrice > p.price) count++;
+    }
   }
-  
   badge.textContent = count;
   badge.style.display = count > 0 ? 'flex' : 'none';
 }
@@ -941,7 +940,7 @@ function updateNotifBadge() {
 // ─── NOTIFICATIONS ──────────────────────────────────────────
 async function checkPriceDrops() {
   const user = Auth.getCurrentUser();
-  if (!user) return [];
+  if (!user) return { wishlist: [], deals: [] };
   
   const wishlistItems = Wishlist.getItems();
   const wishlistNotifs = [];
@@ -967,6 +966,13 @@ async function checkPriceDrops() {
     const res = await fetch('/api/products');
     if (res.ok) {
       const products = await res.json();
+      // Also count wishlist items with actual discounts from API for accurate badge
+      let apiCount = 0;
+      for (const item of wishlistItems) {
+        const p = products.find(d => d.id === item.productId);
+        if (p && p.originalPrice && p.originalPrice > p.price) apiCount++;
+      }
+      updateNotifBadge(apiCount);
       const dealProducts = products.filter(p => p.discount > 0 && !wishlistIds.has(p.id));
       for (const p of dealProducts) {
         dealNotifs.push({
@@ -995,7 +1001,7 @@ function renderNotificationDropdown(data) {
     ${data.wishlist.length > 0 ? `
       <div class="notif-section-title">Price Drops</div>
       ${data.wishlist.map(n => `
-        <a href="product-detail.html?id=${n.productId}" class="notif-item" onclick="document.getElementById('notification-dropdown').style.display='none'">
+        <a href="product-detail.html?id=${n.productId}" class="notif-item notif-item-wishlist" onclick="document.getElementById('notification-dropdown').style.display='none'">
           <div class="notif-img"><img src="${n.productImage}" alt="" onerror="this.style.display='none'"></div>
           <div class="notif-body"><div class="notif-msg">${n.message}</div></div>
         </a>

@@ -323,6 +323,10 @@ input, select, textarea {
 }
 .notif-item:last-child { border-bottom: none; }
 .notif-item:hover { background: rgba(255,255,255,0.04); }
+.notif-item-wishlist {
+  background: rgba(46, 204, 113, 0.06);
+  border-left: 3px solid rgba(46, 204, 113, 0.4);
+}
 .notif-img {
   width: 36px;
   height: 36px;
