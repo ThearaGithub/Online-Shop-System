@@ -965,7 +965,7 @@ async function checkPriceDrops() {
     const res = await fetch('/api/products');
     if (res.ok) {
       const products = await res.json();
-      const dealProducts = products.filter(p => p.discount > 0 && !wishlistIds.has(p.id)).slice(0, 5);
+      const dealProducts = products.filter(p => p.discount > 0 && !wishlistIds.has(p.id));
       for (const p of dealProducts) {
         dealNotifs.push({
           type: 'deal',
