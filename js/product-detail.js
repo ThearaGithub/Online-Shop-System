@@ -263,22 +263,10 @@ function renderSpecs() {
 
 function renderRelatedProducts(allProducts) {
   const p = currentProduct;
-  const others = allProducts.filter(prod => prod.id !== p.id);
-  
-  // Priority 1: same brand + same category
-  let related = others.filter(prod => prod.brand === p.brand && prod.category === p.category);
-  // Priority 2: same brand only
-  if (related.length < 6) {
-    related = related.concat(others.filter(prod => prod.brand === p.brand && !related.includes(prod)));
-  }
-  // Priority 3: same category only
-  if (related.length < 6) {
-    related = related.concat(others.filter(prod => prod.category === p.category && !related.includes(prod)));
-  }
-  
-  // Sort by price similarity, take top 6
-  related.sort((a, b) => Math.abs(a.price - p.price) - Math.abs(b.price - p.price));
-  related = related.slice(0, 6);
+  const related = allProducts
+    .filter(prod => prod.id !== p.id && prod.brand === p.brand && prod.category === p.category)
+    .sort((a, b) => Math.abs(a.price - p.price) - Math.abs(b.price - p.price))
+    .slice(0, 6);
   
   if (related.length > 0) {
     document.getElementById('related-container').style.display = 'block';
