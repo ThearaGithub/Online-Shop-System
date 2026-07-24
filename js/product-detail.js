@@ -263,14 +263,23 @@ function renderSpecs() {
 
 function renderRelatedProducts(allProducts) {
   const p = currentProduct;
-  const related = allProducts.filter(prod => 
-    prod.id !== p.id && 
-    (prod.category === p.category || prod.brand === p.brand)
-  ).slice(0, 4);
+  const scored = allProducts
+    .filter(prod => prod.id !== p.id)
+    .map(prod => ({
+      prod,
+      score: (prod.category === p.category && prod.brand === p.brand ? 3 : 0) +
+             (prod.category === p.category ? 2 : 0) +
+             (prod.brand === p.brand ? 1 : 0),
+      priceDiff: Math.abs(prod.price - p.price)
+    }))
+    .filter(item => item.score > 0)
+    .sort((a, b) => b.score - a.score || a.priceDiff - b.priceDiff)
+    .slice(0, 6)
+    .map(item => item.prod);
   
-  if (related.length > 0) {
+  if (scored.length > 0) {
     document.getElementById('related-container').style.display = 'block';
-    document.getElementById('related-products-grid').innerHTML = related.map(prod => createProductCard(prod)).join('');
+    document.getElementById('related-products-grid').innerHTML = scored.map(prod => createProductCard(prod)).join('');
     addRevealToGrid('#related-products-grid');
   }
 }
