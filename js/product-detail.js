@@ -263,23 +263,26 @@ function renderSpecs() {
 
 function renderRelatedProducts(allProducts) {
   const p = currentProduct;
-  const scored = allProducts
-    .filter(prod => prod.id !== p.id)
-    .map(prod => ({
-      prod,
-      score: (prod.category === p.category && prod.brand === p.brand ? 3 : 0) +
-             (prod.brand === p.brand ? 2 : 0) +
-             (prod.category === p.category ? 1 : 0),
-      priceDiff: Math.abs(prod.price - p.price)
-    }))
-    .filter(item => item.score > 0)
-    .sort((a, b) => b.score - a.score || a.priceDiff - b.priceDiff)
-    .slice(0, 6)
-    .map(item => item.prod);
+  const others = allProducts.filter(prod => prod.id !== p.id);
   
-  if (scored.length > 0) {
+  // Priority 1: same brand + same category
+  let related = others.filter(prod => prod.brand === p.brand && prod.category === p.category);
+  // Priority 2: same brand only
+  if (related.length < 6) {
+    related = related.concat(others.filter(prod => prod.brand === p.brand && !related.includes(prod)));
+  }
+  // Priority 3: same category only
+  if (related.length < 6) {
+    related = related.concat(others.filter(prod => prod.category === p.category && !related.includes(prod)));
+  }
+  
+  // Sort by price similarity, take top 6
+  related.sort((a, b) => Math.abs(a.price - p.price) - Math.abs(b.price - p.price));
+  related = related.slice(0, 6);
+  
+  if (related.length > 0) {
     document.getElementById('related-container').style.display = 'block';
-    document.getElementById('related-products-grid').innerHTML = scored.map(prod => createProductCard(prod)).join('');
+    document.getElementById('related-products-grid').innerHTML = related.map(prod => createProductCard(prod)).join('');
     addRevealToGrid('#related-products-grid');
   }
 }
