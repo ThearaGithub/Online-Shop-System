@@ -9,7 +9,8 @@ const STORAGE = {
   CURRENT_USER: 'genzshop_current_user',
   CART: 'genzshop_cart',
   ORDERS: 'genzshop_orders',
-  WISHLIST: 'genzshop_wishlist'
+  WISHLIST: 'genzshop_wishlist',
+  NOTIFICATIONS: 'genzshop_notifications'
 };
 
 // ─── INITIALIZATION ──────────────────────────────────────────
@@ -502,6 +503,13 @@ function renderHeader() {
             <i class="fas fa-heart"></i>
             <span class="wishlist-count-badge" style="display:none">0</span>
           </a>
+          <div style="position:relative;">
+            <div class="icon-btn" id="notification-bell" title="Notifications" style="cursor:pointer;">
+              <i class="fas fa-bell"></i>
+              <span class="notification-badge" style="display:none">0</span>
+            </div>
+            <div class="notification-dropdown" id="notification-dropdown"></div>
+          </div>
           ${user ? `
             <div class="user-account" id="user-menu-toggle">
               <div class="user-avatar">${user.avatar ? `<img src="${user.avatar}" alt="Avatar" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` : '<i class="fas fa-user"></i>'}</div>
@@ -614,6 +622,8 @@ function renderHeader() {
   }
 
   Cart.updateBadge();
+  Wishlist.updateBadge();
+  updateNotificationBadge();
 }
 
 function renderFooter() {
@@ -907,3 +917,163 @@ window.toggleTheme = function() {
     localStorage.setItem('shopflow-theme', 'dark');
   }
 };
+
+// ─── NOTIFICATIONS ──────────────────────────────────────────
+async function checkPriceDrops() {
+  const user = Auth.getCurrentUser();
+  if (!user) return [];
+  
+  const wishlistItems = Wishlist.getItems();
+  const existingNotifs = JSON.parse(localStorage.getItem(STORAGE.NOTIFICATIONS) || '[]');
+  const seen = new Set(existingNotifs.map(n => n.id));
+  const newNotifs = [];
+  
+  // Check wishlist items for price drops
+  for (const item of wishlistItems) {
+    const product = await getProductById(item.productId);
+    if (!product) continue;
+    const storedPrice = item.price;
+    const currentPrice = product.price;
+    if (currentPrice < storedPrice) {
+      const notifId = `wishlist-${item.productId}`;
+      if (!seen.has(notifId)) {
+        newNotifs.push({
+          id: notifId,
+          type: 'wishlist',
+          productId: item.productId,
+          productName: item.name,
+          productImage: item.image,
+          oldPrice: storedPrice,
+          newPrice: currentPrice,
+          message: `${item.name} dropped from ${formatPrice(storedPrice)} to ${formatPrice(currentPrice)}`,
+          createdAt: new Date().toISOString()
+        });
+      }
+    }
+  }
+  
+  // Check for general deals (products with big discounts, not in wishlist)
+  const wishlistIds = new Set(wishlistItems.map(i => i.productId));
+  try {
+    const res = await fetch('/api/products');
+    if (res.ok) {
+      const products = await res.json();
+      const dealProducts = products.filter(p => p.discount > 0 && !wishlistIds.has(p.id)).slice(0, 5);
+      for (const p of dealProducts) {
+        const notifId = `deal-${p.id}`;
+        if (!seen.has(notifId)) {
+          newNotifs.push({
+            id: notifId,
+            type: 'deal',
+            productId: p.id,
+            productName: p.name,
+            productImage: p.image,
+            oldPrice: p.originalPrice,
+            newPrice: p.price,
+            discount: p.discount,
+            message: `${p.name} — $${p.discount} off! Now ${formatPrice(p.price)}`,
+            createdAt: new Date().toISOString()
+          });
+        }
+      }
+    }
+  } catch(e) {}
+  
+  if (newNotifs.length > 0) {
+    const updated = [...newNotifs, ...existingNotifs];
+    localStorage.setItem(STORAGE.NOTIFICATIONS, JSON.stringify(updated));
+    updateNotificationBadge();
+  }
+  
+  return [...newNotifs, ...existingNotifs];
+}
+
+function updateNotificationBadge() {
+  const notifs = JSON.parse(localStorage.getItem(STORAGE.NOTIFICATIONS) || '[]');
+  const badge = document.querySelector('.notification-badge');
+  if (badge) {
+    const count = notifs.length;
+    badge.textContent = count;
+    badge.style.display = count > 0 ? 'flex' : 'none';
+  }
+}
+
+function renderNotificationDropdown(notifs) {
+  const dropdown = document.getElementById('notification-dropdown');
+  if (!dropdown) return;
+  
+  const wishlistNotifs = notifs.filter(n => n.type === 'wishlist');
+  const dealNotifs = notifs.filter(n => n.type === 'deal');
+  
+  dropdown.innerHTML = `
+    <div class="notif-header">
+      <span>Notifications</span>
+      ${notifs.length > 0 ? '<button onclick="clearNotifications()" style="background:none;border:none;color:var(--text-muted);font-size:11px;cursor:pointer;">Clear All</button>' : ''}
+    </div>
+    ${notifs.length === 0 ? '<div class="notif-empty">No notifications yet</div>' : ''}
+    ${wishlistNotifs.length > 0 ? `
+      <div class="notif-section-title">Price Drops</div>
+      ${wishlistNotifs.map(n => `
+        <a href="product-detail.html?id=${n.productId}" class="notif-item" onclick="closeNotificationDropdown()">
+          <div class="notif-img"><img src="${n.productImage}" alt="" onerror="this.style.display='none'"></div>
+          <div class="notif-body">
+            <div class="notif-msg">${n.message}</div>
+            <div class="notif-time">${timeAgo(n.createdAt)}</div>
+          </div>
+        </a>
+      `).join('')}
+    ` : ''}
+    ${dealNotifs.length > 0 ? `
+      <div class="notif-section-title">Hot Deals</div>
+      ${dealNotifs.map(n => `
+        <a href="product-detail.html?id=${n.productId}" class="notif-item" onclick="closeNotificationDropdown()">
+          <div class="notif-img"><img src="${n.productImage}" alt="" onerror="this.style.display='none'"></div>
+          <div class="notif-body">
+            <div class="notif-msg">${n.message}</div>
+            <div class="notif-time">${timeAgo(n.createdAt)}</div>
+          </div>
+        </a>
+      `).join('')}
+    ` : ''}
+  `;
+  dropdown.style.display = 'block';
+}
+
+window.closeNotificationDropdown = function() {
+  const dd = document.getElementById('notification-dropdown');
+  if (dd) dd.style.display = 'none';
+};
+
+window.clearNotifications = function() {
+  localStorage.setItem(STORAGE.NOTIFICATIONS, '[]');
+  updateNotificationBadge();
+  renderNotificationDropdown([]);
+  Toast.show('Notifications cleared', 'info');
+};
+
+function timeAgo(dateStr) {
+  if (!dateStr) return '';
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'Just now';
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  const days = Math.floor(hrs / 24);
+  return `${days}d ago`;
+}
+
+// Notification bell click
+document.addEventListener('click', async function(e) {
+  const bell = e.target.closest('#notification-bell');
+  if (!bell) {
+    const dd = document.getElementById('notification-dropdown');
+    if (dd && !e.target.closest('.notification-dropdown')) {
+      dd.style.display = 'none';
+    }
+    return;
+  }
+  e.stopPropagation();
+  const notifs = await checkPriceDrops();
+  renderNotificationDropdown(notifs);
+});
