@@ -268,8 +268,8 @@ function renderRelatedProducts(allProducts) {
     .map(prod => ({
       prod,
       score: (prod.category === p.category && prod.brand === p.brand ? 3 : 0) +
-             (prod.category === p.category ? 2 : 0) +
-             (prod.brand === p.brand ? 1 : 0),
+             (prod.brand === p.brand ? 2 : 0) +
+             (prod.category === p.category ? 1 : 0),
       priceDiff: Math.abs(prod.price - p.price)
     }))
     .filter(item => item.score > 0)
