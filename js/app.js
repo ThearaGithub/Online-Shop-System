@@ -927,9 +927,7 @@ function updateNotifBadge() {
   let count = 0;
   
   for (const p of PRODUCTS) {
-    if (p.originalPrice && p.originalPrice > p.price) {
-      if (wishlistIds.has(p.id) || p.discount > 0) count++;
-    }
+    if (wishlistIds.has(p.id) && p.originalPrice && p.originalPrice > p.price) count++;
   }
   
   badge.textContent = count;
@@ -987,7 +985,7 @@ function renderNotificationDropdown(data) {
   dropdown.innerHTML = `
     <div class="notif-header">
       <span>Notifications</span>
-      <button onclick="document.getElementById('notification-dropdown').style.display='none'" style="background:none;border:none;color:var(--text-muted);font-size:11px;cursor:pointer;">Close</button>
+      <button onclick="document.getElementById('notification-dropdown').style.display='none'" style="background:var(--bg-elevated);border:none;color:white;font-size:11px;cursor:pointer;padding:4px 10px;border-radius:4px;">Close</button>
     </div>
     ${data.wishlist.length === 0 && data.deals.length === 0 ? '<div class="notif-empty">No price drops right now</div>' : ''}
     ${data.wishlist.length > 0 ? `
