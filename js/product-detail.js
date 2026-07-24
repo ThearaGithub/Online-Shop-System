@@ -265,15 +265,18 @@ function renderRelatedProducts(allProducts) {
   const p = currentProduct;
   const others = allProducts.filter(prod => prod.id !== p.id);
   
-  // Try same brand + same category first
-  let related = others.filter(prod => prod.brand === p.brand && prod.category === p.category);
+  // Priority 1: same brand (any category)
+  let related = others.filter(prod => prod.brand === p.brand);
   
-  // If fewer than 2 matches, fall back to same brand only
-  if (related.length < 2) {
-    related = others.filter(prod => prod.brand === p.brand);
+  // Priority 2: same category, random (if no same brand products)
+  if (related.length === 0) {
+    related = others.filter(prod => prod.category === p.category)
+      .sort(() => Math.random() - 0.5);
+  } else {
+    // Sort by closest price for same brand
+    related.sort((a, b) => Math.abs(a.price - p.price) - Math.abs(b.price - p.price));
   }
   
-  related.sort((a, b) => Math.abs(a.price - p.price) - Math.abs(b.price - p.price));
   related = related.slice(0, 6);
   
   if (related.length > 0) {
