@@ -1000,13 +1000,26 @@ function renderNotificationDropdown(data) {
       `).join('')}
     ` : ''}
     ${data.deals.length > 0 ? `
-      <div class="notif-section-title">Hot Deals</div>
-      ${data.deals.map(n => `
-        <a href="product-detail.html?id=${n.productId}" class="notif-item" onclick="document.getElementById('notification-dropdown').style.display='none'">
-          <div class="notif-img"><img src="${n.productImage}" alt="" onerror="this.style.display='none'"></div>
-          <div class="notif-body"><div class="notif-msg">${n.message}</div></div>
-        </a>
-      `).join('')}
+      <div class="notif-section-title" style="cursor:pointer;" onclick="toggleDealsSection(this)">
+        Hot Deals <i class="fas fa-chevron-down" style="font-size:9px;margin-left:4px;"></i>
+      </div>
+      <div class="deals-preview">
+        ${data.deals.slice(0, 3).map(n => `
+          <a href="product-detail.html?id=${n.productId}" class="notif-item" onclick="document.getElementById('notification-dropdown').style.display='none'">
+            <div class="notif-img"><img src="${n.productImage}" alt="" onerror="this.style.display='none'"></div>
+            <div class="notif-body"><div class="notif-msg">${n.message}</div></div>
+          </a>
+        `).join('')}
+      </div>
+      <div class="deals-full" style="display:none;">
+        ${data.deals.slice(3).map(n => `
+          <a href="product-detail.html?id=${n.productId}" class="notif-item" onclick="document.getElementById('notification-dropdown').style.display='none'">
+            <div class="notif-img"><img src="${n.productImage}" alt="" onerror="this.style.display='none'"></div>
+            <div class="notif-body"><div class="notif-msg">${n.message}</div></div>
+          </a>
+        `).join('')}
+      </div>
+      ${data.deals.length > 3 ? '<div class="notif-show-more" onclick="showAllDeals(this)">Show all ' + data.deals.length + ' deals <i class="fas fa-chevron-down"></i></div>' : ''}
     ` : ''}
   `;
   dropdown.style.display = 'block';
@@ -1026,3 +1039,22 @@ document.addEventListener('click', async function(e) {
   const data = await checkPriceDrops();
   renderNotificationDropdown(data);
 });
+
+window.showAllDeals = function(el) {
+  el.previousElementSibling.style.display = 'block';
+  el.style.display = 'none';
+};
+
+window.toggleDealsSection = function(el) {
+  const icon = el.querySelector('i');
+  const preview = el.nextElementSibling;
+  const full = preview.nextElementSibling;
+  const showMore = full.nextElementSibling;
+  const isExpanded = preview.style.display === 'none';
+  preview.style.display = isExpanded ? '' : 'none';
+  if (full) full.style.display = 'none';
+  if (showMore && showMore.classList.contains('notif-show-more')) {
+    showMore.style.display = isExpanded ? '' : 'none';
+  }
+  if (icon) icon.className = isExpanded ? 'fas fa-chevron-down' : 'fas fa-chevron-right';
+};

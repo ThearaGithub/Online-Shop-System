@@ -338,6 +338,16 @@ input, select, textarea {
 .notif-body { flex: 1; min-width: 0; }
 .notif-msg { color: var(--text-primary); font-size: 12px; line-height: 1.4; }
 .notif-time { color: var(--text-muted); font-size: 10px; margin-top: 2px; }
+.notif-show-more {
+  padding: 8px 14px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--accent-purple);
+  cursor: pointer;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.15s;
+}
+.notif-show-more:hover { background: rgba(255,255,255,0.04); }
 
 /* ─── THEME TOGGLE ──────────────────────────────────────── */
 .theme-toggle {
