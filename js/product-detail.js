@@ -277,7 +277,7 @@ function renderRelatedProducts(allProducts) {
     related.sort((a, b) => Math.abs(a.price - p.price) - Math.abs(b.price - p.price));
   }
   
-  related = related.slice(0, 6);
+  related = related.slice(0, 4);
   
   if (related.length > 0) {
     document.getElementById('related-container').style.display = 'block';
