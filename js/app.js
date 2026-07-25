@@ -622,9 +622,8 @@ function renderHeader() {
 
   Cart.updateBadge();
   Wishlist.updateBadge();
-  updateNotifBadge();
-  // Async refresh badge from API for accuracy
-  setTimeout(refreshNotifBadge, 500);
+  // Badge fetched from API (single source of truth)
+  refreshNotifBadge();
 }
 
 async function refreshNotifBadge() {
@@ -940,19 +939,7 @@ window.toggleTheme = function() {
 function updateNotifBadge(count) {
   const badge = document.querySelector('.notification-badge');
   if (!badge) return;
-  if (count === undefined) {
-    const user = Auth.getCurrentUser();
-    if (!user) { badge.style.display = 'none'; return; }
-    const items = Wishlist.getItems();
-    if (items.length === 0) { badge.style.display = 'none'; return; }
-    const data = typeof PRODUCTS !== 'undefined' ? PRODUCTS : [];
-    count = 0;
-    for (const item of items) {
-      const p = data.find(d => d.id === item.productId);
-      if (p && p.originalPrice && p.originalPrice > p.price) count++;
-    }
-  }
-  badge.textContent = count;
+  badge.textContent = count || 0;
   badge.style.display = count > 0 ? 'flex' : 'none';
 }
 
@@ -1003,6 +990,9 @@ async function checkPriceDrops() {
       }
     }
   } catch(e) {}
+  
+  // Update badge from API data
+  refreshNotifBadge();
   
   return { wishlist: wishlistNotifs, deals: dealNotifs };
 }
