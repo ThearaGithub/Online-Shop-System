@@ -665,6 +665,9 @@ function renderFooter() {
           <a href="index.html">Home</a>
           <a href="products.html">All Products</a>
           <a href="products.html?filter=deals">Special Offers</a>
+          <a href="about.html">About Us</a>
+          <a href="faq.html">FAQ</a>
+          <a href="site-guide.html">Site Guide</a>
           <a href="contact.html">Contact Us</a>
         </div>
         <div class="footer-links-group">
@@ -678,6 +681,7 @@ function renderFooter() {
           <h4>Support</h4>
           <a href="https://t.me/Domzin168" target="_blank">Telegram Support</a>
           <a href="orders.html">Track Order</a>
+          <a href="shipping.html">Shipping &amp; Returns</a>
           <a href="#">Privacy Policy</a>
           <a href="#">Terms of Service</a>
         </div>
