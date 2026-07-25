@@ -190,7 +190,7 @@
     <ol style="font-size: 15px;">
       <li><a href="#section-setup">Git Setup & Cloning the Project</a></li>
       <li><a href="#section-gitbasics">Git Basics: Branch, Commit, Push, PR</a></li>
-      <li><a href="#section-khann">Khann Udomvirak — About Us Page</a></li>
+      <li><a href="#section-khann">Khann Udomvirak — Privacy Policy Page</a></li>
       <li><a href="#section-youpheng">Cheang Youpheng — FAQ Page</a></li>
       <li><a href="#section-theng">Theng Sivchheng — Payment Guide Page</a></li>
       <li><a href="#section-chea">Chea Sela — Site Guide Page</a></li>
@@ -257,8 +257,8 @@
 <span class="dim"># (detailed in your task section below)</span>
 
 <span class="dim"># Step C: Save your changes to Git</span>
-<span class="cmd">git</span> add about.html          <span class="dim"># Stage the file</span>
-<span class="cmd">git</span> commit -m <span class="str">"Add about page structure"</span>  <span class="dim"># Save</span>
+<span class="cmd">git</span> add your-file.html      <span class="dim"># Stage the file</span>
+<span class="cmd">git</span> commit -m <span class="str">"Description of changes"</span>  <span class="dim"># Save</span>
 
 <span class="dim"># Step D: Upload to GitHub</span>
 <span class="cmd">git</span> push origin your-branch-name
@@ -291,33 +291,32 @@
     <div class="person-header">
       <div class="person-avatar">K</div>
       <div class="person-info">
-        <h3>Khann Udomvirak — About Us Page</h3>
-        <p>You will create: <code>about.html</code> + <code>js/about.js</code> (4 commits)</p>
+        <h3>Khann Udomvirak — Privacy Policy Page</h3>
+        <p>You will create: <code>privacy.html</code> + <code>js/privacy.js</code> (4 commits)</p>
       </div>
     </div>
 
     <div class="task-card">
       <strong>📁 Files you will create:</strong><br>
-      <code>Online-Shop-System/about.html</code> — The About Us page<br>
-      <code>Online-Shop-System/js/about.js</code> — JavaScript for the page
+      <code>Online-Shop-System/privacy.html</code> — Privacy Policy page<br>
+      <code>Online-Shop-System/js/privacy.js</code> — JavaScript for the page
     </div>
 
     <h3>Step 0: Create your branch</h3>
     <div class="code-block">
-<span class="cmd">git</span> checkout -b khann-about</div>
+<span class="cmd">git</span> checkout -b khann-privacy</div>
 
     <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
 
     <!-- Part 1 -->
-    <h4><span class="step-number">1</span> Create the page structure</h4>
-    <p>Open VS Code (or Notepad). Create a new file called <span class="inline-code">about.html</span> in the main project folder.</p>
-    <p>Copy and paste this code:</p>
+    <h4><span class="step-number">1</span> Create page structure with "Information We Collect" section</h4>
+    <p>Create <span class="inline-code">privacy.html</span> with the base structure and first content section:</p>
     <div class="code-block">&lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
 &lt;head&gt;
   &lt;meta charset="UTF-8"&gt;
   &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-  &lt;title&gt;About Us — ShopFlow&lt;/title&gt;
+  &lt;title&gt;Privacy Policy — ShopFlow&lt;/title&gt;
   &lt;link rel="icon" href="data:image/svg+xml,..."&gt;
   &lt;link rel="stylesheet" href="css/style.css"&gt;
   &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"&gt;
@@ -326,118 +325,139 @@
   &lt;!-- Header rendered by app.js --&gt;
   &lt;main class="main-content"&gt;
     &lt;div class="page-title-bar"&gt;
-      &lt;h1&gt;About Us&lt;/h1&gt;
+      &lt;h1&gt;Privacy Policy&lt;/h1&gt;
       &lt;div class="breadcrumb"&gt;
-        &lt;a href="index.html"&gt;Home&lt;/a&gt; &lt;span&gt;/&lt;/span&gt; &lt;span style="color: white;"&gt;About Us&lt;/span&gt;
+        &lt;a href="index.html"&gt;Home&lt;/a&gt; &lt;span&gt;/&lt;/span&gt; &lt;span style="color: white;"&gt;Privacy Policy&lt;/span&gt;
       &lt;/div&gt;
     &lt;/div&gt;
-    &lt;div class="about-section" style="max-width: 800px; margin: 0 auto; padding: 40px 20px;"&gt;
-      <span class="dim">&lt;!-- Content will go here in Part 2 --&gt;</span>
+    &lt;div style="max-width: 800px; margin: 0 auto; padding: 40px 20px;"&gt;
+
+      &lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 32px; margin-bottom: 20px;"&gt;
+        &lt;h2 style="color: var(--text-primary); font-size: 20px; margin-bottom: 16px;"&gt;
+          &lt;i class="fas fa-shield-alt" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; Information We Collect
+        &lt;/h2&gt;
+        &lt;p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 12px;"&gt;
+          When you use ShopFlow, we collect the following information to provide our services:
+        &lt;/p&gt;
+        &lt;ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 20px;"&gt;
+          &lt;li&gt;Account Information: Name, email, password when you register&lt;/li&gt;
+          &lt;li&gt;Profile Information: Avatar, phone, delivery address&lt;/li&gt;
+          &lt;li&gt;Order Information: Products, payment screenshots, shipping details&lt;/li&gt;
+          &lt;li&gt;Communication: Messages sent via Telegram or contact forms&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+
     &lt;/div&gt;
   &lt;/main&gt;
   &lt;!-- Footer rendered by app.js --&gt;
   &lt;script src="js/products-data.js"&gt;&lt;/script&gt;
   &lt;script src="js/app.js"&gt;&lt;/script&gt;
-  &lt;script src="js/about.js"&gt;&lt;/script&gt;
+  &lt;script src="js/privacy.js"&gt;&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</div>
 
     <div class="code-block">
-<span class="cmd">git</span> add about.html
-<span class="cmd">git</span> commit -m <span class="str">"Add about.html page structure"</span>
-<span class="cmd">git</span> push origin khann-about</div>
+<span class="cmd">git</span> add privacy.html
+<span class="cmd">git</span> commit -m <span class="str">"Add privacy.html with Information We Collect section"</span>
+<span class="cmd">git</span> push origin khann-privacy</div>
 
-    <div class="step-box">✅ Part 1 done. Move to Part 2 below.</div>
+    <div class="step-box">✅ Part 1 done. Move to Part 2.</div>
 
     <!-- Part 2 -->
-    <h4><span class="step-number">2</span> Add "Our Story" and "Our Mission" sections</h4>
-    <p>Open <span class="inline-code">about.html</span>. Replace the <span class="inline-code">&lt;!-- Content will go here --&gt;</span> comment with:</p>
-    <div class="code-block">&lt;h2 style="color: var(--text-primary); margin-bottom: 20px; font-size: 24px;"&gt;Our Story&lt;/h2&gt;
-&lt;p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;"&gt;
-  ShopFlow was founded in 2026 with a simple mission: make premium electronics accessible to everyone.
-  What started as a university project quickly grew into a fully-functional e-commerce platform
-  built by students, for students.
-&lt;/p&gt;
-&lt;p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;"&gt;
-  We specialize in the latest smartphones, smartwatches, and tech accessories —
-  sourced from trusted brands and offered at competitive prices.
-&lt;/p&gt;
+    <h4><span class="step-number">2</span> Add Payment Info and How We Use Your Data sections</h4>
+    <p>Open <span class="inline-code">privacy.html</span>. Add these <strong>before</strong> the closing <span class="inline-code">&lt;/div&gt;</span> (after Information We Collect):</p>
+    <div class="code-block">&lt;!-- Payment Information --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 32px; margin-bottom: 20px;"&gt;
+  &lt;h2 style="color: var(--text-primary); font-size: 20px; margin-bottom: 16px;"&gt;
+    &lt;i class="fas fa-credit-card" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; Payment Information
+  &lt;/h2&gt;
+  &lt;p style="color: var(--text-secondary); line-height: 1.8;"&gt;
+    We do NOT store credit card numbers or banking credentials. We only store payment confirmation screenshots you upload, securely on Cloudinary.
+  &lt;/p&gt;
+&lt;/div&gt;
 
-&lt;h2 style="color: var(--text-primary); margin: 40px 0 20px; font-size: 24px;"&gt;Our Mission&lt;/h2&gt;
-&lt;p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;"&gt;
-  To provide a seamless, secure, and enjoyable shopping experience for everyone.
-  We believe that great technology should be easy to find, easy to buy, and easy to love.
-&lt;/p&gt;</div>
+&lt;!-- How We Use Your Information --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 32px; margin-bottom: 20px;"&gt;
+  &lt;h2 style="color: var(--text-primary); font-size: 20px; margin-bottom: 16px;"&gt;
+    &lt;i class="fas fa-database" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; How We Use Your Information
+  &lt;/h2&gt;
+  &lt;ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 20px;"&gt;
+    &lt;li&gt;To process and fulfill your orders&lt;/li&gt;
+    &lt;li&gt;To communicate order updates and confirmations&lt;/li&gt;
+    &lt;li&gt;To provide customer support via Telegram&lt;/li&gt;
+    &lt;li&gt;To improve our website and product offerings&lt;/li&gt;
+    &lt;li&gt;To notify you about price drops on wishlist items&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</div>
 
     <div class="code-block">
-<span class="cmd">git</span> add about.html
-<span class="cmd">git</span> commit -m <span class="str">"Add Our Story and Our Mission sections"</span>
-<span class="cmd">git</span> push origin khann-about</div>
+<span class="cmd">git</span> add privacy.html
+<span class="cmd">git</span> commit -m <span class="str">"Add payment info and data usage sections"</span>
+<span class="cmd">git</span> push origin khann-privacy</div>
 
     <div class="step-box">✅ Part 2 done. Move to Part 3.</div>
 
     <!-- Part 3 -->
-    <h4><span class="step-number">3</span> Add "Meet the Team" and "Why ShopFlow" sections</h4>
-    <p>Open <span class="inline-code">about.html</span>. Add this code <strong>after</strong> the "Our Mission" section and <strong>before</strong> the closing <span class="inline-code">&lt;/div&gt;</span>:</p>
-    <div class="code-block">&lt;h2 style="color: var(--text-primary); margin: 40px 0 20px; font-size: 24px;"&gt;Why ShopFlow?&lt;/h2&gt;
-&lt;ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 20px;"&gt;
-  &lt;li&gt;Genuine products from trusted brands&lt;/li&gt;
-  &lt;li&gt;Competitive prices with regular deals and discounts&lt;/li&gt;
-  &lt;li&gt;Secure payment via KHQR with screenshot confirmation&lt;/li&gt;
-  &lt;li&gt;Fast processing and delivery&lt;/li&gt;
-  &lt;li&gt;Responsive customer support via Telegram&lt;/li&gt;
-  &lt;li&gt;User-friendly interface with dark/light theme&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 style="color: var(--text-primary); margin: 40px 0 20px; font-size: 24px;"&gt;Meet the Team&lt;/h2&gt;
-&lt;p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 24px;"&gt;
-  We're a group of passionate students who came together to build something real.
-&lt;/p&gt;
-&lt;div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;"&gt;
-  &lt;!-- Team member cards --&gt;
-  &lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 24px; text-align: center;"&gt;
-    &lt;div style="width: 64px; height: 64px; border-radius: 50%; background: var(--accent-gradient); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; font-weight: 700;"&gt;T&lt;/div&gt;
-    &lt;h3 style="color: var(--text-primary); margin-bottom: 4px;"&gt;Theara&lt;/h3&gt;
-    &lt;p style="color: var(--accent-primary); font-size: 12px; font-weight: 600;"&gt;Lead Developer&lt;/p&gt;
-  &lt;/div&gt;
-  &lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 24px; text-align: center;"&gt;
-    &lt;div style="width: 64px; height: 64px; border-radius: 50%; background: var(--accent-gradient); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; font-weight: 700;"&gt;Y&lt;/div&gt;
-    &lt;h3 style="color: var(--text-primary); margin-bottom: 4px;"&gt;Youpheng&lt;/h3&gt;
-    &lt;p style="color: var(--accent-primary); font-size: 12px; font-weight: 600;"&gt;Dashboard Developer&lt;/p&gt;
-  &lt;/div&gt;
-  &lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 24px; text-align: center;"&gt;
-    &lt;div style="width: 64px; height: 64px; border-radius: 50%; background: var(--accent-gradient); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; font-weight: 700;"&gt;K&lt;/div&gt;
-    &lt;h3 style="color: var(--text-primary); margin-bottom: 4px;"&gt;Khann (You!)&lt;/h3&gt;
-    &lt;p style="color: var(--accent-primary); font-size: 12px; font-weight: 600;"&gt;Content &amp; Documentation&lt;/p&gt;
-  &lt;/div&gt;
-  &lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 24px; text-align: center;"&gt;
-    &lt;div style="width: 64px; height: 64px; border-radius: 50%; background: var(--accent-gradient); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; font-weight: 700;"&gt;S&lt;/div&gt;
-    &lt;h3 style="color: var(--text-primary); margin-bottom: 4px;"&gt;Sivchheng&lt;/h3&gt;
-    &lt;p style="color: var(--accent-primary); font-size: 12px; font-weight: 600;"&gt;UI &amp; Marketing&lt;/p&gt;
-  &lt;/div&gt;
-  &lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 24px; text-align: center;"&gt;
-    &lt;div style="width: 64px; height: 64px; border-radius: 50%; background: var(--accent-gradient); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; font-weight: 700;"&gt;C&lt;/div&gt;
-    &lt;h3 style="color: var(--text-primary); margin-bottom: 4px;"&gt;Chea&lt;/h3&gt;
-    &lt;p style="color: var(--accent-primary); font-size: 12px; font-weight: 600;"&gt;SEO &amp; Infrastructure&lt;/p&gt;
-  &lt;/div&gt;
+    <h4><span class="step-number">3</span> Add Data Security, Cookies, and Third-Party sections</h4>
+    <p>Open <span class="inline-code">privacy.html</span>. Add these <strong>before</strong> the closing <span class="inline-code">&lt;/div&gt;</span>:</p>
+    <div class="code-block">&lt;!-- Data Security --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 32px; margin-bottom: 20px;"&gt;
+  &lt;h2 style="color: var(--text-primary); font-size: 20px; margin-bottom: 16px;"&gt;
+    &lt;i class="fas fa-lock" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; Data Security
+  &lt;/h2&gt;
+  &lt;p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 10px;"&gt;
+    Your information is stored securely on Neon (PostgreSQL) with encryption. Payment screenshots are on Cloudinary with access controls.
+  &lt;/p&gt;
+  &lt;p style="color: var(--text-secondary); line-height: 1.8;"&gt;
+    As this is an academic project, use a unique password not used elsewhere.
+  &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;h2 style="color: var(--text-primary); margin: 40px 0 20px; font-size: 24px;"&gt;Contact Us&lt;/h2&gt;
-&lt;p style="color: var(--text-secondary); line-height: 1.8;"&gt;
-  Have questions? Reach out via &lt;a href="https://t.me/Domzin168" target="_blank" style="color: var(--accent-primary);"&gt;Telegram&lt;/a&gt;
-  or visit our &lt;a href="contact.html" style="color: var(--accent-primary);"&gt;Contact page&lt;/a&gt;.
-&lt;/p&gt;</div>
+&lt;!-- Cookies --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 32px; margin-bottom: 20px;"&gt;
+  &lt;h2 style="color: var(--text-primary); font-size: 20px; margin-bottom: 16px;"&gt;
+    &lt;i class="fas fa-cookie-bite" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; Cookies
+  &lt;/h2&gt;
+  &lt;p style="color: var(--text-secondary); line-height: 1.8;"&gt;
+    We use localStorage for your cart and login session. We do not use third-party tracking cookies.
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- Third-Party Services --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 32px; margin-bottom: 20px;"&gt;
+  &lt;h2 style="color: var(--text-primary); font-size: 20px; margin-bottom: 16px;"&gt;
+    &lt;i class="fas fa-share-alt" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; Third-Party Services
+  &lt;/h2&gt;
+  &lt;ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 20px;"&gt;
+    &lt;li&gt;Neon — Cloud database hosting&lt;/li&gt;
+    &lt;li&gt;Cloudinary — Image storage&lt;/li&gt;
+    &lt;li&gt;Render — Web hosting&lt;/li&gt;
+    &lt;li&gt;GitHub — Code repository&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</div>
 
     <div class="code-block">
-<span class="cmd">git</span> add about.html
-<span class="cmd">git</span> commit -m <span class="str">"Add team section, why shopflow, and contact info"</span>
-<span class="cmd">git</span> push origin khann-about</div>
+<span class="cmd">git</span> add privacy.html
+<span class="cmd">git</span> commit -m <span class="str">"Add security, cookies, and third-party services sections"</span>
+<span class="cmd">git</span> push origin khann-privacy</div>
 
     <div class="step-box">✅ Part 3 done. Move to Part 4.</div>
 
     <!-- Part 4 -->
-    <h4><span class="step-number">4</span> Create the JavaScript file</h4>
-    <p>Create a new file <span class="inline-code">js/about.js</span> with this content:</p>
+    <h4><span class="step-number">4</span> Add Contact section, "Last Updated" date, and JavaScript</h4>
+    <p>Open <span class="inline-code">privacy.html</span>. Add this <strong>before</strong> the closing <span class="inline-code">&lt;/div&gt;</span> and create the JS file:</p>
+    <div class="code-block">&lt;!-- Contact --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 32px; margin-bottom: 20px;"&gt;
+  &lt;h2 style="color: var(--text-primary); font-size: 20px; margin-bottom: 16px;"&gt;
+    &lt;i class="fas fa-envelope" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; Contact Us
+  &lt;/h2&gt;
+  &lt;p style="color: var(--text-secondary); line-height: 1.8;"&gt;
+    Questions about this policy? Contact us on &lt;a href="https://t.me/Domzin168" target="_blank" style="color: var(--accent-primary);"&gt;Telegram&lt;/a&gt;.
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p style="color: var(--text-muted); font-size: 13px; text-align: center; margin-top: 20px;"&gt;Last updated: July 2026&lt;/p&gt;</div>
+    <p>Then create <span class="inline-code">js/privacy.js</span>:</p>
     <div class="code-block">document.addEventListener('DOMContentLoaded', function() {
   renderHeader();
   renderFooter();
@@ -445,9 +465,9 @@
 });</div>
 
     <div class="code-block">
-<span class="cmd">git</span> add js/about.js
-<span class="cmd">git</span> commit -m <span class="str">"Add about page JavaScript"</span>
-<span class="cmd">git</span> push origin khann-about</div>
+<span class="cmd">git</span> add privacy.html js/privacy.js
+<span class="cmd">git</span> commit -m <span class="str">"Add contact section, last updated date, and JavaScript"</span>
+<span class="cmd">git</span> push origin khann-privacy</div>
 
     <div class="step-box">✅ Part 4 done! Now create your Pull Request (see section 2).</div>
   </div>
@@ -1135,10 +1155,10 @@
       <tbody>
         <tr>
           <td><strong>Khann</strong></td>
-          <td>about.html structure</td>
-          <td>Story + Mission</td>
-          <td>Team + Why ShopFlow</td>
-          <td>about.js</td>
+          <td>privacy.html + Info We Collect</td>
+          <td>Payment + Data Usage</td>
+          <td>Security + Cookies + Third-Party</td>
+          <td>privacy.js + Contact</td>
           <td>⬜</td>
         </tr>
         <tr>

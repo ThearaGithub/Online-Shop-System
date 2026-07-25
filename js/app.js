@@ -682,7 +682,7 @@ function renderFooter() {
           <a href="https://t.me/Domzin168" target="_blank">Telegram Support</a>
           <a href="orders.html">Track Order</a>
           <a href="payment-guide.html">Payment Guide</a>
-          <a href="#">Privacy Policy</a>
+          <a href="privacy.html">Privacy Policy</a>
           <a href="#">Terms of Service</a>
         </div>
       </div>
