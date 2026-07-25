@@ -192,7 +192,7 @@
       <li><a href="#section-gitbasics">Git Basics: Branch, Commit, Push, PR</a></li>
       <li><a href="#section-khann">Khann Udomvirak — About Us Page</a></li>
       <li><a href="#section-youpheng">Cheang Youpheng — FAQ Page</a></li>
-      <li><a href="#section-theng">Theng Sivchheng — Shipping & Returns Page</a></li>
+      <li><a href="#section-theng">Theng Sivchheng — Payment Guide Page</a></li>
       <li><a href="#section-chea">Chea Sela — Site Guide Page</a></li>
       <li><a href="#section-checklist">Commit Checklist</a></li>
     </ol>
@@ -723,32 +723,32 @@
     <div class="person-header">
       <div class="person-avatar">S</div>
       <div class="person-info">
-        <h3>Theng Sivchheng — Shipping & Returns Page</h3>
-        <p>You will create: <code>shipping.html</code> + <code>js/shipping.js</code> (4 commits)</p>
+        <h3>Theng Sivchheng — Payment Guide Page</h3>
+        <p>You will create: <code>payment-guide.html</code> + <code>js/payment-guide.js</code> (4 commits)</p>
       </div>
     </div>
 
     <div class="task-card">
       <strong>📁 Files you will create:</strong><br>
-      <code>Online-Shop-System/shipping.html</code> — Shipping & Returns policy page<br>
-      <code>Online-Shop-System/js/shipping.js</code> — JavaScript for the page
+      <code>Online-Shop-System/payment-guide.html</code> — Payment guide with step-by-step instructions<br>
+      <code>Online-Shop-System/js/payment-guide.js</code> — JavaScript for the page
     </div>
 
     <h3>Step 0: Create your branch</h3>
     <div class="code-block">
-<span class="cmd">git</span> checkout -b theng-shipping</div>
+<span class="cmd">git</span> checkout -b theng-payment</div>
 
     <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
 
     <!-- Part 1 -->
-    <h4><span class="step-number">1</span> Create page structure with Shipping Information section</h4>
-    <p>Create <span class="inline-code">shipping.html</span> with the base structure and the first policy section:</p>
+    <h4><span class="step-number">1</span> Create page structure with "How to Pay" section</h4>
+    <p>Create <span class="inline-code">payment-guide.html</span> with the base structure and first section:</p>
     <div class="code-block">&lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
 &lt;head&gt;
   &lt;meta charset="UTF-8"&gt;
   &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-  &lt;title&gt;Shipping &amp; Returns — ShopFlow&lt;/title&gt;
+  &lt;title&gt;Payment Guide — ShopFlow&lt;/title&gt;
   &lt;link rel="icon" href="data:image/svg+xml,..."&gt;
   &lt;link rel="stylesheet" href="css/style.css"&gt;
   &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"&gt;
@@ -757,34 +757,38 @@
   &lt;!-- Header rendered by app.js --&gt;
   &lt;main class="main-content"&gt;
     &lt;div class="page-title-bar"&gt;
-      &lt;h1&gt;Shipping &amp; Returns&lt;/h1&gt;
+      &lt;h1&gt;Payment Guide&lt;/h1&gt;
       &lt;div class="breadcrumb"&gt;
-        &lt;a href="index.html"&gt;Home&lt;/a&gt; &lt;span&gt;/&lt;/span&gt; &lt;span style="color: white;"&gt;Shipping &amp; Returns&lt;/span&gt;
+        &lt;a href="index.html"&gt;Home&lt;/a&gt; &lt;span&gt;/&lt;/span&gt; &lt;span style="color: white;"&gt;Payment Guide&lt;/span&gt;
       &lt;/div&gt;
     &lt;/div&gt;
     &lt;div style="max-width: 800px; margin: 0 auto; padding: 40px 20px;"&gt;
 
-      &lt;!-- Shipping Information --&gt;
-      &lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 28px 32px; margin-bottom: 20px;"&gt;
+      &lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 32px; margin-bottom: 20px;"&gt;
         &lt;h2 style="color: var(--text-primary); font-size: 20px; margin-bottom: 16px;"&gt;
-          &lt;i class="fas fa-truck" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; Shipping Information
+          &lt;i class="fas fa-credit-card" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; How to Pay
         &lt;/h2&gt;
         &lt;p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 12px;"&gt;
-          At ShopFlow, we strive to deliver your orders as quickly and reliably as possible.
+          We use KHQR (Cambodia QR) payment system. It's simple, secure, and fast.
+          Follow the steps below to complete your purchase.
         &lt;/p&gt;
-        &lt;h3 style="color: var(--text-primary); font-size: 16px; margin: 16px 0 8px;"&gt;Processing Time&lt;/h3&gt;
-        &lt;p style="color: var(--text-secondary); line-height: 1.8;"&gt;
-          Orders are typically processed within &lt;strong&gt;24 hours&lt;/strong&gt; after payment confirmation.
-        &lt;/p&gt;
-        &lt;h3 style="color: var(--text-primary); font-size: 16px; margin: 16px 0 8px;"&gt;Delivery Timeline&lt;/h3&gt;
-        &lt;ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 20px;"&gt;
-          &lt;li&gt;&lt;strong&gt;Phnom Penh:&lt;/strong&gt; 1-3 business days&lt;/li&gt;
-          &lt;li&gt;&lt;strong&gt;Other Provinces:&lt;/strong&gt; 3-7 business days&lt;/li&gt;
-        &lt;/ul&gt;
-        &lt;h3 style="color: var(--text-primary); font-size: 16px; margin: 16px 0 8px;"&gt;Shipping Fees&lt;/h3&gt;
-        &lt;p style="color: var(--text-secondary); line-height: 1.8;"&gt;
-          Calculated based on location and order size. Displayed at checkout before confirmation.
-        &lt;/p&gt;
+        &lt;ol style="list-style: none; counter-reset: step; margin: 16px 0 0; padding: 0;"&gt;
+          &lt;li style="counter-increment: step; padding: 14px 18px 14px 50px; position: relative; background: var(--bg-elevated); border-radius: 10px; margin-bottom: 10px; color: var(--text-secondary); line-height: 1.7;"&gt;
+            &lt;strong style="color: var(--text-primary);"&gt;Add items to your cart&lt;/strong&gt; — Browse and click "Add to Cart".
+          &lt;/li&gt;
+          &lt;li style="counter-increment: step; padding: 14px 18px 14px 50px; position: relative; background: var(--bg-elevated); border-radius: 10px; margin-bottom: 10px; color: var(--text-secondary); line-height: 1.7;"&gt;
+            &lt;strong style="color: var(--text-primary);"&gt;Go to checkout&lt;/strong&gt; — Review your order summary.
+          &lt;/li&gt;
+          &lt;li style="counter-increment: step; padding: 14px 18px 14px 50px; position: relative; background: var(--bg-elevated); border-radius: 10px; margin-bottom: 10px; color: var(--text-secondary); line-height: 1.7;"&gt;
+            &lt;strong style="color: var(--text-primary);"&gt;Make the payment&lt;/strong&gt; — Use the bank details shown on checkout.
+          &lt;/li&gt;
+          &lt;li style="counter-increment: step; padding: 14px 18px 14px 50px; position: relative; background: var(--bg-elevated); border-radius: 10px; margin-bottom: 10px; color: var(--text-secondary); line-height: 1.7;"&gt;
+            &lt;strong style="color: var(--text-primary);"&gt;Upload screenshot&lt;/strong&gt; — Take a photo of your payment confirmation and upload it.
+          &lt;/li&gt;
+          &lt;li style="counter-increment: step; padding: 14px 18px 14px 50px; position: relative; background: var(--bg-elevated); border-radius: 10px; margin-bottom: 10px; color: var(--text-secondary); line-height: 1.7;"&gt;
+            &lt;strong style="color: var(--text-primary);"&gt;Submit your order&lt;/strong&gt; — Click "Place Order" and wait for confirmation.
+          &lt;/li&gt;
+        &lt;/ol&gt;
       &lt;/div&gt;
 
     &lt;/div&gt;
@@ -792,88 +796,117 @@
   &lt;!-- Footer rendered by app.js --&gt;
   &lt;script src="js/products-data.js"&gt;&lt;/script&gt;
   &lt;script src="js/app.js"&gt;&lt;/script&gt;
-  &lt;script src="js/shipping.js"&gt;&lt;/script&gt;
+  &lt;script src="js/payment-guide.js"&gt;&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</div>
 
     <div class="code-block">
-<span class="cmd">git</span> add shipping.html
-<span class="cmd">git</span> commit -m <span class="str">"Add shipping.html with shipping information section"</span>
-<span class="cmd">git</span> push origin theng-shipping</div>
+<span class="cmd">git</span> add payment-guide.html
+<span class="cmd">git</span> commit -m <span class="str">"Add payment-guide.html with How to Pay section"</span>
+<span class="cmd">git</span> push origin theng-payment</div>
 
     <div class="step-box">✅ Part 1 done. Move to Part 2.</div>
 
     <!-- Part 2 -->
-    <h4><span class="step-number">2</span> Add Return & Exchange Policy section</h4>
-    <p>Open <span class="inline-code">shipping.html</span>. Add this <strong>before</strong> the closing <span class="inline-code">&lt;/div&gt;</span> (after shipping section):</p>
-    <div class="code-block">&lt;!-- Return &amp; Exchange Policy --&gt;
-&lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 28px 32px; margin-bottom: 20px;"&gt;
+    <h4><span class="step-number">2</span> Add Bank Accounts and QR Code sections</h4>
+    <p>Open <span class="inline-code">payment-guide.html</span>. Add these <strong>before</strong> the closing <span class="inline-code">&lt;/div&gt;</span> (after How to Pay section):</p>
+    <div class="code-block">&lt;!-- Bank Accounts --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 32px; margin-bottom: 20px;"&gt;
   &lt;h2 style="color: var(--text-primary); font-size: 20px; margin-bottom: 16px;"&gt;
-    &lt;i class="fas fa-box-open" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; Return &amp; Exchange Policy
+    &lt;i class="fas fa-university" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; Bank Accounts
   &lt;/h2&gt;
-  &lt;h3 style="color: var(--text-primary); font-size: 16px; margin: 16px 0 8px;"&gt;Return Window&lt;/h3&gt;
-  &lt;p style="color: var(--text-secondary); line-height: 1.8;"&gt;
-    You may return items within &lt;strong&gt;7 days&lt;/strong&gt; of delivery. Items must be in original condition and packaging.
+  &lt;p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;"&gt;
+    Transfer the total amount to one of the following accounts:
   &lt;/p&gt;
-  &lt;h3 style="color: var(--text-primary); font-size: 16px; margin: 16px 0 8px;"&gt;Eligible Reasons&lt;/h3&gt;
+
+  &lt;div style="background: var(--bg-elevated); border-radius: 12px; padding: 18px 22px; margin-bottom: 10px;"&gt;
+    &lt;div style="color: var(--text-primary); font-weight: 600; font-size: 15px;"&gt;🏦 ABA Bank&lt;/div&gt;
+    &lt;div style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;"&gt;Account: XXX XXX XXXX&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div style="background: var(--bg-elevated); border-radius: 12px; padding: 18px 22px; margin-bottom: 10px;"&gt;
+    &lt;div style="color: var(--text-primary); font-weight: 600; font-size: 15px;"&gt;🏦 Wing Bank&lt;/div&gt;
+    &lt;div style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;"&gt;Account: XXX XXX XXXX&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div style="background: var(--bg-elevated); border-radius: 12px; padding: 18px 22px; margin-bottom: 10px;"&gt;
+    &lt;div style="color: var(--text-primary); font-weight: 600; font-size: 15px;"&gt;🏦 ACLEDA Bank&lt;/div&gt;
+    &lt;div style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;"&gt;Account: XXX XXX XXXX&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- QR Code Payment --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 32px; margin-bottom: 20px;"&gt;
+  &lt;h2 style="color: var(--text-primary); font-size: 20px; margin-bottom: 16px;"&gt;
+    &lt;i class="fas fa-qrcode" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; QR Code Payment
+  &lt;/h2&gt;
+  &lt;p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 12px;"&gt;
+    You can also scan the KHQR code during checkout using ABA Mobile, Wing, or ACLEDA app.
+  &lt;/p&gt;
   &lt;ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 20px;"&gt;
-    &lt;li&gt;Defective or malfunctioning product&lt;/li&gt;
-    &lt;li&gt;Wrong model, color, or specifications&lt;/li&gt;
-    &lt;li&gt;Damaged item received during delivery&lt;/li&gt;
+    &lt;li&gt;Open your banking app and select "Scan QR"&lt;/li&gt;
+    &lt;li&gt;Scan the QR code on the checkout page&lt;/li&gt;
+    &lt;li&gt;Verify the amount and confirm&lt;/li&gt;
+    &lt;li&gt;Take a screenshot of the success screen&lt;/li&gt;
   &lt;/ul&gt;
-  &lt;h3 style="color: var(--text-primary); font-size: 16px; margin: 16px 0 8px;"&gt;How to Initiate&lt;/h3&gt;
-  &lt;p style="color: var(--text-secondary); line-height: 1.8;"&gt;
-    Contact our support via Telegram with your order ID. We may request photos to assess the issue.
-  &lt;/p&gt;
 &lt;/div&gt;</div>
 
     <div class="code-block">
-<span class="cmd">git</span> add shipping.html
-<span class="cmd">git</span> commit -m <span class="str">"Add return and exchange policy section"</span>
-<span class="cmd">git</span> push origin theng-shipping</div>
+<span class="cmd">git</span> add payment-guide.html
+<span class="cmd">git</span> commit -m <span class="str">"Add bank accounts and QR code payment sections"</span>
+<span class="cmd">git</span> push origin theng-payment</div>
 
     <div class="step-box">✅ Part 2 done. Move to Part 3.</div>
 
     <!-- Part 3 -->
-    <h4><span class="step-number">3</span> Add Important Notes and Need Help sections</h4>
-    <p>Open <span class="inline-code">shipping.html</span>. Add these two sections <strong>before</strong> the closing <span class="inline-code">&lt;/div&gt;</span>:</p>
-    <div class="code-block">&lt;!-- Important Notes --&gt;
-&lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 28px 32px; margin-bottom: 20px;"&gt;
+    <h4><span class="step-number">3</span> Add Screenshot Requirements and "What Happens Next" sections</h4>
+    <p>Open <span class="inline-code">payment-guide.html</span>. Add these <strong>before</strong> the closing <span class="inline-code">&lt;/div&gt;</span>:</p>
+    <div class="code-block">&lt;!-- Screenshot Requirements --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 32px; margin-bottom: 20px;"&gt;
   &lt;h2 style="color: var(--text-primary); font-size: 20px; margin-bottom: 16px;"&gt;
-    &lt;i class="fas fa-shield-alt" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; Important Notes
+    &lt;i class="fas fa-image" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; Screenshot Requirements
   &lt;/h2&gt;
   &lt;ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 20px;"&gt;
-    &lt;li&gt;Inspect your package immediately upon delivery. Report damage within 24 hours.&lt;/li&gt;
-    &lt;li&gt;Returns may be refused for items showing misuse or excessive wear.&lt;/li&gt;
-    &lt;li&gt;Hygiene items (earphones, smart bands) may have specific return conditions.&lt;/li&gt;
-    &lt;li&gt;Custom items are non-returnable unless defective.&lt;/li&gt;
+    &lt;li&gt;Format: JPG, JPEG, PNG, or WebP&lt;/li&gt;
+    &lt;li&gt;Must show: amount, date/time, and "Success" status&lt;/li&gt;
+    &lt;li&gt;File size: under 5MB&lt;/li&gt;
   &lt;/ul&gt;
+  &lt;div style="border-left: 4px solid #f9e2af; padding: 12px 16px; background: rgba(249,226,175,0.08); border-radius: 0 8px 8px 0; margin-top: 12px; color: var(--text-secondary); font-size: 14px;"&gt;
+    &lt;strong&gt;Note:&lt;/strong&gt; Orders without a valid screenshot will not be processed.
+  &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;!-- Need Help --&gt;
-&lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 28px 32px; margin-bottom: 20px;"&gt;
+&lt;!-- What Happens Next --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 32px; margin-bottom: 20px;"&gt;
   &lt;h2 style="color: var(--text-primary); font-size: 20px; margin-bottom: 16px;"&gt;
-    &lt;i class="fas fa-headset" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; Need Help?
+    &lt;i class="fas fa-clock" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; What Happens Next?
   &lt;/h2&gt;
-  &lt;p style="color: var(--text-secondary); line-height: 1.8;"&gt;
-    If you have any questions, don't hesitate to reach out!
-  &lt;/p&gt;
-  &lt;p style="color: var(--text-secondary); line-height: 1.8;"&gt;
-    &lt;strong&gt;Telegram:&lt;/strong&gt; &lt;a href="https://t.me/Domzin168" target="_blank" style="color: var(--accent-primary);"&gt;@Domzin168&lt;/a&gt;&lt;br&gt;
-    &lt;strong&gt;Contact Page:&lt;/strong&gt; &lt;a href="contact.html" style="color: var(--accent-primary);"&gt;Contact Us&lt;/a&gt;
-  &lt;/p&gt;
+  &lt;ol style="list-style: none; counter-reset: step; margin: 16px 0 0; padding: 0;"&gt;
+    &lt;li style="counter-increment: step; padding: 14px 18px 14px 50px; position: relative; background: var(--bg-elevated); border-radius: 10px; margin-bottom: 10px; color: var(--text-secondary); line-height: 1.7;"&gt;
+      Order submitted — confirmation with order ID
+    &lt;/li&gt;
+    &lt;li style="counter-increment: step; padding: 14px 18px 14px 50px; position: relative; background: var(--bg-elevated); border-radius: 10px; margin-bottom: 10px; color: var(--text-secondary); line-height: 1.7;"&gt;
+      Payment verification — team checks your screenshot
+    &lt;/li&gt;
+    &lt;li style="counter-increment: step; padding: 14px 18px 14px 50px; position: relative; background: var(--bg-elevated); border-radius: 10px; margin-bottom: 10px; color: var(--text-secondary); line-height: 1.7;"&gt;
+      Order processing — preparing your items
+    &lt;/li&gt;
+    &lt;li style="counter-increment: step; padding: 14px 18px 14px 50px; position: relative; background: var(--bg-elevated); border-radius: 10px; margin-bottom: 10px; color: var(--text-secondary); line-height: 1.7;"&gt;
+      Completed — order is ready
+    &lt;/li&gt;
+  &lt;/ol&gt;
 &lt;/div&gt;</div>
 
     <div class="code-block">
-<span class="cmd">git</span> add shipping.html
-<span class="cmd">git</span> commit -m <span class="str">"Add important notes and need help sections"</span>
-<span class="cmd">git</span> push origin theng-shipping</div>
+<span class="cmd">git</span> add payment-guide.html
+<span class="cmd">git</span> commit -m <span class="str">"Add screenshot requirements and post-order steps"</span>
+<span class="cmd">git</span> push origin theng-payment</div>
 
     <div class="step-box">✅ Part 3 done. Move to Part 4.</div>
 
     <!-- Part 4 -->
     <h4><span class="step-number">4</span> Create the JavaScript file</h4>
-    <p>Create <span class="inline-code">js/shipping.js</span>:</p>
+    <p>Create <span class="inline-code">js/payment-guide.js</span>:</p>
     <div class="code-block">document.addEventListener('DOMContentLoaded', function() {
   renderHeader();
   renderFooter();
@@ -881,9 +914,9 @@
 });</div>
 
     <div class="code-block">
-<span class="cmd">git</span> add js/shipping.js
-<span class="cmd">git</span> commit -m <span class="str">"Add shipping page JavaScript"</span>
-<span class="cmd">git</span> push origin theng-shipping</div>
+<span class="cmd">git</span> add js/payment-guide.js
+<span class="cmd">git</span> commit -m <span class="str">"Add payment guide JavaScript"</span>
+<span class="cmd">git</span> push origin theng-payment</div>
 
     <div class="step-box">✅ Part 4 done! Now create your Pull Request (see section 2).</div>
   </div>
@@ -1040,9 +1073,9 @@
     &lt;p style="color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5;"&gt;Frequently asked questions&lt;/p&gt;
   &lt;/a&gt;
 
-  &lt;a href="shipping.html" style="background: var(--bg-tertiary); border-radius: 14px; padding: 22px 24px; text-decoration: none; transition: 0.25s; display: block;"&gt;
-    &lt;h3 style="color: var(--text-primary); margin-bottom: 6px; font-size: 16px;"&gt;🚚 Shipping &amp; Returns&lt;/h3&gt;
-    &lt;p style="color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5;"&gt;Delivery times, policies, and returns&lt;/p&gt;
+  &lt;a href="payment-guide.html" style="background: var(--bg-tertiary); border-radius: 14px; padding: 22px 24px; text-decoration: none; transition: 0.25s; display: block;"&gt;
+    &lt;h3 style="color: var(--text-primary); margin-bottom: 6px; font-size: 16px;"&gt;💳 Payment Guide&lt;/h3&gt;
+    &lt;p style="color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5;"&gt;Step-by-step payment instructions&lt;/p&gt;
   &lt;/a&gt;
 
   &lt;a href="contact.html" style="background: var(--bg-tertiary); border-radius: 14px; padding: 22px 24px; text-decoration: none; transition: 0.25s; display: block;"&gt;
@@ -1118,10 +1151,10 @@
         </tr>
         <tr>
           <td><strong>Theng</strong></td>
-          <td>shipping.html + Shipping Info</td>
-          <td>Return Policy</td>
-          <td>Notes + Help</td>
-          <td>shipping.js</td>
+          <td>payment-guide.html + How to Pay</td>
+          <td>Bank Accounts + QR</td>
+          <td>Screenshot + Post-Order</td>
+          <td>payment-guide.js</td>
           <td>⬜</td>
         </tr>
         <tr>
