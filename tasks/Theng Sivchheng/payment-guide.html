@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Guide — ShopFlow</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%238b5cf6'/><text x='16' y='23' font-size='20' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>S</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .guide-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+    .guide-card { background: var(--bg-tertiary); border-radius: 16px; padding: 32px; margin-bottom: 20px; }
+    .guide-card h2 { color: var(--text-primary); font-size: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    .guide-card h2 i { color: var(--accent-primary); font-size: 20px; width: 28px; }
+    .guide-card h3 { color: var(--text-primary); font-size: 16px; margin: 18px 0 8px; }
+    .guide-card p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 10px; font-size: 14.5px; }
+    .guide-card ul { color: var(--text-secondary); line-height: 1.8; margin: 8px 0 12px 20px; font-size: 14.5px; }
+    .guide-card ul li { margin-bottom: 8px; }
+    .step-list { counter-reset: step; list-style: none; margin: 16px 0 0 !important; padding: 0; }
+    .step-list li {
+      counter-increment: step; padding: 14px 18px 14px 50px; position: relative;
+      background: var(--bg-elevated); border-radius: 10px; margin-bottom: 10px;
+      color: var(--text-secondary); line-height: 1.7; font-size: 14.5px;
+    }
+    .step-list li::before {
+      content: counter(step); position: absolute; left: 14px; top: 14px;
+      width: 26px; height: 26px; border-radius: 50%; background: var(--accent-primary);
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700;
+    }
+    .bank-card {
+      background: var(--bg-elevated); border-radius: 12px; padding: 18px 22px;
+      margin: 10px 0; border: 1px solid rgba(255,255,255,0.06);
+    }
+    .bank-name { color: var(--text-primary); font-weight: 600; font-size: 15px; }
+    .bank-detail { color: var(--text-secondary); font-size: 13px; margin-top: 4px; }
+    .note-box {
+      border-left: 4px solid #f9e2af; padding: 12px 16px;
+      background: rgba(249, 226, 175, 0.08); border-radius: 0 8px 8px 0; margin: 16px 0;
+      color: var(--text-secondary); font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header rendered by app.js -->
+
+  <main class="main-content">
+    <div class="page-title-bar">
+      <h1>Payment Guide</h1>
+      <div class="breadcrumb">
+        <a href="index.html">Home</a> <span>/</span> <span style="color: white;">Payment Guide</span>
+      </div>
+    </div>
+
+    <div class="guide-wrapper">
+
+      <div class="guide-card">
+        <h2><i class="fas fa-credit-card"></i> How to Pay</h2>
+        <p>
+          We use <strong>KHQR</strong> (Cambodia QR) payment system. It's simple, secure, and fast.
+          Follow the steps below to complete your purchase.
+        </p>
+        <ol class="step-list">
+          <li><strong>Add items to your cart</strong> — Browse our catalog and click "Add to Cart" on the products you want.</li>
+          <li><strong>Go to checkout</strong> — Open your cart and click "Proceed to Checkout" to review your order summary.</li>
+          <li><strong>Review your order</strong> — Check the items, quantities, prices, and shipping details. Make sure everything is correct.</li>
+          <li><strong>Make the payment</strong> — Use the bank account details below to transfer the exact total amount. You can scan the QR code or transfer manually.</li>
+          <li><strong>Upload your screenshot</strong> — Take a screenshot of your successful payment confirmation and upload it on the checkout page.</li>
+          <li><strong>Submit your order</strong> — Click "Place Order" to submit. You'll receive an order confirmation and our team will process it within 24 hours.</li>
+        </ol>
+      </div>
+
+      <div class="guide-card">
+        <h2><i class="fas fa-university"></i> Bank Accounts</h2>
+        <p>Transfer the total amount shown at checkout to one of the following accounts:</p>
+
+        <div class="bank-card">
+          <div class="bank-name">🏦 ABA Bank</div>
+          <div class="bank-detail">Account Number: <strong style="color: var(--accent-primary);">XXX XXX XXXX</strong></div>
+          <div class="bank-detail">Account Name: <strong style="color: var(--accent-primary);">ShopFlow</strong></div>
+        </div>
+
+        <div class="bank-card">
+          <div class="bank-name">🏦 Wing Bank</div>
+          <div class="bank-detail">Account Number: <strong style="color: var(--accent-primary);">XXX XXX XXXX</strong></div>
+          <div class="bank-detail">Account Name: <strong style="color: var(--accent-primary);">ShopFlow</strong></div>
+        </div>
+
+        <div class="bank-card">
+          <div class="bank-name">🏦 ACLEDA Bank</div>
+          <div class="bank-detail">Account Number: <strong style="color: var(--accent-primary);">XXX XXX XXXX</strong></div>
+          <div class="bank-detail">Account Name: <strong style="color: var(--accent-primary);">ShopFlow</strong></div>
+        </div>
+
+        <div class="note-box">
+          <strong>📌 Tip:</strong> The exact account numbers will be shown during checkout. Please transfer the <strong>exact total amount</strong> so we can match your payment quickly.
+        </div>
+      </div>
+
+      <div class="guide-card">
+        <h2><i class="fas fa-qrcode"></i> QR Code Payment</h2>
+        <p>
+          You can also scan the KHQR code shown during checkout using your banking app
+          (ABA Mobile, Wing, ACLEDA Internet Banking, etc.)
+        </p>
+        <ul>
+          <li>Open your banking app and select "Scan QR" or "Transfer"</li>
+          <li>Scan the QR code displayed on the checkout page</li>
+          <li>Verify the amount matches your order total</li>
+          <li>Confirm the transfer</li>
+          <li>Take a screenshot of the success screen</li>
+          <li>Upload the screenshot back on the checkout page</li>
+        </ul>
+      </div>
+
+      <div class="guide-card">
+        <h2><i class="fas fa-image"></i> Screenshot Requirements</h2>
+        <ul>
+          <li>Format: JPG, JPEG, PNG, or WebP</li>
+          <li>The screenshot must clearly show: transaction amount, date/time, and "Success" or "Completed" status</li>
+          <li>File should be under 5MB</li>
+        </ul>
+        <div class="note-box">
+          <strong>⚠️ Important:</strong> Orders without a valid payment screenshot will not be processed. If your screenshot is unclear, we'll contact you via Telegram for clarification.
+        </div>
+      </div>
+
+      <div class="guide-card">
+        <h2><i class="fas fa-clock"></i> What Happens Next?</h2>
+        <ol class="step-list">
+          <li><strong>Order Submitted</strong> — You'll see an order confirmation with your order ID.</li>
+          <li><strong>Payment Verification</strong> — Our team verifies your payment screenshot (within 24 hours).</li>
+          <li><strong>Order Processing</strong> — Once payment is confirmed, your order moves to "Processing".</li>
+          <li><strong>Completed</strong> — Your order is prepared and marked as completed.</li>
+        </ol>
+        <p style="margin-top: 16px;">
+          You can track your order status anytime from your <a href="orders.html" style="color: var(--accent-primary);">My Orders</a> page.
+        </p>
+      </div>
+
+      <div class="guide-card">
+        <h2><i class="fas fa-headset"></i> Need Help?</h2>
+        <p>
+          Having trouble with payment? Contact us on
+          <a href="https://t.me/Domzin168" target="_blank" style="color: var(--accent-primary);">Telegram</a>
+          and we'll help you through the process.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer rendered by app.js -->
+
+  <script src="js/products-data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/payment-guide.js"></script>
+</body>
+</html>

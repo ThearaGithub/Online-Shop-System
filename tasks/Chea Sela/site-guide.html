@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site Guide — ShopFlow</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%238b5cf6'/><text x='16' y='23' font-size='20' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>S</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .guide-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .guide-container > p {
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      line-height: 1.7;
+      font-size: 14.5px;
+    }
+    .guide-section-title {
+      color: var(--text-primary);
+      font-size: 22px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--bg-tertiary);
+    }
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .guide-card {
+      background: var(--bg-tertiary);
+      border-radius: 14px;
+      padding: 22px 24px;
+      text-decoration: none;
+      transition: all 0.25s;
+      display: block;
+      border: 1px solid transparent;
+    }
+    .guide-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      border-color: var(--accent-primary);
+    }
+    .guide-card h3 {
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+    .guide-card p {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin: 0;
+      line-height: 1.5;
+    }
+    .guide-card .page-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+    .badge-customer { background: rgba(102, 126, 234, 0.15); color: #89b4fa; }
+    .badge-account { background: rgba(166, 227, 161, 0.15); color: #a6e3a1; }
+    .badge-info { background: rgba(249, 226, 175, 0.15); color: #f9e2af; }
+    .badge-admin { background: rgba(243, 139, 168, 0.15); color: #f38ba8; }
+  </style>
+</head>
+<body>
+  <!-- Header rendered by app.js -->
+
+  <main class="main-content">
+    <div class="page-title-bar">
+      <h1>Site Guide</h1>
+      <div class="breadcrumb">
+        <a href="index.html">Home</a> <span>/</span> <span style="color: white;">Site Guide</span>
+      </div>
+    </div>
+
+    <div class="guide-container">
+      <p>
+        Welcome to ShopFlow! This guide shows you every page available on our site.
+        Click any card to jump directly to that page. Whether you're shopping for the latest gadgets,
+        managing your account, or looking for help — you'll find it here.
+      </p>
+
+      <!-- Shopping -->
+      <h2 class="guide-section-title">🛍️ Shopping</h2>
+      <div class="guide-grid">
+        <a href="index.html" class="guide-card">
+          <h3>🏠 Home</h3>
+          <p>Browse featured products, new arrivals, and special deals on our homepage. See hero carousel, popular brands, and curated product sections.</p>
+          <span class="page-badge badge-customer">Customer</span>
+        </a>
+        <a href="products.html" class="guide-card">
+          <h3>📱 All Products</h3>
+          <p>Full product catalog with powerful filters: category, brand, price range, color, screen size, rating, and availability. Sort and search to find exactly what you need.</p>
+          <span class="page-badge badge-customer">Customer</span>
+        </a>
+        <a href="product-detail.html" class="guide-card">
+          <h3>🔍 Product Detail</h3>
+          <p>View detailed specs, switch between colors, check stock, read reviews, and see related products. Add to cart or wishlist directly from here.</p>
+          <span class="page-badge badge-customer">Customer</span>
+        </a>
+        <a href="cart.html" class="guide-card">
+          <h3>🛒 Shopping Cart</h3>
+          <p>Review items you've added, adjust quantities, see discount savings, and proceed to checkout. Your cart is saved even if you leave the site.</p>
+          <span class="page-badge badge-customer">Customer</span>
+        </a>
+        <a href="checkout.html" class="guide-card">
+          <h3>💳 Checkout</h3>
+          <p>Complete your purchase: review order summary, enter shipping address, upload payment screenshot, and place your order.</p>
+          <span class="page-badge badge-customer">Customer</span>
+        </a>
+        <a href="wishlist.html" class="guide-card">
+          <h3>❤️ Wishlist</h3>
+          <p>Save items you're interested in. Get price-drop notifications when a wishlist item goes on sale. Move items to cart with one click.</p>
+          <span class="page-badge badge-customer">Customer</span>
+        </a>
+      </div>
+
+      <!-- Account -->
+      <h2 class="guide-section-title">👤 Account</h2>
+      <div class="guide-grid">
+        <a href="signup.html" class="guide-card">
+          <h3>📝 Sign Up</h3>
+          <p>Create a new ShopFlow account with your name, email, and password. Get access to order history, wishlist, and profile management.</p>
+          <span class="page-badge badge-account">Account</span>
+        </a>
+        <a href="login.html" class="guide-card">
+          <h3>🔑 Sign In</h3>
+          <p>Log in to your existing account to view orders, manage your wishlist, and update your profile.</p>
+          <span class="page-badge badge-account">Account</span>
+        </a>
+        <a href="profile.html" class="guide-card">
+          <h3>👤 My Profile</h3>
+          <p>Edit your name, upload an avatar image, update your phone number, and set your default delivery address.</p>
+          <span class="page-badge badge-account">Account</span>
+        </a>
+        <a href="orders.html" class="guide-card">
+          <h3>📦 My Orders</h3>
+          <p>View your complete order history with status tracking. See order details including items purchased, payment status, and shipping info.</p>
+          <span class="page-badge badge-account">Account</span>
+        </a>
+      </div>
+
+      <!-- Information -->
+      <h2 class="guide-section-title">ℹ️ Information</h2>
+      <div class="guide-grid">
+        <a href="about.html" class="guide-card">
+          <h3>📖 About Us</h3>
+          <p>Learn about ShopFlow's story, mission, and the team behind the platform.</p>
+          <span class="page-badge badge-info">Info</span>
+        </a>
+        <a href="faq.html" class="guide-card">
+          <h3>❓ FAQ</h3>
+          <p>Answers to the most common questions about ordering, payments, shipping, returns, and more.</p>
+          <span class="page-badge badge-info">Info</span>
+        </a>
+        <a href="payment-guide.html" class="guide-card">
+          <h3>💳 Payment Guide</h3>
+          <p>Step-by-step guide to paying via KHQR, bank accounts, screenshot requirements, and order processing.</p>
+          <span class="page-badge badge-info">Info</span>
+        </a>
+        <a href="contact.html" class="guide-card">
+          <h3>📞 Contact Us</h3>
+          <p>Get in touch with our support team via Telegram, email, or the contact form.</p>
+          <span class="page-badge badge-info">Info</span>
+        </a>
+      </div>
+
+      <!-- Admin -->
+      <h2 class="guide-section-title">🔐 Admin</h2>
+      <div class="guide-grid">
+        <a href="admin.html" class="guide-card">
+          <h3>📊 Admin Dashboard</h3>
+          <p>Manage products, view orders, handle users, and see analytics charts including revenue trends and category sales.</p>
+          <span class="page-badge badge-admin">Admin</span>
+        </a>
+        <a href="superadmin.html" class="guide-card">
+          <h3>⭐ Super Admin Panel</h3>
+          <p>Full system control: manage all products and stock, approve/disapprove orders, and manage admin accounts.</p>
+          <span class="page-badge badge-admin">Super Admin</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer rendered by app.js -->
+
+  <script src="js/products-data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/site-guide.js"></script>
+</body>
+</html>
