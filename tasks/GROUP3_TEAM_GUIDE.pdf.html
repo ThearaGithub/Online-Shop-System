@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Group 3 — Team Contribution Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f8f9fc;
+    color: #1e1e2e;
+    line-height: 1.7;
+    padding: 0;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+
+  /* COVER */
+  .cover {
+    background: linear-gradient(135deg, #1e1e2e 0%, #313244 100%);
+    color: #cdd6f4;
+    padding: 80px 60px;
+    border-radius: 24px;
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle at 30% 50%, rgba(137,180,250,0.08) 0%, transparent 60%),
+                radial-gradient(circle at 70% 50%, rgba(166,227,161,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .cover h1 { font-size: 44px; font-weight: 800; margin-bottom: 8px; position: relative; letter-spacing: -1px; }
+  .cover h1 span { background: linear-gradient(135deg, #89b4fa, #b4befe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cover .subtitle { font-size: 18px; color: #a6adc8; margin-bottom: 16px; position: relative; font-weight: 300; }
+  .cover .divider { width: 60px; height: 3px; background: linear-gradient(90deg, #89b4fa, #b4befe); margin: 0 auto 20px; border-radius: 2px; }
+  .cover .meta { display: flex; justify-content: center; gap: 40px; font-size: 13px; color: #9399b2; position: relative; flex-wrap: wrap; }
+  .cover .meta-item { text-align: center; }
+  .cover .meta-item .label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #6c7086; margin-bottom: 4px; }
+  .cover .meta-item .value { font-weight: 600; color: #cdd6f4; }
+
+  /* SECTIONS */
+  .page-break { page-break-before: always; margin-top: 40px; }
+  @media print { .page-break { page-break-before: always; } }
+
+  .section {
+    background: #fff; border-radius: 20px; padding: 40px 44px; margin-bottom: 28px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.04);
+    page-break-inside: avoid;
+  }
+  .section h2 {
+    font-size: 26px; font-weight: 700; margin-bottom: 20px; color: #1e1e2e;
+    padding-bottom: 12px; border-bottom: 2px solid #f0f0f3;
+  }
+  .section h3 {
+    font-size: 18px; font-weight: 600; color: #1e1e2e; margin: 24px 0 10px;
+  }
+  .section h4 {
+    font-size: 15px; font-weight: 600; color: #313244; margin: 18px 0 8px;
+  }
+  .section p { color: #4a4a5e; margin-bottom: 12px; font-size: 14.5px; }
+  .section ul, .section ol { margin: 8px 0 14px 20px; color: #4a4a5e; }
+  .section ul li, .section ol li { margin-bottom: 6px; font-size: 14px; }
+
+  /* CODE */
+  .code-block {
+    background: #1e1e2e; color: #cdd6f4; border-radius: 12px; padding: 16px 20px;
+    margin: 12px 0; font-family: 'SF Mono','Fira Code','Consolas',monospace;
+    font-size: 13px; line-height: 1.7; overflow-x: auto; white-space: pre-wrap;
+  }
+  .code-block .cmd { color: #89b4fa; }
+  .code-block .str { color: #a6e3a1; }
+  .code-block .dim { color: #6c7086; }
+  .code-block .hl { color: #f9e2af; }
+
+  .inline-code {
+    background: #f0f0f3; padding: 2px 8px; border-radius: 6px;
+    font-family: 'SF Mono','Fira Code','Consolas',monospace; font-size: 13px;
+    color: #e64553;
+  }
+
+  /* INFO BOXES */
+  .tip-box {
+    background: #f0f4ff; border-left: 4px solid #89b4fa; padding: 14px 18px;
+    border-radius: 0 10px 10px 0; margin: 14px 0; font-size: 14px; color: #45475a;
+  }
+  .tip-box strong { color: #1e1e2e; }
+  .warning-box {
+    background: #fff4e5; border-left: 4px solid #f9e2af; padding: 14px 18px;
+    border-radius: 0 10px 10px 0; margin: 14px 0; font-size: 14px; color: #45475a;
+  }
+  .warning-box strong { color: #e64553; }
+  .step-box {
+    background: #f0faf0; border-left: 4px solid #a6e3a1; padding: 14px 18px;
+    border-radius: 0 10px 10px 0; margin: 14px 0; font-size: 14px; color: #45475a;
+  }
+
+  /* TABLE */
+  table {
+    width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px;
+    border-radius: 10px; overflow: hidden;
+  }
+  table thead { background: #1e1e2e; color: #cdd6f4; }
+  table th { padding: 10px 14px; text-align: left; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  table td { padding: 10px 14px; border-bottom: 1px solid #f0f0f3; color: #4a4a5e; }
+  table tbody tr:hover { background: #f8f9fc; }
+  table tbody tr:last-child td { border-bottom: none; }
+
+  /* PERSON HEADER */
+  .person-header {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
+    background: #f0f4ff; padding: 16px 20px; border-radius: 14px;
+  }
+  .person-avatar {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 700; font-size: 20px; flex-shrink: 0;
+  }
+  .person-info h3 { margin: 0; font-size: 18px; }
+  .person-info p { margin: 2px 0 0; font-size: 13px; color: #6c7086; }
+
+  .step-number {
+    display: inline-flex; width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2); color: white;
+    align-items: center; justify-content: center; font-weight: 700; font-size: 14px;
+    margin-right: 8px; flex-shrink: 0;
+  }
+
+  .commit-example {
+    background: #1e1e2e; color: #cdd6f4; border-radius: 10px; padding: 10px 16px;
+    margin: 6px 0 12px; font-family: 'SF Mono','Fira Code','Consolas',monospace;
+    font-size: 12px;
+  }
+  .commit-example .hash { color: #f9e2af; }
+  .commit-example .msg { color: #a6e3a1; }
+
+  /* TASK CARD */
+  .task-card {
+    background: #f8f9fc; border-radius: 14px; padding: 20px 24px; margin: 12px 0;
+    border: 1px solid #e8e8f0;
+  }
+  .task-card strong { color: #1e1e2e; }
+
+  @media print {
+    body { background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section { box-shadow: none; border: 1px solid #eee; page-break-inside: avoid; }
+    .cover { page-break-after: always; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .code-block, .tip-box, .warning-box, .step-box, .task-card, .person-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page-break-inside { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 16px 12px; }
+    .cover { padding: 48px 24px; }
+    .cover h1 { font-size: 28px; }
+    .section { padding: 24px 18px; }
+    .cover .meta { flex-direction: column; gap: 12px; }
+    .person-header { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ============ COVER ============ -->
+  <div class="cover">
+    <h1>Group 3 <span>Contribution Guide</span></h1>
+    <div class="divider"></div>
+    <p class="subtitle">Step-by-step instructions to add your pages to ShopFlow</p>
+    <div class="meta">
+      <div class="meta-item"><div class="label">Project</div><div class="value">ShopFlow E-Commerce</div></div>
+      <div class="meta-item"><div class="label">Repository</div><div class="value">Online-Shop-System</div></div>
+      <div class="meta-item"><div class="label">Deadline</div><div class="value">1 Week</div></div>
+    </div>
+  </div>
+
+  <!-- ============ TABLE OF CONTENTS ============ -->
+  <div class="section">
+    <h2>📋 Table of Contents</h2>
+    <ol style="font-size: 15px;">
+      <li><a href="#section-setup">Git Setup & Cloning the Project</a></li>
+      <li><a href="#section-gitbasics">Git Basics: Branch, Commit, Push, PR</a></li>
+      <li><a href="#section-khann">Khann Udomvirak — About Us Page</a></li>
+      <li><a href="#section-youpheng">Cheang Youpheng — FAQ Page</a></li>
+      <li><a href="#section-theng">Theng Sivchheng — Shipping & Returns Page</a></li>
+      <li><a href="#section-chea">Chea Sela — Site Guide Page</a></li>
+      <li><a href="#section-checklist">Commit Checklist</a></li>
+    </ol>
+  </div>
+
+  <!-- ============ 1. SETUP ============ -->
+  <div class="section" id="section-setup">
+    <h2>1️⃣ Git Setup & Cloning</h2>
+
+    <h3>Step 1: Install Git</h3>
+    <p>Download and install Git from <a href="https://git-scm.com/downloads" target="_blank">https://git-scm.com/downloads</a>.</p>
+    <p>During installation, leave all options as default and click Next all the way.</p>
+
+    <h3>Step 2: Set up Git (one-time)</h3>
+    <p>Open <strong>Git Bash</strong> (right-click anywhere → "Git Bash Here"). Run these commands:</p>
+    <div class="code-block">
+<span class="cmd">git</span> config --global user.name <span class="str">"Your Full Name"</span>
+<span class="cmd">git</span> config --global user.email <span class="str">"your-email@example.com"</span></div>
+    <div class="tip-box">
+      <strong>⚠️ Important:</strong> Use the EXACT same email you used to sign up for GitHub.
+      This is how the teacher will see your commits!
+    </div>
+
+    <h3>Step 3: Create a GitHub account</h3>
+    <p>Go to <a href="https://github.com/signup" target="_blank">https://github.com/signup</a> and create an account.</p>
+    <p>Then send Theara your GitHub username so he can add you as a collaborator.</p>
+
+    <h3>Step 4: Clone the project</h3>
+    <p>Once Theara adds you, run this in Git Bash:</p>
+    <div class="code-block">
+<span class="cmd">git</span> clone https://github.com/ThearaGithub/Online-Shop-System.git
+<span class="cmd">cd</span> Online-Shop-System
+<span class="cmd">git</span> branch  <span class="dim"># You should see "* main"</span></div>
+
+    <div class="step-box">
+      ✅ <strong>Done!</strong> You now have the full project on your computer.
+      If you see the folder with files inside, you're ready for the next section.
+    </div>
+  </div>
+
+  <!-- ============ 2. GIT BASICS ============ -->
+  <div class="section" id="section-gitbasics">
+    <h2>2️⃣ Git Basics: Branch, Commit, Push, PR</h2>
+    <p>You will use these 4 commands repeatedly. Here's what each does:</p>
+
+    <table>
+      <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td><code>git checkout -b NAME</code></td><td>Create a new branch (like a copy of the project just for you)</td></tr>
+        <tr><td><code>git add FILE</code></td><td>Stage a file — mark it ready to be saved</td></tr>
+        <tr><td><code>git commit -m "MESSAGE"</code></td><td>Save your changes permanently with a description</td></tr>
+        <tr><td><code>git push origin BRANCH</code></td><td>Upload your commits to GitHub</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Your workflow (repeat for each part):</h3>
+    <div class="code-block">
+<span class="dim"># Step A: Make sure you're on your branch</span>
+<span class="cmd">git</span> checkout your-branch-name
+
+<span class="dim"># Step B: Create or edit files using VS Code / Notepad</span>
+<span class="dim"># (detailed in your task section below)</span>
+
+<span class="dim"># Step C: Save your changes to Git</span>
+<span class="cmd">git</span> add about.html          <span class="dim"># Stage the file</span>
+<span class="cmd">git</span> commit -m <span class="str">"Add about page structure"</span>  <span class="dim"># Save</span>
+
+<span class="dim"># Step D: Upload to GitHub</span>
+<span class="cmd">git</span> push origin your-branch-name
+
+<span class="dim"># Repeat Steps B-D for each part (4 parts total)</span></div>
+
+    <h3>Creating a Pull Request (PR) — do this once at the end:</h3>
+    <ol>
+      <li>Go to <a href="https://github.com/ThearaGithub/Online-Shop-System" target="_blank">https://github.com/ThearaGithub/Online-Shop-System</a></li>
+      <li>Click the <strong>"Pull Requests"</strong> tab</li>
+      <li>Click the green <strong>"New Pull Request"</strong> button</li>
+      <li>Set <strong>base: main</strong> ← <strong>compare: your-branch-name</strong></li>
+      <li>Click <strong>"Create Pull Request"</strong></li>
+      <li>Add a title like <code>"Add FAQ page by Cheang Youpheng"</code></li>
+      <li>Click <strong>"Create Pull Request"</strong></li>
+      <li>Tell Theara on Telegram that your PR is ready</li>
+    </ol>
+
+    <div class="warning-box">
+      <strong>❌ Never push to main directly.</strong> Always work on your own branch.
+      Theara will review and merge your PR into main.
+    </div>
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- ============ 3. KHANN ============ -->
+  <!-- ================================================================ -->
+  <div class="page-break"></div>
+  <div class="section" id="section-khann">
+    <div class="person-header">
+      <div class="person-avatar">K</div>
+      <div class="person-info">
+        <h3>Khann Udomvirak — About Us Page</h3>
+        <p>You will create: <code>about.html</code> + <code>js/about.js</code> (4 commits)</p>
+      </div>
+    </div>
+
+    <div class="task-card">
+      <strong>📁 Files you will create:</strong><br>
+      <code>Online-Shop-System/about.html</code> — The About Us page<br>
+      <code>Online-Shop-System/js/about.js</code> — JavaScript for the page
+    </div>
+
+    <h3>Step 0: Create your branch</h3>
+    <div class="code-block">
+<span class="cmd">git</span> checkout -b khann-about</div>
+
+    <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
+
+    <!-- Part 1 -->
+    <h4><span class="step-number">1</span> Create the page structure</h4>
+    <p>Open VS Code (or Notepad). Create a new file called <span class="inline-code">about.html</span> in the main project folder.</p>
+    <p>Copy and paste this code:</p>
+    <div class="code-block">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;About Us — ShopFlow&lt;/title&gt;
+  &lt;link rel="icon" href="data:image/svg+xml,..."&gt;
+  &lt;link rel="stylesheet" href="css/style.css"&gt;
+  &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;!-- Header rendered by app.js --&gt;
+  &lt;main class="main-content"&gt;
+    &lt;div class="page-title-bar"&gt;
+      &lt;h1&gt;About Us&lt;/h1&gt;
+      &lt;div class="breadcrumb"&gt;
+        &lt;a href="index.html"&gt;Home&lt;/a&gt; &lt;span&gt;/&lt;/span&gt; &lt;span style="color: white;"&gt;About Us&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="about-section" style="max-width: 800px; margin: 0 auto; padding: 40px 20px;"&gt;
+      <span class="dim">&lt;!-- Content will go here in Part 2 --&gt;</span>
+    &lt;/div&gt;
+  &lt;/main&gt;
+  &lt;!-- Footer rendered by app.js --&gt;
+  &lt;script src="js/products-data.js"&gt;&lt;/script&gt;
+  &lt;script src="js/app.js"&gt;&lt;/script&gt;
+  &lt;script src="js/about.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+
+    <div class="code-block">
+<span class="cmd">git</span> add about.html
+<span class="cmd">git</span> commit -m <span class="str">"Add about.html page structure"</span>
+<span class="cmd">git</span> push origin khann-about</div>
+
+    <div class="step-box">✅ Part 1 done. Move to Part 2 below.</div>
+
+    <!-- Part 2 -->
+    <h4><span class="step-number">2</span> Add "Our Story" and "Our Mission" sections</h4>
+    <p>Open <span class="inline-code">about.html</span>. Replace the <span class="inline-code">&lt;!-- Content will go here --&gt;</span> comment with:</p>
+    <div class="code-block">&lt;h2 style="color: var(--text-primary); margin-bottom: 20px; font-size: 24px;"&gt;Our Story&lt;/h2&gt;
+&lt;p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;"&gt;
+  ShopFlow was founded in 2026 with a simple mission: make premium electronics accessible to everyone.
+  What started as a university project quickly grew into a fully-functional e-commerce platform
+  built by students, for students.
+&lt;/p&gt;
+&lt;p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;"&gt;
+  We specialize in the latest smartphones, smartwatches, and tech accessories —
+  sourced from trusted brands and offered at competitive prices.
+&lt;/p&gt;
+
+&lt;h2 style="color: var(--text-primary); margin: 40px 0 20px; font-size: 24px;"&gt;Our Mission&lt;/h2&gt;
+&lt;p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;"&gt;
+  To provide a seamless, secure, and enjoyable shopping experience for everyone.
+  We believe that great technology should be easy to find, easy to buy, and easy to love.
+&lt;/p&gt;</div>
+
+    <div class="code-block">
+<span class="cmd">git</span> add about.html
+<span class="cmd">git</span> commit -m <span class="str">"Add Our Story and Our Mission sections"</span>
+<span class="cmd">git</span> push origin khann-about</div>
+
+    <div class="step-box">✅ Part 2 done. Move to Part 3.</div>
+
+    <!-- Part 3 -->
+    <h4><span class="step-number">3</span> Add "Meet the Team" and "Why ShopFlow" sections</h4>
+    <p>Open <span class="inline-code">about.html</span>. Add this code <strong>after</strong> the "Our Mission" section and <strong>before</strong> the closing <span class="inline-code">&lt;/div&gt;</span>:</p>
+    <div class="code-block">&lt;h2 style="color: var(--text-primary); margin: 40px 0 20px; font-size: 24px;"&gt;Why ShopFlow?&lt;/h2&gt;
+&lt;ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 20px;"&gt;
+  &lt;li&gt;Genuine products from trusted brands&lt;/li&gt;
+  &lt;li&gt;Competitive prices with regular deals and discounts&lt;/li&gt;
+  &lt;li&gt;Secure payment via KHQR with screenshot confirmation&lt;/li&gt;
+  &lt;li&gt;Fast processing and delivery&lt;/li&gt;
+  &lt;li&gt;Responsive customer support via Telegram&lt;/li&gt;
+  &lt;li&gt;User-friendly interface with dark/light theme&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 style="color: var(--text-primary); margin: 40px 0 20px; font-size: 24px;"&gt;Meet the Team&lt;/h2&gt;
+&lt;p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 24px;"&gt;
+  We're a group of passionate students who came together to build something real.
+&lt;/p&gt;
+&lt;div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;"&gt;
+  &lt;!-- Team member cards --&gt;
+  &lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 24px; text-align: center;"&gt;
+    &lt;div style="width: 64px; height: 64px; border-radius: 50%; background: var(--accent-gradient); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; font-weight: 700;"&gt;T&lt;/div&gt;
+    &lt;h3 style="color: var(--text-primary); margin-bottom: 4px;"&gt;Theara&lt;/h3&gt;
+    &lt;p style="color: var(--accent-primary); font-size: 12px; font-weight: 600;"&gt;Lead Developer&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 24px; text-align: center;"&gt;
+    &lt;div style="width: 64px; height: 64px; border-radius: 50%; background: var(--accent-gradient); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; font-weight: 700;"&gt;Y&lt;/div&gt;
+    &lt;h3 style="color: var(--text-primary); margin-bottom: 4px;"&gt;Youpheng&lt;/h3&gt;
+    &lt;p style="color: var(--accent-primary); font-size: 12px; font-weight: 600;"&gt;Dashboard Developer&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 24px; text-align: center;"&gt;
+    &lt;div style="width: 64px; height: 64px; border-radius: 50%; background: var(--accent-gradient); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; font-weight: 700;"&gt;K&lt;/div&gt;
+    &lt;h3 style="color: var(--text-primary); margin-bottom: 4px;"&gt;Khann (You!)&lt;/h3&gt;
+    &lt;p style="color: var(--accent-primary); font-size: 12px; font-weight: 600;"&gt;Content &amp; Documentation&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 24px; text-align: center;"&gt;
+    &lt;div style="width: 64px; height: 64px; border-radius: 50%; background: var(--accent-gradient); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; font-weight: 700;"&gt;S&lt;/div&gt;
+    &lt;h3 style="color: var(--text-primary); margin-bottom: 4px;"&gt;Sivchheng&lt;/h3&gt;
+    &lt;p style="color: var(--accent-primary); font-size: 12px; font-weight: 600;"&gt;UI &amp; Marketing&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 24px; text-align: center;"&gt;
+    &lt;div style="width: 64px; height: 64px; border-radius: 50%; background: var(--accent-gradient); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; font-weight: 700;"&gt;C&lt;/div&gt;
+    &lt;h3 style="color: var(--text-primary); margin-bottom: 4px;"&gt;Chea&lt;/h3&gt;
+    &lt;p style="color: var(--accent-primary); font-size: 12px; font-weight: 600;"&gt;SEO &amp; Infrastructure&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 style="color: var(--text-primary); margin: 40px 0 20px; font-size: 24px;"&gt;Contact Us&lt;/h2&gt;
+&lt;p style="color: var(--text-secondary); line-height: 1.8;"&gt;
+  Have questions? Reach out via &lt;a href="https://t.me/Domzin168" target="_blank" style="color: var(--accent-primary);"&gt;Telegram&lt;/a&gt;
+  or visit our &lt;a href="contact.html" style="color: var(--accent-primary);"&gt;Contact page&lt;/a&gt;.
+&lt;/p&gt;</div>
+
+    <div class="code-block">
+<span class="cmd">git</span> add about.html
+<span class="cmd">git</span> commit -m <span class="str">"Add team section, why shopflow, and contact info"</span>
+<span class="cmd">git</span> push origin khann-about</div>
+
+    <div class="step-box">✅ Part 3 done. Move to Part 4.</div>
+
+    <!-- Part 4 -->
+    <h4><span class="step-number">4</span> Create the JavaScript file</h4>
+    <p>Create a new file <span class="inline-code">js/about.js</span> with this content:</p>
+    <div class="code-block">document.addEventListener('DOMContentLoaded', function() {
+  renderHeader();
+  renderFooter();
+  observeReveal(document.querySelectorAll('.scroll-reveal'));
+});</div>
+
+    <div class="code-block">
+<span class="cmd">git</span> add js/about.js
+<span class="cmd">git</span> commit -m <span class="str">"Add about page JavaScript"</span>
+<span class="cmd">git</span> push origin khann-about</div>
+
+    <div class="step-box">✅ Part 4 done! Now create your Pull Request (see section 2).</div>
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- ============ 4. YOUPHENG ============ -->
+  <!-- ================================================================ -->
+  <div class="page-break"></div>
+  <div class="section" id="section-youpheng">
+    <div class="person-header">
+      <div class="person-avatar">Y</div>
+      <div class="person-info">
+        <h3>Cheang Youpheng — FAQ Page</h3>
+        <p>You will create: <code>faq.html</code> + <code>js/faq.js</code> (4 commits)</p>
+      </div>
+    </div>
+
+    <div class="task-card">
+      <strong>📁 Files you will create:</strong><br>
+      <code>Online-Shop-System/faq.html</code> — FAQ page with accordion<br>
+      <code>Online-Shop-System/js/faq.js</code> — JavaScript for accordion toggle
+    </div>
+
+    <h3>Step 0: Create your branch</h3>
+    <div class="code-block">
+<span class="cmd">git</span> checkout -b youpheng-faq</div>
+
+    <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
+
+    <!-- Part 1 -->
+    <h4><span class="step-number">1</span> Create the FAQ page structure with first 4 questions</h4>
+    <p>Create <span class="inline-code">faq.html</span> in the main project folder. Copy this code:</p>
+    <div class="code-block">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;FAQ — ShopFlow&lt;/title&gt;
+  &lt;link rel="icon" href="data:image/svg+xml,..."&gt;
+  &lt;link rel="stylesheet" href="css/style.css"&gt;
+  &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;!-- Header rendered by app.js --&gt;
+  &lt;main class="main-content"&gt;
+    &lt;div class="page-title-bar"&gt;
+      &lt;h1&gt;Frequently Asked Questions&lt;/h1&gt;
+      &lt;div class="breadcrumb"&gt;
+        &lt;a href="index.html"&gt;Home&lt;/a&gt; &lt;span&gt;/&lt;/span&gt; &lt;span style="color: white;"&gt;FAQ&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div style="max-width: 800px; margin: 0 auto; padding: 40px 20px;"&gt;
+
+      &lt;!-- Q1: How to place an order --&gt;
+      &lt;div style="background: var(--bg-tertiary); border-radius: 12px; margin-bottom: 10px; overflow: hidden;"&gt;
+        &lt;div class="faq-question" style="padding: 18px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary); font-weight: 600;"&gt;
+          &lt;span&gt;How do I place an order?&lt;/span&gt;
+          &lt;i class="fas fa-chevron-down" style="color: var(--accent-primary); transition: transform 0.3s;"&gt;&lt;/i&gt;
+        &lt;/div&gt;
+        &lt;div class="faq-answer" style="max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 24px; background: rgba(0,0,0,0.15);"&gt;
+          &lt;p style="color: var(--text-secondary); line-height: 1.7; margin: 0;"&gt;Browse our catalog, click "Add to Cart" on any product, then go to your cart and click "Proceed to Checkout." Fill in your shipping details, upload your payment screenshot, and confirm your order.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Q2 --&gt;
+      &lt;div style="background: var(--bg-tertiary); border-radius: 12px; margin-bottom: 10px; overflow: hidden;"&gt;
+        &lt;div class="faq-question" style="padding: 18px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary); font-weight: 600;"&gt;
+          &lt;span&gt;What payment methods do you accept?&lt;/span&gt;
+          &lt;i class="fas fa-chevron-down" style="color: var(--accent-primary); transition: transform 0.3s;"&gt;&lt;/i&gt;
+        &lt;/div&gt;
+        &lt;div class="faq-answer" style="max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 24px; background: rgba(0,0,0,0.15);"&gt;
+          &lt;p style="color: var(--text-secondary); line-height: 1.7; margin: 0;"&gt;We accept payment via KHQR. During checkout, you'll see bank account details and a QR code. Make the transfer and upload your payment screenshot.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Q3 --&gt;
+      &lt;div style="background: var(--bg-tertiary); border-radius: 12px; margin-bottom: 10px; overflow: hidden;"&gt;
+        &lt;div class="faq-question" style="padding: 18px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary); font-weight: 600;"&gt;
+          &lt;span&gt;How do I upload my payment screenshot?&lt;/span&gt;
+          &lt;i class="fas fa-chevron-down" style="color: var(--accent-primary); transition: transform 0.3s;"&gt;&lt;/i&gt;
+        &lt;/div&gt;
+        &lt;div class="faq-answer" style="max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 24px; background: rgba(0,0,0,0.15);"&gt;
+          &lt;p style="color: var(--text-secondary); line-height: 1.7; margin: 0;"&gt;During checkout, after reviewing your order summary, look for the "Payment Screenshot" upload field. Click to select your screenshot image (JPG, JPEG, PNG, or WebP), then submit your order.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Q4 --&gt;
+      &lt;div style="background: var(--bg-tertiary); border-radius: 12px; margin-bottom: 10px; overflow: hidden;"&gt;
+        &lt;div class="faq-question" style="padding: 18px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary); font-weight: 600;"&gt;
+          &lt;span&gt;How long does order processing take?&lt;/span&gt;
+          &lt;i class="fas fa-chevron-down" style="color: var(--accent-primary); transition: transform 0.3s;"&gt;&lt;/i&gt;
+        &lt;/div&gt;
+        &lt;div class="faq-answer" style="max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 24px; background: rgba(0,0,0,0.15);"&gt;
+          &lt;p style="color: var(--text-secondary); line-height: 1.7; margin: 0;"&gt;Orders are typically processed within 24 hours after payment confirmation. Check your order status anytime in "My Orders."&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+  &lt;/main&gt;
+  &lt;!-- Footer rendered by app.js --&gt;
+  &lt;script src="js/products-data.js"&gt;&lt;/script&gt;
+  &lt;script src="js/app.js"&gt;&lt;/script&gt;
+  &lt;script src="js/faq.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+
+    <div class="code-block">
+<span class="cmd">git</span> add faq.html
+<span class="cmd">git</span> commit -m <span class="str">"Add faq.html with first 4 questions"</span>
+<span class="cmd">git</span> push origin youpheng-faq</div>
+
+    <div class="step-box">✅ Part 1 done. Move to Part 2.</div>
+
+    <!-- Part 2 -->
+    <h4><span class="step-number">2</span> Add questions 5-8</h4>
+    <p>Open <span class="inline-code">faq.html</span>. Add these 4 FAQ items <strong>before</strong> the closing <span class="inline-code">&lt;/div&gt;</span> (the one with <span class="inline-code">max-width: 800px</span>):</p>
+    <div class="code-block">&lt;!-- Q5: Cancellation --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 12px; margin-bottom: 10px; overflow: hidden;"&gt;
+  &lt;div class="faq-question" style="padding: 18px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary); font-weight: 600;"&gt;
+    &lt;span&gt;Can I cancel my order?&lt;/span&gt;
+    &lt;i class="fas fa-chevron-down" style="color: var(--accent-primary); transition: transform 0.3s;"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;div class="faq-answer" style="max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 24px; background: rgba(0,0,0,0.15);"&gt;
+    &lt;p style="color: var(--text-secondary); line-height: 1.7; margin: 0;"&gt;Yes, you can cancel as long as it hasn't been processed yet. Contact our support via Telegram with your order ID.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Q6: Tracking --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 12px; margin-bottom: 10px; overflow: hidden;"&gt;
+  &lt;div class="faq-question" style="padding: 18px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary); font-weight: 600;"&gt;
+    &lt;span&gt;How do I track my order?&lt;/span&gt;
+    &lt;i class="fas fa-chevron-down" style="color: var(--accent-primary); transition: transform 0.3s;"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;div class="faq-answer" style="max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 24px; background: rgba(0,0,0,0.15);"&gt;
+    &lt;p style="color: var(--text-secondary); line-height: 1.7; margin: 0;"&gt;Log in and visit "My Orders" from the user menu. You'll see all your orders with status: Processing, Completed, or Shipped.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Q7: Returns --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 12px; margin-bottom: 10px; overflow: hidden;"&gt;
+  &lt;div class="faq-question" style="padding: 18px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary); font-weight: 600;"&gt;
+    &lt;span&gt;What is your return policy?&lt;/span&gt;
+    &lt;i class="fas fa-chevron-down" style="color: var(--accent-primary); transition: transform 0.3s;"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;div class="faq-answer" style="max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 24px; background: rgba(0,0,0,0.15);"&gt;
+    &lt;p style="color: var(--text-secondary); line-height: 1.7; margin: 0;"&gt;We accept returns within 7 days for defective items. Items must be in original packaging. Contact us via Telegram to start a return.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Q8: Account creation --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 12px; margin-bottom: 10px; overflow: hidden;"&gt;
+  &lt;div class="faq-question" style="padding: 18px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary); font-weight: 600;"&gt;
+    &lt;span&gt;How do I create an account?&lt;/span&gt;
+    &lt;i class="fas fa-chevron-down" style="color: var(--accent-primary); transition: transform 0.3s;"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;div class="faq-answer" style="max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 24px; background: rgba(0,0,0,0.15);"&gt;
+    &lt;p style="color: var(--text-secondary); line-height: 1.7; margin: 0;"&gt;Click "Sign Up" in the header, fill in your name, email, and password. You'll be logged in automatically and can start shopping.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+
+    <div class="code-block">
+<span class="cmd">git</span> add faq.html
+<span class="cmd">git</span> commit -m <span class="str">"Add FAQ questions 5-8 (cancel, track, returns, account)"</span>
+<span class="cmd">git</span> push origin youpheng-faq</div>
+
+    <div class="step-box">✅ Part 2 done. Move to Part 3.</div>
+
+    <!-- Part 3 -->
+    <h4><span class="step-number">3</span> Add remaining questions 9-13</h4>
+    <p>Open <span class="inline-code">faq.html</span>. Add these last 5 questions <strong>before</strong> the closing <span class="inline-code">&lt;/div&gt;</span>:</p>
+    <div class="code-block">&lt;!-- Q9: Forgot password --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 12px; margin-bottom: 10px; overflow: hidden;"&gt;
+  &lt;div class="faq-question" style="padding: 18px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary); font-weight: 600;"&gt;
+    &lt;span&gt;I forgot my password — what do I do?&lt;/span&gt;
+    &lt;i class="fas fa-chevron-down" style="color: var(--accent-primary); transition: transform 0.3s;"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;div class="faq-answer" style="max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 24px; background: rgba(0,0,0,0.15);"&gt;
+    &lt;p style="color: var(--text-secondary); line-height: 1.7; margin: 0;"&gt;Contact our support via Telegram to reset your password. Self-service reset is coming soon.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Q10: International shipping --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 12px; margin-bottom: 10px; overflow: hidden;"&gt;
+  &lt;div class="faq-question" style="padding: 18px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary); font-weight: 600;"&gt;
+    &lt;span&gt;Do you offer international shipping?&lt;/span&gt;
+    &lt;i class="fas fa-chevron-down" style="color: var(--accent-primary); transition: transform 0.3s;"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;div class="faq-answer" style="max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 24px; background: rgba(0,0,0,0.15);"&gt;
+    &lt;p style="color: var(--text-secondary); line-height: 1.7; margin: 0;"&gt;Currently we ship within Cambodia. Contact us for international arrangements.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Q11: Genuine products --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 12px; margin-bottom: 10px; overflow: hidden;"&gt;
+  &lt;div class="faq-question" style="padding: 18px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary); font-weight: 600;"&gt;
+    &lt;span&gt;Are the products genuine?&lt;/span&gt;
+    &lt;i class="fas fa-chevron-down" style="color: var(--accent-primary); transition: transform 0.3s;"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;div class="faq-answer" style="max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 24px; background: rgba(0,0,0,0.15);"&gt;
+    &lt;p style="color: var(--text-secondary); line-height: 1.7; margin: 0;"&gt;Yes! We source from authorized distributors. Every item is 100% genuine with warranty.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Q12: Wishlist & notifications --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 12px; margin-bottom: 10px; overflow: hidden;"&gt;
+  &lt;div class="faq-question" style="padding: 18px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary); font-weight: 600;"&gt;
+    &lt;span&gt;How does the wishlist and price-drop work?&lt;/span&gt;
+    &lt;i class="fas fa-chevron-down" style="color: var(--accent-primary); transition: transform 0.3s;"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;div class="faq-answer" style="max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 24px; background: rgba(0,0,0,0.15);"&gt;
+    &lt;p style="color: var(--text-secondary); line-height: 1.7; margin: 0;"&gt;Click the heart icon on any product to add to wishlist. When prices drop, you'll see a notification on the bell icon in the header.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Q13: Support --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 12px; margin-bottom: 10px; overflow: hidden;"&gt;
+  &lt;div class="faq-question" style="padding: 18px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary); font-weight: 600;"&gt;
+    &lt;span&gt;How do I contact support?&lt;/span&gt;
+    &lt;i class="fas fa-chevron-down" style="color: var(--accent-primary); transition: transform 0.3s;"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;div class="faq-answer" style="max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 24px; background: rgba(0,0,0,0.15);"&gt;
+    &lt;p style="color: var(--text-secondary); line-height: 1.7; margin: 0;"&gt;Reach us on Telegram at @Domzin168 or visit our Contact page. We respond within a few hours.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+
+    <div class="code-block">
+<span class="cmd">git</span> add faq.html
+<span class="cmd">git</span> commit -m <span class="str">"Add remaining FAQ questions 9-13"</span>
+<span class="cmd">git</span> push origin youpheng-faq</div>
+
+    <div class="step-box">✅ Part 3 done. Move to Part 4.</div>
+
+    <!-- Part 4 -->
+    <h4><span class="step-number">4</span> Create the JavaScript file for accordion</h4>
+    <p>Create <span class="inline-code">js/faq.js</span> with the click-to-expand logic:</p>
+    <div class="code-block">document.addEventListener('DOMContentLoaded', function() {
+  renderHeader();
+  renderFooter();
+  observeReveal(document.querySelectorAll('.scroll-reveal'));
+
+  // Accordion toggle: click question to show/hide answer
+  document.querySelectorAll('.faq-question').forEach(function(q) {
+    q.addEventListener('click', function() {
+      var item = this.parentElement;
+      var answer = this.nextElementSibling;
+
+      // Toggle active class
+      item.classList.toggle('active');
+
+      // Toggle max-height for smooth animation
+      if (answer.style.maxHeight && answer.style.maxHeight !== '0px') {
+        answer.style.maxHeight = '0px';
+      } else {
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+});</div>
+
+    <div class="code-block">
+<span class="cmd">git</span> add js/faq.js
+<span class="cmd">git</span> commit -m <span class="str">"Add FAQ accordion JavaScript"</span>
+<span class="cmd">git</span> push origin youpheng-faq</div>
+
+    <div class="step-box">✅ Part 4 done! Now create your Pull Request (see section 2).</div>
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- ============ 5. THENG ============ -->
+  <!-- ================================================================ -->
+  <div class="page-break"></div>
+  <div class="section" id="section-theng">
+    <div class="person-header">
+      <div class="person-avatar">S</div>
+      <div class="person-info">
+        <h3>Theng Sivchheng — Shipping & Returns Page</h3>
+        <p>You will create: <code>shipping.html</code> + <code>js/shipping.js</code> (4 commits)</p>
+      </div>
+    </div>
+
+    <div class="task-card">
+      <strong>📁 Files you will create:</strong><br>
+      <code>Online-Shop-System/shipping.html</code> — Shipping & Returns policy page<br>
+      <code>Online-Shop-System/js/shipping.js</code> — JavaScript for the page
+    </div>
+
+    <h3>Step 0: Create your branch</h3>
+    <div class="code-block">
+<span class="cmd">git</span> checkout -b theng-shipping</div>
+
+    <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
+
+    <!-- Part 1 -->
+    <h4><span class="step-number">1</span> Create page structure with Shipping Information section</h4>
+    <p>Create <span class="inline-code">shipping.html</span> with the base structure and the first policy section:</p>
+    <div class="code-block">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Shipping &amp; Returns — ShopFlow&lt;/title&gt;
+  &lt;link rel="icon" href="data:image/svg+xml,..."&gt;
+  &lt;link rel="stylesheet" href="css/style.css"&gt;
+  &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;!-- Header rendered by app.js --&gt;
+  &lt;main class="main-content"&gt;
+    &lt;div class="page-title-bar"&gt;
+      &lt;h1&gt;Shipping &amp; Returns&lt;/h1&gt;
+      &lt;div class="breadcrumb"&gt;
+        &lt;a href="index.html"&gt;Home&lt;/a&gt; &lt;span&gt;/&lt;/span&gt; &lt;span style="color: white;"&gt;Shipping &amp; Returns&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div style="max-width: 800px; margin: 0 auto; padding: 40px 20px;"&gt;
+
+      &lt;!-- Shipping Information --&gt;
+      &lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 28px 32px; margin-bottom: 20px;"&gt;
+        &lt;h2 style="color: var(--text-primary); font-size: 20px; margin-bottom: 16px;"&gt;
+          &lt;i class="fas fa-truck" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; Shipping Information
+        &lt;/h2&gt;
+        &lt;p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 12px;"&gt;
+          At ShopFlow, we strive to deliver your orders as quickly and reliably as possible.
+        &lt;/p&gt;
+        &lt;h3 style="color: var(--text-primary); font-size: 16px; margin: 16px 0 8px;"&gt;Processing Time&lt;/h3&gt;
+        &lt;p style="color: var(--text-secondary); line-height: 1.8;"&gt;
+          Orders are typically processed within &lt;strong&gt;24 hours&lt;/strong&gt; after payment confirmation.
+        &lt;/p&gt;
+        &lt;h3 style="color: var(--text-primary); font-size: 16px; margin: 16px 0 8px;"&gt;Delivery Timeline&lt;/h3&gt;
+        &lt;ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 20px;"&gt;
+          &lt;li&gt;&lt;strong&gt;Phnom Penh:&lt;/strong&gt; 1-3 business days&lt;/li&gt;
+          &lt;li&gt;&lt;strong&gt;Other Provinces:&lt;/strong&gt; 3-7 business days&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;h3 style="color: var(--text-primary); font-size: 16px; margin: 16px 0 8px;"&gt;Shipping Fees&lt;/h3&gt;
+        &lt;p style="color: var(--text-secondary); line-height: 1.8;"&gt;
+          Calculated based on location and order size. Displayed at checkout before confirmation.
+        &lt;/p&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+  &lt;/main&gt;
+  &lt;!-- Footer rendered by app.js --&gt;
+  &lt;script src="js/products-data.js"&gt;&lt;/script&gt;
+  &lt;script src="js/app.js"&gt;&lt;/script&gt;
+  &lt;script src="js/shipping.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+
+    <div class="code-block">
+<span class="cmd">git</span> add shipping.html
+<span class="cmd">git</span> commit -m <span class="str">"Add shipping.html with shipping information section"</span>
+<span class="cmd">git</span> push origin theng-shipping</div>
+
+    <div class="step-box">✅ Part 1 done. Move to Part 2.</div>
+
+    <!-- Part 2 -->
+    <h4><span class="step-number">2</span> Add Return & Exchange Policy section</h4>
+    <p>Open <span class="inline-code">shipping.html</span>. Add this <strong>before</strong> the closing <span class="inline-code">&lt;/div&gt;</span> (after shipping section):</p>
+    <div class="code-block">&lt;!-- Return &amp; Exchange Policy --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 28px 32px; margin-bottom: 20px;"&gt;
+  &lt;h2 style="color: var(--text-primary); font-size: 20px; margin-bottom: 16px;"&gt;
+    &lt;i class="fas fa-box-open" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; Return &amp; Exchange Policy
+  &lt;/h2&gt;
+  &lt;h3 style="color: var(--text-primary); font-size: 16px; margin: 16px 0 8px;"&gt;Return Window&lt;/h3&gt;
+  &lt;p style="color: var(--text-secondary); line-height: 1.8;"&gt;
+    You may return items within &lt;strong&gt;7 days&lt;/strong&gt; of delivery. Items must be in original condition and packaging.
+  &lt;/p&gt;
+  &lt;h3 style="color: var(--text-primary); font-size: 16px; margin: 16px 0 8px;"&gt;Eligible Reasons&lt;/h3&gt;
+  &lt;ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 20px;"&gt;
+    &lt;li&gt;Defective or malfunctioning product&lt;/li&gt;
+    &lt;li&gt;Wrong model, color, or specifications&lt;/li&gt;
+    &lt;li&gt;Damaged item received during delivery&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;h3 style="color: var(--text-primary); font-size: 16px; margin: 16px 0 8px;"&gt;How to Initiate&lt;/h3&gt;
+  &lt;p style="color: var(--text-secondary); line-height: 1.8;"&gt;
+    Contact our support via Telegram with your order ID. We may request photos to assess the issue.
+  &lt;/p&gt;
+&lt;/div&gt;</div>
+
+    <div class="code-block">
+<span class="cmd">git</span> add shipping.html
+<span class="cmd">git</span> commit -m <span class="str">"Add return and exchange policy section"</span>
+<span class="cmd">git</span> push origin theng-shipping</div>
+
+    <div class="step-box">✅ Part 2 done. Move to Part 3.</div>
+
+    <!-- Part 3 -->
+    <h4><span class="step-number">3</span> Add Important Notes and Need Help sections</h4>
+    <p>Open <span class="inline-code">shipping.html</span>. Add these two sections <strong>before</strong> the closing <span class="inline-code">&lt;/div&gt;</span>:</p>
+    <div class="code-block">&lt;!-- Important Notes --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 28px 32px; margin-bottom: 20px;"&gt;
+  &lt;h2 style="color: var(--text-primary); font-size: 20px; margin-bottom: 16px;"&gt;
+    &lt;i class="fas fa-shield-alt" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; Important Notes
+  &lt;/h2&gt;
+  &lt;ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 20px;"&gt;
+    &lt;li&gt;Inspect your package immediately upon delivery. Report damage within 24 hours.&lt;/li&gt;
+    &lt;li&gt;Returns may be refused for items showing misuse or excessive wear.&lt;/li&gt;
+    &lt;li&gt;Hygiene items (earphones, smart bands) may have specific return conditions.&lt;/li&gt;
+    &lt;li&gt;Custom items are non-returnable unless defective.&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;!-- Need Help --&gt;
+&lt;div style="background: var(--bg-tertiary); border-radius: 16px; padding: 28px 32px; margin-bottom: 20px;"&gt;
+  &lt;h2 style="color: var(--text-primary); font-size: 20px; margin-bottom: 16px;"&gt;
+    &lt;i class="fas fa-headset" style="color: var(--accent-primary); margin-right: 10px;"&gt;&lt;/i&gt; Need Help?
+  &lt;/h2&gt;
+  &lt;p style="color: var(--text-secondary); line-height: 1.8;"&gt;
+    If you have any questions, don't hesitate to reach out!
+  &lt;/p&gt;
+  &lt;p style="color: var(--text-secondary); line-height: 1.8;"&gt;
+    &lt;strong&gt;Telegram:&lt;/strong&gt; &lt;a href="https://t.me/Domzin168" target="_blank" style="color: var(--accent-primary);"&gt;@Domzin168&lt;/a&gt;&lt;br&gt;
+    &lt;strong&gt;Contact Page:&lt;/strong&gt; &lt;a href="contact.html" style="color: var(--accent-primary);"&gt;Contact Us&lt;/a&gt;
+  &lt;/p&gt;
+&lt;/div&gt;</div>
+
+    <div class="code-block">
+<span class="cmd">git</span> add shipping.html
+<span class="cmd">git</span> commit -m <span class="str">"Add important notes and need help sections"</span>
+<span class="cmd">git</span> push origin theng-shipping</div>
+
+    <div class="step-box">✅ Part 3 done. Move to Part 4.</div>
+
+    <!-- Part 4 -->
+    <h4><span class="step-number">4</span> Create the JavaScript file</h4>
+    <p>Create <span class="inline-code">js/shipping.js</span>:</p>
+    <div class="code-block">document.addEventListener('DOMContentLoaded', function() {
+  renderHeader();
+  renderFooter();
+  observeReveal(document.querySelectorAll('.scroll-reveal'));
+});</div>
+
+    <div class="code-block">
+<span class="cmd">git</span> add js/shipping.js
+<span class="cmd">git</span> commit -m <span class="str">"Add shipping page JavaScript"</span>
+<span class="cmd">git</span> push origin theng-shipping</div>
+
+    <div class="step-box">✅ Part 4 done! Now create your Pull Request (see section 2).</div>
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- ============ 6. CHEA ============ -->
+  <!-- ================================================================ -->
+  <div class="page-break"></div>
+  <div class="section" id="section-chea">
+    <div class="person-header">
+      <div class="person-avatar">C</div>
+      <div class="person-info">
+        <h3>Chea Sela — Site Guide Page</h3>
+        <p>You will create: <code>site-guide.html</code> + <code>js/site-guide.js</code> (4 commits)</p>
+      </div>
+    </div>
+
+    <div class="task-card">
+      <strong>📁 Files you will create:</strong><br>
+      <code>Online-Shop-System/site-guide.html</code> — Site guide with links to all pages<br>
+      <code>Online-Shop-System/js/site-guide.js</code> — JavaScript for the page
+    </div>
+
+    <h3>Step 0: Create your branch</h3>
+    <div class="code-block">
+<span class="cmd">git</span> checkout -b sela-siteguide</div>
+
+    <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
+
+    <!-- Part 1 -->
+    <h4><span class="step-number">1</span> Create page structure with Shopping section</h4>
+    <p>Create <span class="inline-code">site-guide.html</span> with the base structure and first section of links:</p>
+    <div class="code-block">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Site Guide — ShopFlow&lt;/title&gt;
+  &lt;link rel="icon" href="data:image/svg+xml,..."&gt;
+  &lt;link rel="stylesheet" href="css/style.css"&gt;
+  &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;!-- Header rendered by app.js --&gt;
+  &lt;main class="main-content"&gt;
+    &lt;div class="page-title-bar"&gt;
+      &lt;h1&gt;Site Guide&lt;/h1&gt;
+      &lt;div class="breadcrumb"&gt;
+        &lt;a href="index.html"&gt;Home&lt;/a&gt; &lt;span&gt;/&lt;/span&gt; &lt;span style="color: white;"&gt;Site Guide&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div style="max-width: 900px; margin: 0 auto; padding: 40px 20px;"&gt;
+      &lt;p style="color: var(--text-secondary); margin-bottom: 32px; line-height: 1.7;"&gt;
+        Welcome to ShopFlow! Here's a complete guide to every page on our site.
+      &lt;/p&gt;
+
+      &lt;!-- Shopping Section --&gt;
+      &lt;h2 style="color: var(--text-primary); font-size: 22px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-tertiary);"&gt;🛍️ Shopping&lt;/h2&gt;
+      &lt;div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; margin-bottom: 40px;"&gt;
+
+        &lt;a href="index.html" style="background: var(--bg-tertiary); border-radius: 14px; padding: 22px 24px; text-decoration: none; transition: 0.25s; display: block;"&gt;
+          &lt;h3 style="color: var(--text-primary); margin-bottom: 6px; font-size: 16px;"&gt;🏠 Home&lt;/h3&gt;
+          &lt;p style="color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5;"&gt;Featured products, new arrivals, and special deals&lt;/p&gt;
+        &lt;/a&gt;
+
+        &lt;a href="products.html" style="background: var(--bg-tertiary); border-radius: 14px; padding: 22px 24px; text-decoration: none; transition: 0.25s; display: block;"&gt;
+          &lt;h3 style="color: var(--text-primary); margin-bottom: 6px; font-size: 16px;"&gt;📱 All Products&lt;/h3&gt;
+          &lt;p style="color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5;"&gt;Full catalog with filters: category, brand, price, color, and more&lt;/p&gt;
+        &lt;/a&gt;
+
+        &lt;a href="cart.html" style="background: var(--bg-tertiary); border-radius: 14px; padding: 22px 24px; text-decoration: none; transition: 0.25s; display: block;"&gt;
+          &lt;h3 style="color: var(--text-primary); margin-bottom: 6px; font-size: 16px;"&gt;🛒 Shopping Cart&lt;/h3&gt;
+          &lt;p style="color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5;"&gt;Review items, adjust quantities, and proceed to checkout&lt;/p&gt;
+        &lt;/a&gt;
+
+        &lt;a href="checkout.html" style="background: var(--bg-tertiary); border-radius: 14px; padding: 22px 24px; text-decoration: none; transition: 0.25s; display: block;"&gt;
+          &lt;h3 style="color: var(--text-primary); margin-bottom: 6px; font-size: 16px;"&gt;💳 Checkout&lt;/h3&gt;
+          &lt;p style="color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5;"&gt;Complete your purchase with payment screenshot upload&lt;/p&gt;
+        &lt;/a&gt;
+
+        &lt;a href="wishlist.html" style="background: var(--bg-tertiary); border-radius: 14px; padding: 22px 24px; text-decoration: none; transition: 0.25s; display: block;"&gt;
+          &lt;h3 style="color: var(--text-primary); margin-bottom: 6px; font-size: 16px;"&gt;❤️ Wishlist&lt;/h3&gt;
+          &lt;p style="color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5;"&gt;Save items and get notified about price drops&lt;/p&gt;
+        &lt;/a&gt;
+
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+  &lt;/main&gt;
+  &lt;!-- Footer rendered by app.js --&gt;
+  &lt;script src="js/products-data.js"&gt;&lt;/script&gt;
+  &lt;script src="js/app.js"&gt;&lt;/script&gt;
+  &lt;script src="js/site-guide.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+
+    <div class="code-block">
+<span class="cmd">git</span> add site-guide.html
+<span class="cmd">git</span> commit -m <span class="str">"Add site-guide.html with shopping section"</span>
+<span class="cmd">git</span> push origin sela-siteguide</div>
+
+    <div class="step-box">✅ Part 1 done. Move to Part 2.</div>
+
+    <!-- Part 2 -->
+    <h4><span class="step-number">2</span> Add Account section</h4>
+    <p>Open <span class="inline-code">site-guide.html</span>. Add this <strong>before</strong> the closing <span class="inline-code">&lt;/div&gt;</span> (after shopping section):</p>
+    <div class="code-block">&lt;!-- Account Section --&gt;
+&lt;h2 style="color: var(--text-primary); font-size: 22px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-tertiary);"&gt;👤 Account&lt;/h2&gt;
+&lt;div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; margin-bottom: 40px;"&gt;
+
+  &lt;a href="signup.html" style="background: var(--bg-tertiary); border-radius: 14px; padding: 22px 24px; text-decoration: none; transition: 0.25s; display: block;"&gt;
+    &lt;h3 style="color: var(--text-primary); margin-bottom: 6px; font-size: 16px;"&gt;📝 Sign Up&lt;/h3&gt;
+    &lt;p style="color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5;"&gt;Create a new ShopFlow account&lt;/p&gt;
+  &lt;/a&gt;
+
+  &lt;a href="login.html" style="background: var(--bg-tertiary); border-radius: 14px; padding: 22px 24px; text-decoration: none; transition: 0.25s; display: block;"&gt;
+    &lt;h3 style="color: var(--text-primary); margin-bottom: 6px; font-size: 16px;"&gt;🔑 Sign In&lt;/h3&gt;
+    &lt;p style="color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5;"&gt;Log in to your existing account&lt;/p&gt;
+  &lt;/a&gt;
+
+  &lt;a href="profile.html" style="background: var(--bg-tertiary); border-radius: 14px; padding: 22px 24px; text-decoration: none; transition: 0.25s; display: block;"&gt;
+    &lt;h3 style="color: var(--text-primary); margin-bottom: 6px; font-size: 16px;"&gt;👤 My Profile&lt;/h3&gt;
+    &lt;p style="color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5;"&gt;Edit name, avatar, phone, and delivery address&lt;/p&gt;
+  &lt;/a&gt;
+
+  &lt;a href="orders.html" style="background: var(--bg-tertiary); border-radius: 14px; padding: 22px 24px; text-decoration: none; transition: 0.25s; display: block;"&gt;
+    &lt;h3 style="color: var(--text-primary); margin-bottom: 6px; font-size: 16px;"&gt;📦 My Orders&lt;/h3&gt;
+    &lt;p style="color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5;"&gt;View order history and track status&lt;/p&gt;
+  &lt;/a&gt;
+
+&lt;/div&gt;</div>
+
+    <div class="code-block">
+<span class="cmd">git</span> add site-guide.html
+<span class="cmd">git</span> commit -m <span class="str">"Add account section links to site guide"</span>
+<span class="cmd">git</span> push origin sela-siteguide</div>
+
+    <div class="step-box">✅ Part 2 done. Move to Part 3.</div>
+
+    <!-- Part 3 -->
+    <h4><span class="step-number">3</span> Add Information and Admin sections</h4>
+    <p>Open <span class="inline-code">site-guide.html</span>. Add these <strong>before</strong> the closing <span class="inline-code">&lt;/div&gt;</span>:</p>
+    <div class="code-block">&lt;!-- Information Section --&gt;
+&lt;h2 style="color: var(--text-primary); font-size: 22px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-tertiary);"&gt;ℹ️ Information&lt;/h2&gt;
+&lt;div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; margin-bottom: 40px;"&gt;
+
+  &lt;a href="about.html" style="background: var(--bg-tertiary); border-radius: 14px; padding: 22px 24px; text-decoration: none; transition: 0.25s; display: block;"&gt;
+    &lt;h3 style="color: var(--text-primary); margin-bottom: 6px; font-size: 16px;"&gt;📖 About Us&lt;/h3&gt;
+    &lt;p style="color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5;"&gt;Our story, mission, and team&lt;/p&gt;
+  &lt;/a&gt;
+
+  &lt;a href="faq.html" style="background: var(--bg-tertiary); border-radius: 14px; padding: 22px 24px; text-decoration: none; transition: 0.25s; display: block;"&gt;
+    &lt;h3 style="color: var(--text-primary); margin-bottom: 6px; font-size: 16px;"&gt;❓ FAQ&lt;/h3&gt;
+    &lt;p style="color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5;"&gt;Frequently asked questions&lt;/p&gt;
+  &lt;/a&gt;
+
+  &lt;a href="shipping.html" style="background: var(--bg-tertiary); border-radius: 14px; padding: 22px 24px; text-decoration: none; transition: 0.25s; display: block;"&gt;
+    &lt;h3 style="color: var(--text-primary); margin-bottom: 6px; font-size: 16px;"&gt;🚚 Shipping &amp; Returns&lt;/h3&gt;
+    &lt;p style="color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5;"&gt;Delivery times, policies, and returns&lt;/p&gt;
+  &lt;/a&gt;
+
+  &lt;a href="contact.html" style="background: var(--bg-tertiary); border-radius: 14px; padding: 22px 24px; text-decoration: none; transition: 0.25s; display: block;"&gt;
+    &lt;h3 style="color: var(--text-primary); margin-bottom: 6px; font-size: 16px;"&gt;📞 Contact Us&lt;/h3&gt;
+    &lt;p style="color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5;"&gt;Get in touch with our support team&lt;/p&gt;
+  &lt;/a&gt;
+
+&lt;/div&gt;
+
+&lt;!-- Admin Section --&gt;
+&lt;h2 style="color: var(--text-primary); font-size: 22px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-tertiary);"&gt;🔐 Admin&lt;/h2&gt;
+&lt;div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; margin-bottom: 40px;"&gt;
+
+  &lt;a href="admin.html" style="background: var(--bg-tertiary); border-radius: 14px; padding: 22px 24px; text-decoration: none; transition: 0.25s; display: block;"&gt;
+    &lt;h3 style="color: var(--text-primary); margin-bottom: 6px; font-size: 16px;"&gt;📊 Admin Dashboard&lt;/h3&gt;
+    &lt;p style="color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5;"&gt;Manage products, orders, users, and analytics&lt;/p&gt;
+  &lt;/a&gt;
+
+  &lt;a href="superadmin.html" style="background: var(--bg-tertiary); border-radius: 14px; padding: 22px 24px; text-decoration: none; transition: 0.25s; display: block;"&gt;
+    &lt;h3 style="color: var(--text-primary); margin-bottom: 6px; font-size: 16px;"&gt;⭐ Super Admin Panel&lt;/h3&gt;
+    &lt;p style="color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5;"&gt;Full system control and admin management&lt;/p&gt;
+  &lt;/a&gt;
+
+&lt;/div&gt;</div>
+
+    <div class="code-block">
+<span class="cmd">git</span> add site-guide.html
+<span class="cmd">git</span> commit -m <span class="str">"Add information and admin sections to site guide"</span>
+<span class="cmd">git</span> push origin sela-siteguide</div>
+
+    <div class="step-box">✅ Part 3 done. Move to Part 4.</div>
+
+    <!-- Part 4 -->
+    <h4><span class="step-number">4</span> Create the JavaScript file</h4>
+    <p>Create <span class="inline-code">js/site-guide.js</span>:</p>
+    <div class="code-block">document.addEventListener('DOMContentLoaded', function() {
+  renderHeader();
+  renderFooter();
+  observeReveal(document.querySelectorAll('.scroll-reveal'));
+});</div>
+
+    <div class="code-block">
+<span class="cmd">git</span> add js/site-guide.js
+<span class="cmd">git</span> commit -m <span class="str">"Add site guide JavaScript"</span>
+<span class="cmd">git</span> push origin sela-siteguide</div>
+
+    <div class="step-box">✅ Part 4 done! Now create your Pull Request (see section 2).</div>
+  </div>
+
+  <!-- ============ CHECKLIST ============ -->
+  <div class="section" id="section-checklist">
+    <h2>✅ Commit Checklist</h2>
+    <p>Before you submit your Pull Request, make sure you have done all 4 parts:</p>
+
+    <table>
+      <thead><tr><th>Person</th><th>Part 1</th><th>Part 2</th><th>Part 3</th><th>Part 4</th><th>PR Created?</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Khann</strong></td>
+          <td>about.html structure</td>
+          <td>Story + Mission</td>
+          <td>Team + Why ShopFlow</td>
+          <td>about.js</td>
+          <td>⬜</td>
+        </tr>
+        <tr>
+          <td><strong>Youpheng</strong></td>
+          <td>faq.html + Q1-Q4</td>
+          <td>Q5-Q8</td>
+          <td>Q9-Q13</td>
+          <td>faq.js</td>
+          <td>⬜</td>
+        </tr>
+        <tr>
+          <td><strong>Theng</strong></td>
+          <td>shipping.html + Shipping Info</td>
+          <td>Return Policy</td>
+          <td>Notes + Help</td>
+          <td>shipping.js</td>
+          <td>⬜</td>
+        </tr>
+        <tr>
+          <td><strong>Chea</strong></td>
+          <td>site-guide.html + Shopping</td>
+          <td>Account section</td>
+          <td>Info + Admin sections</td>
+          <td>site-guide.js</td>
+          <td>⬜</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="step-box" style="margin-top: 20px;">
+      <strong>✅ Final step after all 4 parts:</strong> Go to GitHub → Pull Requests → New Pull Request.
+      Select your branch → main. Click "Create Pull Request" and message Theara on Telegram!
+    </div>
+
+    <div class="warning-box">
+      <strong>⚠️ Do NOT edit these files (they will break the site):</strong>
+      <code>server.js</code>, <code>database.js</code>, <code>reseed.js</code>,
+      any existing file in the root or <code>js/</code> folder. Only create the 2 new files assigned to you.
+    </div>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <div style="text-align: center; padding: 20px 0 10px; color: #9399b2; font-size: 12px;">
+    ShopFlow — Group 3 Contribution Guide | July 2026
+  </div>
+
+</div>
+</body>
+</html>
