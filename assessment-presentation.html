@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopFlow - Assessment Presentation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f8f9fc;
+    color: #1e1e2e;
+    line-height: 1.7;
+    padding: 40px 20px;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* Cover Page */
+  .cover {
+    background: linear-gradient(135deg, #1e1e2e 0%, #313244 100%);
+    color: #cdd6f4;
+    padding: 80px 60px;
+    border-radius: 24px;
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 50%, rgba(137, 180, 250, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 70% 50%, rgba(166, 227, 161, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .cover h1 {
+    font-size: 48px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    position: relative;
+    letter-spacing: -1px;
+  }
+
+  .cover h1 span {
+    background: linear-gradient(135deg, #89b4fa, #b4befe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .cover .subtitle {
+    font-size: 20px;
+    color: #a6adc8;
+    margin-bottom: 24px;
+    position: relative;
+    font-weight: 300;
+  }
+
+  .cover .divider {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #89b4fa, #b4befe);
+    margin: 0 auto 24px;
+    border-radius: 2px;
+  }
+
+  .cover .meta {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    font-size: 14px;
+    color: #9399b2;
+    position: relative;
+  }
+
+  .cover .meta-item {
+    text-align: center;
+  }
+
+  .cover .meta-item .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #6c7086;
+    margin-bottom: 4px;
+  }
+
+  .cover .meta-item .value {
+    font-weight: 600;
+    color: #cdd6f4;
+  }
+
+  /* Section */
+  .section {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 48px 52px;
+    margin-bottom: 28px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.04);
+    page-break-inside: avoid;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f0f0f3;
+  }
+
+  .section-number {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #1e1e2e, #45475a);
+    color: #cdd6f4;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .section-title-group h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e1e2e;
+    letter-spacing: -0.3px;
+  }
+
+  .section-title-group .weight {
+    font-size: 13px;
+    color: #6c7086;
+    font-weight: 500;
+    background: #f0f0f3;
+    padding: 2px 12px;
+    border-radius: 20px;
+  }
+
+  .section p {
+    color: #4a4a5e;
+    margin-bottom: 16px;
+    font-size: 15px;
+  }
+
+  .section p:last-child {
+    margin-bottom: 0;
+  }
+
+  .section h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1e1e2e;
+    margin: 24px 0 10px;
+  }
+
+  .section h3:first-of-type {
+    margin-top: 0;
+  }
+
+  .section ul {
+    margin: 8px 0 16px 20px;
+    color: #4a4a5e;
+  }
+
+  .section ul li {
+    margin-bottom: 6px;
+    font-size: 14.5px;
+  }
+
+  .highlight-box {
+    background: #f0f4ff;
+    border-left: 4px solid #89b4fa;
+    padding: 16px 20px;
+    border-radius: 0 12px 12px 0;
+    margin: 16px 0;
+    font-size: 14px;
+    color: #45475a;
+  }
+
+  .highlight-box strong {
+    color: #1e1e2e;
+  }
+
+  /* Table Styles */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  table thead {
+    background: #1e1e2e;
+    color: #cdd6f4;
+  }
+
+  table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f3;
+    color: #4a4a5e;
+  }
+
+  table tbody tr:hover {
+    background: #f8f9fc;
+  }
+
+  table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Schema Box */
+  .schema-box {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin: 16px 0;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .schema-box .keyword { color: #89b4fa; }
+  .schema-box .type { color: #a6e3a1; }
+  .schema-box .comment { color: #6c7086; }
+  .schema-box .highlight { color: #f9e2af; }
+  .schema-box .arrow { color: #9399b2; }
+
+  .schema-box .table-name {
+    color: #fab387;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  /* Two column layout for tables */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 16px 0;
+  }
+
+  .two-col table {
+    margin: 0;
+  }
+
+  /* Diagram */
+  .diagram {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin: 16px 0;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .diagram .hl { color: #89b4fa; }
+  .diagram .hl2 { color: #a6e3a1; }
+  .diagram .hl3 { color: #fab387; }
+  .diagram .hl4 { color: #f9e2af; }
+  .diagram .dim { color: #585b70; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 32px 0 16px;
+    color: #9399b2;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Print styles */
+  @media print {
+    body {
+      background: white;
+      padding: 0;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .section {
+      box-shadow: none;
+      border: 1px solid #eee;
+      page-break-inside: avoid;
+    }
+    .cover {
+      page-break-after: always;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .schema-box, .diagram {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .section-number {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    table thead {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .highlight-box {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .two-col {
+      page-break-inside: avoid;
+    }
+  }
+
+  @media (max-width: 640px) {
+    body { padding: 16px 12px; }
+    .cover { padding: 48px 24px; }
+    .cover h1 { font-size: 32px; }
+    .section { padding: 28px 20px; }
+    .two-col { grid-template-columns: 1fr; }
+    .cover .meta { flex-direction: column; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ==================== COVER ==================== -->
+  <div class="cover">
+    <h1>ShopFlow <span>Assessment</span></h1>
+    <div class="divider"></div>
+    <p class="subtitle">Full-Stack Electronics E-Commerce Platform</p>
+    <div class="meta">
+      <div class="meta-item">
+        <div class="label">Course</div>
+        <div class="value">Web Development Project</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Team</div>
+        <div class="value">Group 3</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Members</div>
+        <div class="value">Theara &amp; Youpheng</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Date</div>
+        <div class="value">July 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TABLE OF CONTENTS ==================== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number" style="background: linear-gradient(135deg, #45475a, #585b70);">T</div>
+      <div class="section-title-group">
+        <h2>Table of Contents</h2>
+      </div>
+    </div>
+    <ol style="font-size: 15px; color: #4a4a5e; margin-left: 20px;">
+      <li><strong>SRS Document</strong> (30%) — Page 2</li>
+      <li><strong>Teamwork / Team Collaboration</strong> (30%) — Page 3</li>
+      <li><strong>Project Planning</strong> (20%) — Page 4</li>
+      <li><strong>Database Structure</strong> (10%) — Page 5</li>
+      <li><strong>Deployment</strong> (10%) — Page 7</li>
+    </ol>
+  </div>
+
+  <!-- ==================== 1. SRS DOCUMENT ==================== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <div class="section-title-group">
+        <h2>SRS Document</h2>
+        <span class="weight">Weight: 30%</span>
+      </div>
+    </div>
+
+    <p><strong>File:</strong> <code>SRS_full.txt</code> — 426 lines covering the complete Software Requirements Specification for ShopFlow, our electronics e-commerce platform.</p>
+
+    <h3>What Our SRS Covers</h3>
+    <ul>
+      <li><strong>Purpose:</strong> A semester-long web development project demonstrating full-stack capabilities — not a commercial product, but a functional, demo-ready system</li>
+      <li><strong>Scope:</strong> Product catalog with search/filter, shopping cart, checkout with payment screenshot upload, user accounts, order history, multi-tier admin roles, reviews/ratings, wishlist, and in-app price-drop notifications</li>
+      <li><strong>Stakeholders:</strong> Instructor (evaluator), customers (classmates/testers), administrators (Theara &amp; Youpheng)</li>
+      <li><strong>Functional Requirements:</strong> Product browsing &amp; filtering, cart &amp; checkout, user account management (including wishlist and address editing), payment via KHQR screenshot upload, admin order/product/user management, superadmin full control</li>
+      <li><strong>Non-Functional Requirements:</strong> Responsive mobile design, dark/light theme, loading skeletons for UX, modern browser compatibility</li>
+      <li><strong>Constraints:</strong> Free hosting (Render), free cloud database (Neon PostgreSQL), free image storage (Cloudinary), no real payment processing, team of 2, one-semester timeline</li>
+    </ul>
+
+    <h3>Evolution from Original SRS</h3>
+    <div class="highlight-box">
+      <strong>Original spec:</strong> Simple product catalog + cart + checkout. <strong>What we actually built:</strong> Everything in the original, <em>plus</em> reviews/ratings system with star picker, wishlist with price-drop notifications, multi-tier admin roles (admin + superadmin), stock tracking with management UI, color + screen size + brand + price + rating filters (all collapsible), profile editing with Cloudinary avatar upload, related products engine, in-app notification bell with badge count, dark/light theme toggle, full analytics dashboard with Chart.js, and 11 HTML pages with responsive mobile layout.
+    </div>
+
+    <p>The SRS document was our roadmap — it defined the initial scope, and we documented scope changes as we expanded the project during development.</p>
+  </div>
+
+  <!-- ==================== 2. TEAMWORK ==================== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <div class="section-title-group">
+        <h2>Teamwork / Team Collaboration</h2>
+        <span class="weight">Weight: 30%</span>
+      </div>
+    </div>
+
+    <p><strong>GitHub Repository:</strong> <code>https://github.com/ThearaGithub/Online-Shop-System</code></p>
+
+    <h3>Contribution Breakdown</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Member</th>
+          <th>GitHub Username</th>
+          <th>Commits</th>
+          <th>Key Contributions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Theara</strong></td>
+          <td>ThearaGithub</td>
+          <td>143</td>
+          <td>Full application architecture — Express server, all API routes, database.js, all 11 HTML pages, all JS modules (app.js, auth, cart, checkout, products, product-detail, profiles, wishlist, admin, superadmin), CSS (3200+ lines of styling), filters, reviews system, wishlist, notifications, deployment configuration, responsive design</td>
+        </tr>
+        <tr>
+          <td><strong>Youpheng</strong></td>
+          <td>Youpheng70</td>
+          <td>1</td>
+          <td>Super admin dashboard — today's sales board feature with real-time analytics display</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>How We Collaborated</h3>
+    <ul>
+      <li><strong>GitHub:</strong> Single shared repository — both members committed directly to main branch, with regular coordination</li>
+      <li><strong>Task Division:</strong> Theara handled end-to-end development (backend, frontend, database, deployment). Youpheng focused specifically on the superadmin dashboard feature and contributed to testing</li>
+      <li><strong>Communication:</strong> Coordinated via Discord and Telegram for task assignments, bug reports, and code reviews</li>
+      <li><strong>Testing:</strong> Both members tested features locally and on the live Render deployment, reporting issues for fixes</li>
+      <li><strong>Code Review:</strong> Changes were reviewed before pushing to ensure nothing broke the live site</li>
+    </ul>
+
+    <div class="highlight-box">
+      <strong>Git evidence:</strong> Run <code>git shortlog -sn --all</code> to see both contributors listed. <code>git log --all --format="%an: %s"</code> shows who committed each feature. GitHub Insights → Contributors shows the contribution graph.
+    </div>
+  </div>
+
+  <!-- ==================== 3. PROJECT PLANNING ==================== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <div class="section-title-group">
+        <h2>Project Planning</h2>
+        <span class="weight">Weight: 20%</span>
+      </div>
+    </div>
+
+    <p>Development spanned approximately <strong>7 months</strong> (January – July 2026), organized into 6 phases. Each phase built on the previous one, following an iterative approach rather than trying to build everything at once.</p>
+
+    <h3>Development Timeline</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>Period</th>
+          <th>Key Milestones</th>
+          <th>Git Commits</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Foundation</strong></td>
+          <td>Jan – Feb</td>
+          <td>Initial HTML structure, Express server setup, static product catalog, basic shopping cart, CSS framework</td>
+          <td>Commits: a1324ea → a85cad5</td>
+        </tr>
+        <tr>
+          <td><strong>2. Backend</strong></td>
+          <td>Feb – Mar</td>
+          <td>PostgreSQL database (Neon), product CRUD API, auth system (login/signup), order placement with payment screenshot upload to Cloudinary</td>
+          <td>a85cad5 → 7f27e7f</td>
+        </tr>
+        <tr>
+          <td><strong>3. Admin &amp; Analytics</strong></td>
+          <td>Mar – Apr</td>
+          <td>Admin dashboard with Chart.js (revenue trend + category doughnut), order management (approve/complete/delete), user management, stock tracking UI</td>
+          <td>07b97cb → 71dd66e</td>
+        </tr>
+        <tr>
+          <td><strong>4. Advanced Features</strong></td>
+          <td>Apr – May</td>
+          <td>Reviews/ratings CRUD system, profile editing with Cloudinary avatar upload, multi-filters (category, brand, price, color, screen size, rating), color filter mapping</td>
+          <td>c4af838 → c8ce61e</td>
+        </tr>
+        <tr>
+          <td><strong>5. Polish &amp; UX</strong></td>
+          <td>May – Jun</td>
+          <td>Wishlist with heart icons on cards/detail page, in-app price-drop notification bell, related products engine, collapsible filter sidebar, superadmin panel (admin CRUD, approvals), dark/light theme toggle, loading skeletons</td>
+          <td>a30e35e → 0720ae6</td>
+        </tr>
+        <tr>
+          <td><strong>6. Deployment &amp; Final</strong></td>
+          <td>Jun – Jul</td>
+          <td>Render production deployment, auto-deploy from GitHub, environment variables, final bug fixes, badge count single-source-of-truth fix, related products finalization</td>
+          <td>d950f74 (final)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Planning Approach</h3>
+    <ul>
+      <li><strong>MVP first:</strong> Started with the minimum viable product (browse, cart, checkout) as defined in the SRS</li>
+      <li><strong>Iterative enhancement:</strong> Added one feature group at a time — filters, then reviews, then wishlist, then notifications, etc.</li>
+      <li><strong>Git commits as milestones:</strong> Each development session produced a batch of related commits, serving as our progress tracker</li>
+      <li><strong>User-driven priorities:</strong> We prioritized features that would be most visible during the demo (UI polish, animations, dark theme)</li>
+    </ul>
+
+    <div class="highlight-box">
+      <strong>Total:</strong> 145 commits across 7 months. ~6.2 MB of source code (5,226 files — JS, HTML, CSS). 11 HTML pages, 10+ JS modules, 1 CSS file (~3,200 lines).
+    </div>
+  </div>
+
+  <!-- ==================== 4. DATABASE STRUCTURE ==================== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <div class="section-title-group">
+        <h2>Database Structure</h2>
+        <span class="weight">Weight: 10%</span>
+      </div>
+    </div>
+
+    <p><strong>Database:</strong> PostgreSQL 16 hosted on Neon cloud. <strong>File:</strong> <code>database.js</code> — 131 lines handling pool connection, table creation, and seed data.</p>
+
+    <h3>Entity Relationship Diagram</h3>
+    <div class="diagram"><span class="dim">┌─────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="dim">│</span>                         <span class="hl">DATABASE SCHEMA</span>                              <span class="dim">│</span>
+<span class="dim">├─────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="dim">│</span>                                                                             <span class="dim">│</span>
+<span class="hl3">  users</span>                                   <span class="hl3">products</span>
+<span class="dim">  ─────────────                           ─────────────</span>
+<span class="hl">  id</span> (PK, TEXT)                           <span class="hl">id</span> (PK, INTEGER)
+<span class="hl">  firstName</span>                               <span class="hl">name</span>
+<span class="hl">  lastName</span>                                <span class="hl">brand</span>
+<span class="hl">  email</span> (UNIQUE)                           <span class="hl">category</span>
+<span class="hl">  password</span>                                <span class="hl">price</span>
+<span class="hl">  role</span> (customer/admin/superadmin)         <span class="hl">originalPrice</span>
+<span class="hl">  createdAt</span>                               <span class="hl">discount</span>
+<span class="hl">  avatar</span>                                  <span class="hl">description</span>
+<span class="hl">  address</span>                                 <span class="hl">specs</span> (JSON text)
+<span class="hl">  phone</span>                                   <span class="hl">colors</span> (JSON text)
+<span class="dim">        │                                   </span><span class="hl">rating</span>
+<span class="dim">        │                                   </span><span class="hl">reviews</span>
+<span class="dim">        │                                   </span><span class="hl">inStock</span>
+<span class="dim">        │                                   </span><span class="hl">featured</span>
+<span class="dim">        │                                   </span><span class="hl">section</span>
+<span class="dim">        │                                   </span><span class="hl">image</span>
+<span class="dim">        ▼                                   </span><span class="hl">stock</span>
+<span class="hl3">  orders</span>                     <span class="hl3">reviews</span>
+<span class="dim">  ─────────────               ─────────────</span>
+<span class="hl">  id</span> (PK, TEXT)               <span class="hl">id</span> (PK, SERIAL)
+<span class="hl">  userId</span> (FK → users)         <span class="hl">productId</span> (FK → products)
+<span class="hl">  customerName</span>               <span class="hl">userId</span>
+<span class="hl">  customerEmail</span>              <span class="hl">userName</span>
+<span class="hl">  subtotal</span>                   <span class="hl">avatar</span>
+<span class="hl">  tax</span>                        <span class="hl">rating</span> (1-5)
+<span class="hl">  shipping</span>                   <span class="hl">comment</span>
+<span class="hl">  total</span>                      <span class="hl">createdAt</span>
+<span class="hl">  shippingInfo</span> (JSON text)    <span class="hl">updatedAt</span>
+<span class="hl">  paymentScreenshot</span> (URL)           <span class="dim">│
+  </span><span class="hl">status</span>                              <span class="dim">│
+  </span><span class="hl">createdAt</span>                            <span class="dim">│
+  </span><span class="hl">approvedBy</span>                           <span class="dim">│
+  </span><span class="hl">approvedAt</span>                    <span class="hl4">(reviews belongs to user + product)</span>
+<span class="dim">        │</span>
+<span class="dim">        ▼</span>
+<span class="hl3">  order_items</span>
+<span class="dim">  ─────────────</span>
+<span class="hl">  id</span> (PK, SERIAL)
+<span class="hl">  orderId</span> (FK → orders)
+<span class="hl">  productId</span>
+<span class="hl">  name</span>
+<span class="hl">  price</span>
+<span class="hl">  quantity</span>
+<span class="hl">  selectedColor</span>
+<span class="hl">  selectedStorage</span>
+<span class="dim">└─────────────────────────────────────────────────────────────────────────────┘</span></div>
+
+    <h3>Tables Overview</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Table</th>
+          <th>Primary Key</th>
+          <th>Foreign Keys</th>
+          <th>Key Columns</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>users</strong></td>
+          <td>id (TEXT)</td>
+          <td>—</td>
+          <td>firstName, lastName, email (UNIQUE), password, role, avatar, address, phone</td>
+        </tr>
+        <tr>
+          <td><strong>products</strong></td>
+          <td>id (INTEGER)</td>
+          <td>—</td>
+          <td>name, brand, category, price, originalPrice, discount, specs, colors, rating, reviews, stock, image</td>
+        </tr>
+        <tr>
+          <td><strong>reviews</strong></td>
+          <td>id (SERIAL)</td>
+          <td>productId → products, userId → users</td>
+          <td>rating (1-5), comment, avatar, createdAt, updatedAt</td>
+        </tr>
+        <tr>
+          <td><strong>orders</strong></td>
+          <td>id (TEXT)</td>
+          <td>userId → users</td>
+          <td>subtotal, tax, shipping, total, shippingInfo, paymentScreenshot, status, approvedBy</td>
+        </tr>
+        <tr>
+          <td><strong>order_items</strong></td>
+          <td>id (SERIAL)</td>
+          <td>orderId → orders</td>
+          <td>productId, name, price, quantity, selectedColor, selectedStorage</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Key Design Decisions</h3>
+    <ul>
+      <li><strong>Manual INTEGER IDs for products:</strong> Allows predictable seeding of 30 products with consistent IDs across environments</li>
+      <li><strong>TEXT IDs for orders:</strong> Format <code>ORD-{timestamp}-{random}</code> for readability and uniqueness</li>
+      <li><strong>JSON text for complex fields:</strong> specs (display, processor, RAM, storage, battery) and colors stored as JSON strings — parsed on the client side</li>
+      <li><strong>Rating auto-calculation:</strong> Product rating is recalculated via <code>SELECT AVG(rating)</code> on every review add/edit/delete — no stale data</li>
+      <li><strong>ALTER TABLE migrations:</strong> New columns (avatar, address, phone, stock, approvedBy, approvedAt) added via ALTER TABLE with IF NOT EXISTS, allowing safe schema evolution on the deployed database without data loss</li>
+      <li><strong>shippingInfo as JSON:</strong> Flexible address fields (street, city, zip, country) stored as a single JSON text column</li>
+    </ul>
+  </div>
+
+  <!-- ==================== 5. DEPLOYMENT ==================== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <div class="section-title-group">
+        <h2>Deployment</h2>
+        <span class="weight">Weight: 10%</span>
+      </div>
+    </div>
+
+    <p><strong>Live URL:</strong> <code>https://online-shop-system-puod.onrender.com</code></p>
+
+    <h3>Architecture Diagram</h3>
+    <div class="diagram"><span class="dim">┌──────────────┐</span>
+<span class="dim">│</span>   <span class="hl">GitHub</span>     <span class="dim">│</span>    git push (any commit to main)
+<span class="dim">│</span>  Repository  <span class="dim">│</span>    ──────────────────────────────►
+<span class="dim">└──────────────┘</span>                                      │
+                                                         ▼
+                                              ┌──────────────────┐
+                                              │     <span class="hl">Render</span>       │
+                                              │   (Node.js 20)   │
+                                              │                  │
+                                              │  Auto-deploy on  │
+                                              │  every git push  │
+                                              │                  │
+                                              │  ┌────────────┐  │
+                                              │  │  Express   │  │
+                                              │  │  Server    │  │
+                                              │  │  (:3000)   │  │
+                                              │  └────────────┘  │
+                                              └──────────────────┘
+                                                      │
+                               ┌──────────────────────┼──────────────────────┐
+                               │                      │                      │
+                               ▼                      ▼                      ▼
+                    ┌──────────────────┐   ┌──────────────────┐   ┌──────────────────┐
+                    │  <span class="hl2">PostgreSQL</span>      │   │  <span class="hl3">Cloudinary</span>     │   │  <span class="hl4">Static Files</span>   │
+                    │  (Neon Cloud)     │   │  (Image Storage) │   │  (HTML/JS/CSS)   │
+                    │                   │   │                  │   │  Served by       │
+                    │  • users          │   │  • Product imgs  │   │  express.static  │
+                    │  • products       │   │  • Payment scrns │   │                  │
+                    │  • reviews        │   │  • Avatars       │   │                  │
+                    │  • orders         │   │                  │   │                  │
+                    │  • order_items    │   │                  │   │                  │
+                    └──────────────────┘   └──────────────────┘   └──────────────────┘</div>
+
+    <h3>Environment Variables</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Variable</th>
+          <th>Purpose</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DATABASE_URL</code></td>
+          <td>PostgreSQL connection string for Neon cloud database</td>
+          <td>Neon Dashboard → Connection Details</td>
+        </tr>
+        <tr>
+          <td><code>CLOUDINARY_NAME</code></td>
+          <td>Cloudinary cloud name for image uploads</td>
+          <td>Cloudinary Dashboard</td>
+        </tr>
+        <tr>
+          <td><code>CLOUDINARY_KEY</code></td>
+          <td>Cloudinary API key</td>
+          <td>Cloudinary Dashboard</td>
+        </tr>
+        <tr>
+          <td><code>CLOUDINARY_SECRET</code></td>
+          <td>Cloudinary API secret</td>
+          <td>Cloudinary Dashboard</td>
+        </tr>
+        <tr>
+          <td><code>PORT</code></td>
+          <td>Server port (set automatically by Render, fallback 3000 locally)</td>
+          <td>Render (auto-set)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Deployment Setup</h3>
+    <ul>
+      <li><strong>Platform:</strong> Render.com — free tier, auto-deploys from GitHub on every push to main branch</li>
+      <li><strong>Node version:</strong> 20.x (LTS) — pinned in <code>package.json</code> via <code>"engines": { "node": "20.x" }</code></li>
+      <li><strong>Build command:</strong> <code>npm install</code></li>
+      <li><strong>Start command:</strong> <code>node server.js</code></li>
+      <li><strong>Database initialization:</strong> On first startup, <code>database.js</code> creates all tables (IF NOT EXISTS), runs ALTER TABLE migrations for new columns, and seeds 5 admin/superadmin users</li>
+    </ul>
+
+    <h3>Why These Services</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Service</th>
+          <th>Why We Chose It</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Render</strong></td>
+          <td>Free hosting with automatic HTTPS/SSL, auto-deploy from GitHub, no credit card required for free tier, handles Node.js apps natively</td>
+        </tr>
+        <tr>
+          <td><strong>Neon (PostgreSQL)</strong></td>
+          <td>Free cloud PostgreSQL with 500MB storage, persists data across server restarts (Render spins down after inactivity — Neon keeps data safe), standard SQL compatibility</td>
+        </tr>
+        <tr>
+          <td><strong>Cloudinary</strong></td>
+          <td>Free tier (25GB storage, 25GB bandwidth), automatic image optimization, URLs persist permanently (unlike local <code>/uploads</code> directory which would be deleted on every Render redeploy)</td>
+        </tr>
+        <tr>
+          <td><strong>GitHub</strong></td>
+          <td>Free private/public repos, webhook integration with Render for seamless CI/CD</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box">
+      <strong>Important:</strong> Cloudinary is critical for this project. Because Render's filesystem is ephemeral (any file saved to disk disappears when the server restarts or redeploys), we store <strong>all images</strong> (product images, payment screenshots, user avatars) on Cloudinary. This guarantees data persistence across server restarts and redeployments. Environment variables are configured in Render's dashboard, never committed to the repository.
+    </div>
+  </div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <div class="footer">
+    ShopFlow — Full-Stack E-Commerce Platform | Group 3 | July 2026
+  </div>
+
+</div>
+
+</body>
+</html>
