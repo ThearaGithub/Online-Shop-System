@@ -14,6 +14,8 @@
 
 [https://online-shop-system-puod.onrender.com](https://online-shop-system-puod.onrender.com)
 
+![ShopFlow Screenshot](assets/screencapture-online-shop-system-puod-onrender-2026-07-27-20_56_42.png)
+
 ### Logins
 
 | Role | Email | Password |
