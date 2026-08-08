@@ -115,6 +115,14 @@ node server.js
 
 App runs at `http://localhost:3000`.
 
+### Re-seed Products
+
+```bash
+node reseed.js
+```
+
+Wipes and re-inserts the full product catalog (30 products) from `js/products-data.js`.
+
 ---
 
 ## Project Structure
@@ -126,7 +134,8 @@ App runs at `http://localhost:3000`.
 ├── js/
 │   ├── app.js           # Auth, cart, orders, header/footer, theme, notifications
 │   ├── admin.js         # Dashboard, charts, order/user/product management
-│   ├── superadmin.js    # Super admin panel (admin CRUD, approvals, stock)
+│   ├── superadmin.js    # Super admin panel (admin CRUD, approvals, sales board)
+│   ├── super-admin.js   # Legacy super admin page logic
 │   ├── auth.js          # Login/signup form logic, password toggle
 │   ├── homepage.js      # Carousel, featured sections, brands
 │   ├── products.js      # Product listing with multi-filters
@@ -136,11 +145,18 @@ App runs at `http://localhost:3000`.
 │   ├── checkout.js      # Checkout form + file upload + discount display
 │   ├── profile.js       # Profile editing with avatar, phone, address
 │   ├── wishlist.js      # Wishlist page with add-to-cart + remove
+│   ├── orders.js        # Order history page
 │   ├── contact.js       # Contact page
-│   └── orders.js        # Order history page
+│   ├── about.js         # About page
+│   ├── faq.js           # FAQ page
+│   ├── privacy.js       # Privacy policy page
+│   ├── payment-guide.js # Payment guide page
+│   └── site-guide.js    # Site guide page
 ├── server.js            # Express routes, multer, Cloudinary storage, all API endpoints
 ├── database.js          # PostgreSQL pool, table creation, seeds, migrations
-├── *.html               # 16+ pages
+├── reseed.js            # Wipe + re-seed products table
+├── *.html               # 21 pages (index, products, cart, checkout, orders, profile,
+│                         # wishlist, admin, superadmin, auth pages, legal pages, guides)
 └── package.json
 ```
 
@@ -180,7 +196,45 @@ App runs at `http://localhost:3000`.
 
 ---
 
-## Database Tables
+## Database
+
+PostgreSQL (Neon cloud) with **5 interconnected tables**. Tables are auto-created with sensible defaults on server startup (`database.js`) and seeded with default admin accounts; the product catalog is loaded via `node reseed.js`.
+
+```
+┌──────────┐     ┌─────────────┐
+│  users   │     │  products   │
+├──────────┤     ├─────────────┤
+│ id (PK)  │     │ id (PK)     │
+│ email    │     │ name, brand │
+│ password │     │ category    │
+│ role     │     │ price, stock│
+│ avatar   │     │ rating      │
+└────┬─────┘     └──────┬──────┘
+     │                  │
+     │ 1                │ 1
+     ▼                  ▼
+┌──────────┐     ┌──────────────┐
+│  orders  │     │ order_items  │
+├──────────┤     ├──────────────┤
+│ id (PK)  │◄────│ orderId (FK) │
+│ userId   │     │ productId(FK)│
+│ total    │     │ name, price  │
+│ status   │     │ quantity     │
+└──────────┘     └──────────────┘
+
+reviews: userId (FK) → users.id · productId (FK) → products.id
+```
+
+### Relationships
+- **users → orders (1 : ∞)** — each order belongs to one user (`orders.userId`).
+- **orders → order_items (1 : ∞)** — one order contains many line items (`order_items.orderId` foreign key → `orders.id`); each item snapshots the product name, price, and quantity at purchase time.
+- **products → order_items (1 : ∞)** — a product appears in many order items (`order_items.productId`).
+- **users + products → reviews (∞ : ∞)** — a review links one user (`reviews.userId`) to one product (`reviews.productId`).
+
+### How it stays consistent
+- When a review is added/edited/deleted, the backend recalculates the product's `rating` (AVG) and `reviews` count (COUNT) in a single UPDATE on `products`.
+- Approving an order records which admin approved it (`orders.approvedBy` / `approvedAt`).
+- Deleting or cancelling a non-approved order restores the stock automatically (`UPDATE products SET stock = stock + quantity`).
 
 | Table | Key Columns |
 |-------|-------------|
