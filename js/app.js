@@ -783,7 +783,7 @@ async function getProductById(id) {
     return await res.json();
   } catch (err) {
     if (typeof PRODUCTS !== 'undefined' && Array.isArray(PRODUCTS)) {
-      return PRODUCTS.find(p => p.id === id) || null;
+      return PRODUCTS.find(p => String(p.id) === String(id)) || null;
     }
     return null;
   }
